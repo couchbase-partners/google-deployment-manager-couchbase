@@ -1,1 +1,0 @@
-Couchbase is the only database that offers a native integrated NoSQL mobile solution, including pre-built data synchronization and an embedded database, enabling fast and easy development of mobile apps with online/offline data access.
