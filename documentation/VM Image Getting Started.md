@@ -6,19 +6,19 @@ This document describes how to get started using the Couchbase virtual machine i
 
 First, navigate to the Couchbase Cloud Launcher page here.
 
-![](./img/vm1.png)
+![](./images/vm1.png)
 
 Now click "Launch on Compute Engine."  This will take you to a page where you can configure the VM settings.
 
-![](./img/vm2.png)
+![](./images/vm2.png)
 
 Now click "Deploy."
 
-![](./img/vm3.png)
+![](./images/vm3.png)
 
 You'll be redirected to this page, showing the VM deploying.  That will take several minutes.  Once deployed, the page will look like this:
 
-![](./img/vm4.png)
+![](./images/vm4.png)
 
 ## Logging into Couchbase Administrator
 
@@ -26,11 +26,11 @@ Great.  You've now deployed Couchbase.  One next step is to log into the adminis
 
 Make a note of the admin username and password.  You can use these to login to the Couchbase administrator.  To do so, click the "Log into the admin panel" button.
 
-![](./img/vm5.png)
+![](./images/vm5.png)
 
 Enter the username and password from the previous step.  You can now see the Couchbase administrator.
 
-![](./img/vm6.png)
+![](./images/vm6.png)
 
 Feel free to look around the various tabs.
 
@@ -38,17 +38,21 @@ Feel free to look around the various tabs.
 
 Connecting to a node via SSH in GCP is really easy.  First, return to the tab showing the deployment.
 
-![](./img/vm7.png)
+![](./images/vm7.png)
 
 Click the SSH button to open a connection to the node.
 
-![](./img/vm8.png)
+![](./images/vm8.png)
 
 Wait until the keys are done transferring.  At that point, you will be presented with an SSH console running in your web browser.
 
-![](./img/vm9.png)
+![](./images/vm9.png)
 
 Couchbase is installed under `/opt/couchbase`.  There are tools in the `/opt/couchbase/bin` directory, including `couchbase-cli`.
+
+![](./images/vm10.png)
+
+Try running commands in bin to see what they do.
 
 ## Next Steps
 
