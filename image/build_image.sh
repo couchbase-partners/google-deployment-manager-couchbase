@@ -11,8 +11,6 @@ gcloud compute disks create $TEMPORARYDISK --size 200
 gcloud compute instances create $NEWINSTANCE --scopes storage-rw --disk name=$IMAGEDISK,device-name=$IMAGEDISK --disk name=$TEMPORARYDISK,device-name=$TEMPORARYDISK
 gcloud compute ssh $NEWINSTANCE
 
-
-
 sudo mkdir /mnt/tmp
 sudo mkfs.ext4 -F /dev/disk/by-id/google-$TEMPORARYDISK
 sudo mount -o discard,defaults /dev/disk/by-id/google-$TEMPORARYDISK /mnt/tmp
