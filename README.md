@@ -14,6 +14,6 @@ To set up your environment, run the command:
 
 This repo countains four different parameters files.  You can deploy with any of them using [deploy.sh](deploy.sh).  For example, to deploy the simple configuration run the command:
 
-    ./deploy.sh <some deployment name> simple
+    ./deploy.sh simple <some deployment name>
 
 The script then passes the cluster configuration to GCP and builds your cluster automatically.
