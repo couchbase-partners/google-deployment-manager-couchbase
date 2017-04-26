@@ -5,7 +5,7 @@ def GenerateConfig(context):
 
     couchbaseUsername=context.properties['couchbaseUsername']
     couchbasePassword=context.properties['couchbasePassword']
-    
+
     for cluster in context.properties['clusters']:
         region = cluster['region']
         for nodes in cluster['nodes']:
@@ -14,7 +14,7 @@ def GenerateConfig(context):
             instanceType = nodes['instanceType']
             services = nodes['services']
 
-            # make the instance group here
+            config['resources'].append(regional_igm())
 
     if 'mobileGateways' in context.properties:
         for gateways in context.properties['mobileGateways']:
