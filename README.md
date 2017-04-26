@@ -1,2 +1,5 @@
 # couchbase-google-deployment-manager
-Google Deployment Manager (DM) templates to install Couchbase
+
+This is a Google Deployment Manger (DM) template that deploys Couchbase Enterprise to Google Compute Engine (GCE) on Google Cloud Platform (GCP).
+
+Some best practices are covered [here](documentation/bestPractices.md).
