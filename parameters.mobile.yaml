@@ -24,8 +24,13 @@ resources:
         diskSize: 100
         instanceCount: 5
         instanceType: n1-standard-4
+        services:
+          - syncGateway
+          - accelerator
       gateways2:
         region: us-west1
         diskSize: 100
         instanceCount: 5
         instanceType: n1-standard-4
+        services:
+          - syncGateway
