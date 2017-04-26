@@ -2,15 +2,23 @@
 
 ## Compute
 
-TBD
+All services on all nodes
+* n1-something
+
+Using MDS
+Data - ...
+Query - ...
+Index - ...
 
 ### Memory Allocation
 
-Q: We're currently doing 50% for data and 15% for index.  Need a good solution here.
+We're currently doing 50% for data and 25% for index.  These can be adjusted post deploy.
 
 ### Fault Tolerance and High Availability
 
 The Couchbase concept of a Server Group maps closely to an Availability Zone.
+
+Q: How to autoscaling groups in GCP work with AZs?
 
 ## Storage
 
