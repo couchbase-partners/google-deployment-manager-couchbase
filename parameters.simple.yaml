@@ -6,10 +6,10 @@ resources:
   type: couchbase.py
   properties:
     clusters:
-      cluster1:
+      - cluster: cluster1
         region: us-east1
         nodes:
-          nodes1:
+          - nodes: nodes1
             diskSize: 100
             instanceCount: 5
             instanceType: n1-standard-4
