@@ -3,6 +3,9 @@ def GenerateConfig(context):
     config['resources'] = []
     config['outputs'] = []
 
+    couchbaseUsername=context.properties['couchbaseUsername']
+    couchbasePassword=context.properties['couchbasePassword']
+    
     for cluster in context.properties['clusters']:
         region = cluster['region']
         for nodes in cluster['nodes']:

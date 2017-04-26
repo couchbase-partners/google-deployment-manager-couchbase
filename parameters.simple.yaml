@@ -5,6 +5,8 @@ resources:
 - name: couchbase
   type: couchbase.py
   properties:
+    couchbaseUsername: couchbase
+    couchbasePassword: foo123!
     clusters:
       - cluster: cluster1
         region: us-east1
