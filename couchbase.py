@@ -3,7 +3,7 @@ def GenerateConfig(context):
     config['resources'] = []
     config['outputs'] = []
 
-    for cluster in contex.properties['clusters']:
+    for cluster in context.properties['clusters']:
         region = cluster['region']
         for nodes in cluster['nodes']:
             diskSize = nodes['diskSize']
