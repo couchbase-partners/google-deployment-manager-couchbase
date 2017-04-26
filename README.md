@@ -23,7 +23,7 @@ This repo countains four different parameters files.  You can deploy with any of
 
 The script then passes the cluster configuration to GCP and builds your cluster automatically.
 
-## Accessing the cluster
+## Accessing the Cluster
 
 ... need content
 
