@@ -20,8 +20,6 @@ info:
     This templates creates:
     + Instance Template
     + Instance Group Manager
-    + Autoscaler
-    + Load Balancer
 
 required:
 - region
