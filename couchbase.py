@@ -19,8 +19,9 @@ def GenerateConfig(context):
               'type': 'regional_igm.py',
               'properties': {
                 'region': region,
-                'metadata-from-file':
+                'metadata-from-file': {
                   'startup-script': 'startup-script.sh'
+                 }
               }
             }
 #            config['resources'].append(igm)
