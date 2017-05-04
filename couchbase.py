@@ -15,7 +15,7 @@ def GenerateConfig(context):
             services = group['services']
 
             igm = {
-              'name': 'igm-' + region,
+              'name': region + '-igm',
               'type': 'regional_igm.py',
               'properties': {
               }
