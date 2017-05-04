@@ -58,9 +58,7 @@ def GenerateConfig(context):
               'properties': {
                   'machineType': machinesize,
                   'networkInterfaces': [{
-                      'network':
-                          URL_BASE + context.env['project'] +
-                          '/global/networks/default',
+                      'network': URL_BASE + context.env['project'] + '/global/networks/default',
                       'accessConfigs': [{
                           'name': 'External NAT',
                           'type': 'ONE_TO_ONE_NAT'
@@ -72,9 +70,7 @@ def GenerateConfig(context):
                       'boot': True,
                       'autoDelete': True,
                       'initializeParams': {
-                          'sourceImage':
-                              URL_BASE +
-                              'ubuntu-os-cloud/global/images/ubuntu-1404-trusty-v20170424'
+                          'sourceImage': URL_BASE + 'ubuntu-os-cloud/global/images/ubuntu-1404-trusty-v20170424'
                       },
                       'diskType': 'pd-ssd',
                       'diskSizeGb': '100'
