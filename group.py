@@ -12,8 +12,9 @@ def GenerateConfig(context):
   machineType = context.properties['machineType']
   diskSize = context.properties['diskSize']
 
+  it_name = deployment + '-' + region + '-it'
   it = {
-    'name': deployment + '-' + region + '-it',
+    'name': it_name,
     'type': 'compute.v1.instanceTemplate',
     'properties': {
       'properties': {
@@ -47,7 +48,7 @@ def GenerateConfig(context):
     'properties': {
       'region': region,
       'baseInstanceName': deployment + '-instance',
-      'instanceTemplate': '$(ref.' + instance_template + '.selfLink)',
+      'instanceTemplate': '$(ref.' + it_name + '.selfLink)',
       'targetSize': machineCount,
       'autoHealingPolicies': [{
         'initialDelaySec': 60
