@@ -24,7 +24,7 @@ def GenerateConfig(context):
   metadata = {'items': items}
 
   deployment = context.env['deployment']
-  machinesize = context.properties['machinesize']
+  machineType = context.properties['machineType']
   instance_template = deployment + '-it'
   igm = deployment + '-igm'
   region = context.properties['region']
@@ -35,7 +35,7 @@ def GenerateConfig(context):
           'type': 'compute.v1.instanceTemplate',
           'properties': {
               'properties': {
-                  'machineType': machinesize,
+                  'machineType': machineType,
                   'networkInterfaces': [{
                       'network': URL_BASE + context.env['project'] + '/global/networks/default',
                       'accessConfigs': [{

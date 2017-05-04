@@ -11,7 +11,7 @@ def GenerateConfig(context):
     for group in cluster['groups']:
       diskSize = group['diskSize']
       instanceCount = group['instanceCount']
-      instanceType = group['instanceType']
+      machineType = group['machineType']
       services = group['services']
 
       igm = {
@@ -19,6 +19,7 @@ def GenerateConfig(context):
         'type': 'regional_igm.py',
         'properties': {
           'region': region,
+          'machineType': machineType,
           'metadata-from-file': {
             'startup-script': 'startup-script.sh'
           }
