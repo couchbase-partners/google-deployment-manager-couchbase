@@ -47,11 +47,8 @@ def GenerateConfig(context):
   igm = deployment + '-igm'
   region = context.properties['region']
 
-  # Create a dictionary which represents the resources
-  # (Instance Template, IGM, etc.)
   resources = [
       {
-          # Create the Instance Template
           'name': instance_template,
           'type': 'compute.v1.instanceTemplate',
           'properties': {
@@ -80,7 +77,6 @@ def GenerateConfig(context):
           }
       },
       {
-          # Instance Group Manager
           'name': igm,
           'type': 'compute.v1.regionInstanceGroupManager',
           'properties': {
