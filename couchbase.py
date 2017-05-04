@@ -18,6 +18,7 @@ def GenerateConfig(context):
               'name': region + '-igm',
               'type': 'regional_igm.py',
               'properties': {
+                region: region
               }
             }
             config['resources'].append(igm)
