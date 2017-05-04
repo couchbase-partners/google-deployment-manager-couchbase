@@ -1,6 +1,7 @@
 imports:
   - path: regional_igm.py
-  - path: startup-script.sh
+  - path: scripts/startup-script.sh
+    name: startup-script.sh
 
 required:
   - region
