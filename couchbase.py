@@ -3,6 +3,7 @@ def GenerateConfig(context):
   config['resources'] = []
   config['outputs'] = []
 
+  deployment = context.env['deployment']
   couchbaseUsername=context.properties['couchbaseUsername']
   couchbasePassword=context.properties['couchbasePassword']
 
@@ -14,19 +15,23 @@ def GenerateConfig(context):
       machineType = group['machineType']
       services = group['services']
 
-      igm = {
-        'name': region + '-igm',
-        'type': 'regional_igm.py',
-        'properties': {
-          'region': region,
-          'diskSize': diskSize,
-          'machineCount': machineCount,
-          'machineType': machineType,
-          'metadata-from-file': {
-            'startup-script': 'startup-script.sh'
-          }
-        }
-      }
-      config['resources'].append(igm)
+      groupJSON=GenerateGroup(deployment, region, diskSize, machineCount, machineType)
+      config['resources'].append(groupJSON)
 
   return config
+
+def GenerateGroup(deployment, region, diskSize, machineCount, machineType):
+  groupJSON = {
+    'name': deployment + '-' + region + '-group',
+    'type': 'group.py',
+    'properties': {
+      'region': region,
+      'diskSize': diskSize,
+      'machineCount': machineCount,
+      'machineType': machineType,
+      'metadata-from-file': {
+        'startup-script': 'startup-script.sh'
+      }
+    }
+  }
+  return groupJSON

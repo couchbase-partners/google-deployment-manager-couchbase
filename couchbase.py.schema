@@ -1,4 +1,3 @@
 imports:
-  - path: regional_igm.py
-  - path: scripts/startup-script.sh
-    name: startup-script.sh
+  - path: group.py
+  - path: startup-script.sh
