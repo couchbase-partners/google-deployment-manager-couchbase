@@ -14,8 +14,12 @@ def GenerateConfig(context):
             instanceType = group['instanceType']
             services = group['services']
 
-            igm = {}
-
+            igm = {
+              'name': 'igm-' + region,
+              'type': 'regional_igm.py',
+              'properties': {
+              }
+            }
             config['resources'].append(igm)
 
     return config

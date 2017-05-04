@@ -48,7 +48,7 @@ def GenerateConfig(context):
   region = context.properties['region']
 
   # Create a dictionary which represents the resources
-  # (Intstance Template, IGM, etc.)
+  # (Instance Template, IGM, etc.)
   resources = [
       {
           # Create the Instance Template
