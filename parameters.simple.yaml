@@ -8,10 +8,10 @@ resources:
     couchbaseUsername: couchbase
     couchbasePassword: foo123!
     clusters:
-      - name: cluster1
+      - cluster: cluster1
         region: us-east1
-        nodes:
-          - name: nodes1
+        groups:
+          - group: group1
             diskSize: 100
             instanceCount: 5
             instanceType: n1-standard-4

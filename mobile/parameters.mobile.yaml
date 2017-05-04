@@ -8,10 +8,10 @@ resources:
     couchbaseUsername: couchbase
     couchbasePassword: foo123!
     clusters:
-      - name: cluster1
+      - cluster: cluster1
         region: us-east1
-        nodes:
-          - name: nodes1
+        groups:
+          - group: group1
             diskSize: 100
             instanceCount: 5
             instanceType: n1-standard-4
@@ -21,7 +21,7 @@ resources:
               - index
               - fts
     mobileGateways:
-      - name: gateways1
+      - gateways: gateways1
         region: us-east1
         diskSize: 100
         instanceCount: 5
@@ -29,7 +29,7 @@ resources:
         services:
           - syncGateway
           - accelerator
-      - name: gateway2
+      - gateways: gateway2
         region: us-west1
         diskSize: 100
         instanceCount: 10
