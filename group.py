@@ -1,16 +1,15 @@
 URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 
 def GenerateConfig(context):
-  items = []
-  for key, value in context.properties['metadata-from-file'].iteritems():
-    items.append({'key': key, 'value': context.imports[value]})
-  metadata = {'items': items}
-
   deployment = context.env['deployment']
   region = context.properties['region']
   machineCount = context.properties['machineCount']
   machineType = context.properties['machineType']
   diskSize = context.properties['diskSize']
+
+  items = []
+  items.append({'key':'startup-script', 'value':context.imports['startup-script.sh']})
+  metadata = {'items': items}
 
   it_name = deployment + '-' + region + '-it'
   it = {

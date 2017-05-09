@@ -29,9 +29,6 @@ def GenerateGroup(deployment, region, diskSize, machineCount, machineType):
       'diskSize': diskSize,
       'machineCount': machineCount,
       'machineType': machineType,
-      'metadata-from-file': {
-        'startup-script': 'startup-script.sh'
-      }
     }
   }
   return groupJSON
