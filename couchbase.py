@@ -10,21 +10,23 @@ def GenerateConfig(context):
   for cluster in context.properties['clusters']:
     region = cluster['region']
     for group in cluster['groups']:
+      groupName = group['group']
       diskSize = group['diskSize']
       machineCount = group['machineCount']
       machineType = group['machineType']
       services = group['services']
 
-      groupJSON=GenerateGroup(deployment, region, diskSize, machineCount, machineType)
+      groupJSON=GenerateGroup(groupName, deployment, region, diskSize, machineCount, machineType)
       config['resources'].append(groupJSON)
 
   return config
 
-def GenerateGroup(deployment, region, diskSize, machineCount, machineType):
+def GenerateGroup(groupName, deployment, region, diskSize, machineCount, machineType):
   groupJSON = {
-    'name': deployment + '-' + region + '-group',
+    'name': deployment + '-' + region + '-' + groupName,
     'type': 'group.py',
     'properties': {
+      'groupName': groupName,
       'region': region,
       'diskSize': diskSize,
       'machineCount': machineCount,

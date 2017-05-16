@@ -2,6 +2,7 @@ URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 
 def GenerateConfig(context):
   deployment = context.env['deployment']
+  groupName = context.properties['groupName']
   region = context.properties['region']
   machineCount = context.properties['machineCount']
   machineType = context.properties['machineType']
@@ -11,7 +12,7 @@ def GenerateConfig(context):
   items.append({'key':'startup-script', 'value':context.imports['startup-script.sh']})
   metadata = {'items': items}
 
-  it_name = deployment + '-' + region + '-it'
+  it_name = deployment + '-' + region + '-' + groupName + '-it'
   it = {
     'name': it_name,
     'type': 'compute.v1.instanceTemplate',
@@ -42,7 +43,7 @@ def GenerateConfig(context):
   }
 
   igm = {
-    'name': deployment + '-' + region + '-igm',
+    'name': deployment + '-' + region + '-' + groupName + '-igm',
     'type': 'compute.v1.regionInstanceGroupManager',
     'properties': {
       'region': region,
