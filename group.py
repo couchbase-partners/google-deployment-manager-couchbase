@@ -10,7 +10,7 @@ def GenerateConfig(context):
   diskSize = context.properties['diskSize']
 
   items = []
-  items.append({'key':'startup-script', 'value':context.imports['startup-script.sh']})
+  items.append({'key':'startup-script', 'value':GenerateStartupScript()})
   metadata = {'items': items}
 
   it_name = deployment + '-' + clusterName + '-' + groupName + '-it'
@@ -61,3 +61,11 @@ def GenerateConfig(context):
   resources.append(it)
   resources.append(igm)
   return {'resources': resources}
+
+def GenerateStartupScript():
+    script = '''
+    #!/usr/bin/env bash
+    touch /tmp/hello
+    '''
+    
+    return script

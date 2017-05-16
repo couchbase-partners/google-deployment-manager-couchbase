@@ -1,3 +1,0 @@
-imports:
-  - path: group.py
-  - path: startup-script.sh

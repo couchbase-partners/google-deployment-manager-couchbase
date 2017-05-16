@@ -1,5 +1,6 @@
 imports:
   - path: couchbase.py
+  - path: group.py
 
 resources:
 - name: couchbase
