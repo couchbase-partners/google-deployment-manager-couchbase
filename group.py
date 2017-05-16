@@ -112,5 +112,9 @@ echo "
 vm.swappiness = 0" >> /etc/sysctl.conf
 '''
 
+configure = '''
+'''
+
 def GenerateStartupScript():
-    return install
+    script = install + configure
+    return script
