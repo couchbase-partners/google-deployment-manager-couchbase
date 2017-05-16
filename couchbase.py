@@ -8,6 +8,7 @@ def GenerateConfig(context):
   couchbasePassword=context.properties['couchbasePassword']
 
   for cluster in context.properties['clusters']:
+    clusterName = cluster['cluster']
     region = cluster['region']
     for group in cluster['groups']:
       groupName = group['group']
@@ -16,18 +17,19 @@ def GenerateConfig(context):
       machineType = group['machineType']
       services = group['services']
 
-      groupJSON=GenerateGroup(groupName, deployment, region, diskSize, machineCount, machineType)
+      groupJSON=GenerateGroup(deployment, clusterName, region, groupName, diskSize, machineCount, machineType)
       config['resources'].append(groupJSON)
 
   return config
 
-def GenerateGroup(groupName, deployment, region, diskSize, machineCount, machineType):
+def GenerateGroup(deployment, clusterName, region, groupName, diskSize, machineCount, machineType):
   groupJSON = {
     'name': deployment + '-' + region + '-' + groupName,
     'type': 'group.py',
     'properties': {
-      'groupName': groupName,
+      'clusterName': clusterName,
       'region': region,
+      'groupName': groupName,
       'diskSize': diskSize,
       'machineCount': machineCount,
       'machineType': machineType,
