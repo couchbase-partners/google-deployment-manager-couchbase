@@ -48,7 +48,7 @@ def GenerateConfig(context):
     'type': 'compute.v1.regionInstanceGroupManager',
     'properties': {
       'region': region,
-      'baseInstanceName': deployment + '-instance',
+      'baseInstanceName': deployment + '-' + clusterName + '-' + groupName + '-instance',
       'instanceTemplate': '$(ref.' + it_name + '.selfLink)',
       'targetSize': machineCount,
       'autoHealingPolicies': [{
