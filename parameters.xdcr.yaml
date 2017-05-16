@@ -26,7 +26,7 @@ resources:
               - index
               - fts
       - cluster: cluster2
-        region: us-west1
+        region: us-central1
         groups:
           - group: group1
             diskSize: 100
