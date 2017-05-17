@@ -2,7 +2,7 @@ def GenerateConfig(context):
     URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 
     items = []
-    items.append({'key':'startup-script', 'value':GenerateStartupScript()})
+    items.append({'key':'startup-script', 'value':GenerateStartupScript(context)})
     metadata = {'items': items}
 
     it_name = context.env['deployment'] + '-' + context.properties['clusterName'] + '-' + context.properties['groupName'] + '-it'
@@ -54,19 +54,28 @@ def GenerateConfig(context):
     resources.append(igm)
     return {'resources': resources}
 
-def GenerateStartupScript():
-    script = install
+def GenerateStartupScript(context):
+    services=context.properties['services']
+    if services.hasKey('syncGateway') or services.hasKey('accelerator'):
+        script=installMobile
+    else:
+        script = installServer
     return script
 
 #######################################################
 ################### Startup Scripts ###################
 #######################################################
 
-install='''
+installMobile='''
 #!/usr/bin/env bash
+echo "Running installMobile"
+wget https://packages.couchbase.com/releases/couchbase-sync-gateway/1.4.1/couchbase-sync-gateway-enterprise_1.4.1-3_x86_64.deb
+dpkg -i couchbase-sync-gateway-enterprise_1.4.1-3_x86_64.deb
+'''
 
-echo "Running install.sh"
-
+installServer='''
+#!/usr/bin/env bash
+echo "Running installServer"
 wget http://packages.couchbase.com/releases/4.6.1/couchbase-server-enterprise_4.6.1-ubuntu14.04_amd64.deb
 
 # Using these instructions
@@ -112,15 +121,15 @@ echo "
 vm.swappiness = 0" >> /etc/sysctl.conf
 '''
 
-configure = '''
-echo "Running configure.sh"
+configureServer = '''
+echo "Running configureServer"
 
 echo "Using the settings:"
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
 
 rallyPrivateDNS=''
-nodePrivateDNS=`curl -s -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance`
+nodePrivateDNS=`curl -s -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance"`
 
 cd /opt/couchbase/bin/
 
