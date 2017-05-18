@@ -129,7 +129,7 @@ echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
 
 rallyPrivateDNS=''
-nodePrivateDNS=`curl -s -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance"`
+nodePrivateDNS=`curl http://metadata/computeMetadata/v1beta1/instance/hostname`
 
 cd /opt/couchbase/bin/
 
