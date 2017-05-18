@@ -56,7 +56,7 @@ def GenerateConfig(context):
 
 def GenerateStartupScript(context):
     services=context.properties['services']
-    if services.hasKey('syncGateway') or services.hasKey('accelerator'):
+    if 'syncGateway' in services or 'accelerator' in services:
         script=installMobile
     else:
         script = installServer
