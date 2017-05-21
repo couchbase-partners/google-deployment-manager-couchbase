@@ -57,9 +57,9 @@ def GenerateConfig(context):
     return {'resources': resources}
 
 def GenerateStartupScript(context):
-    script = '#!/usr/bin/env bash\n'
-    script += 'couchbaseUsername=' + context.properties['couchbaseUsername'] + '\n'
-    script += 'couchbasePassword=' + context.properties['couchbasePassword'] + '\n'
+    script = '#!/usr/bin/env bash\n\n'
+#    script += 'couchbaseUsername=' + context.properties['couchbaseUsername'] + '\n'
+#    script += 'couchbasePassword=' + context.properties['couchbasePassword'] + '\n'
 #    script += 'services=' + context.properties['services'] + '\n'
 
     services=context.properties['services']

@@ -3,6 +3,7 @@ def GenerateConfig(context):
     config={}
     config['resources'] = []
 
+    '''
     runtimeconfigName = context.env['deployment'] + '-' + context.properties['cluster'] + '-runtimeconfig'
     runtimeconfig = {
         'name': runtimeconfigName,
@@ -14,7 +15,7 @@ def GenerateConfig(context):
     config['resources'].append(runtimeconfig)
 
     nodeCount = {
-        'name': 'nodeCount',
+        'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-nodeCount',
         'type': 'runtimeconfig.v1beta1.variable',
         'properties': {
             'parent': '$(ref.' + runtimeconfigName + '.name)',
@@ -25,15 +26,16 @@ def GenerateConfig(context):
     config['resources'].append(nodeCount)
 
     nodeNames = {
-        'name': 'nodeNames',
+        'name': context.env['deployment'] + '-' + context.properties['cluster'] +'-nodeNames',
         'type': 'runtimeconfig.v1beta1.variable',
         'properties': {
             'parent': '$(ref.' + runtimeconfigName + '.name)',
             'variable': 'nodeNames',
-            'value': None
+            'value': 'asd'
         }
     }
     config['resources'].append(nodeNames)
+    '''
 
     for group in context.properties['groups']:
         groupJSON = {
