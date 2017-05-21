@@ -3,6 +3,7 @@ echo "Running configureServer"
 echo "Using the settings:"
 echo couchbaseUsername \'$couchbaseUsername\'
 echo couchbasePassword \'$couchbasePassword\'
+echo services \'$services\'
 
 ##### Advice from Chris
 # Now, add code in your startup script that runs on each VM.
