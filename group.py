@@ -1,5 +1,6 @@
+URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
+
 def GenerateConfig(context):
-    URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
     resources = []
 
     items = []
