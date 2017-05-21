@@ -1,8 +1,8 @@
 echo "Running configureServer"
 
 echo "Using the settings:"
-echo adminUsername \'$adminUsername\'
-echo adminPassword \'$adminPassword\'
+echo couchbaseUsername \'$couchbaseUsername\'
+echo couchbasePassword \'$couchbasePassword\'
 
 ##### Advice from Chris
 # Now, add code in your startup script that runs on each VM.
@@ -23,8 +23,8 @@ echo "Running couchbase-cli node-init"
   --node-init-hostname=$nodePrivateDNS \
   --node-init-data-path=/mnt/datadisk/data \
   --node-init-index-path=/mnt/datadisk/index \
-  --user=$adminUsername \
-  --pass=$adminPassword
+  --user=$couchbaseUsername \
+  --pass=$couchbasePassword
 
 if [[ $rallyPrivateDNS == $nodePrivateDNS ]]
 then
@@ -37,8 +37,8 @@ then
     --cluster=$nodePrivateDNS \
     --cluster-ramsize=$dataRAM \
     --cluster-index-ramsize=$indexRAM \
-    --cluster-username=$adminUsername \
-    --cluster-password=$adminPassword \
+    --cluster-username=$couchbaseUsername \
+    --cluster-password=$couchbasePassword \
     --services=data,index,query,fts
 else
   echo "Running couchbase-cli server-add"
@@ -48,11 +48,11 @@ else
     vm0PrivateDNS=`host vm0 | awk '{print $1}'`
     output=`./couchbase-cli server-add \
       --cluster=$rallyPrivateDNS \
-      --user=$adminUsername \
-      --pass=$adminPassword \
+      --user=$couchbaseUsername \
+      --pass=$couchbasePassword \
       --server-add=$nodePrivateDNS \
-      --server-add-username=$adminUsername \
-      --server-add-password=$adminPassword \
+      --server-add-username=$couchbaseUsername \
+      --server-add-password=$couchbasePassword \
       --services=data,index,query,fts`
     echo server-add output \'$output\'
     sleep 10
@@ -64,8 +64,8 @@ else
   do
     output=`./couchbase-cli rebalance \
       --cluster=$rallyPrivateDNS \
-      --user=$adminUsername \
-      --pass=$adminPassword`
+      --user=$couchbaseUsername \
+      --pass=$couchbasePassword`
     echo rebalance output \'$output\'
     sleep 10
   done

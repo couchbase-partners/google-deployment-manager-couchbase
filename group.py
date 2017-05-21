@@ -57,9 +57,9 @@ def GenerateConfig(context):
     return {'resources': resources}
 
 def GenerateStartupScript(context):
-    script = '''
-    #!/usr/bin/env bash
-    '''
+    script = '#!/usr/bin/env bash\n'
+    script += 'couchbaseUsername=' + context.properties['couchbaseUsername'] + '\n'
+    script += 'couchbasePassword=' + context.properties['couchbasePassword'] + '\n'
 
     services=context.properties['services']
     if 'syncGateway' in services or 'accelerator' in services:
