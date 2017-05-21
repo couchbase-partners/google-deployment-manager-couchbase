@@ -3,6 +3,7 @@ URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 def GenerateConfig(context):
     resources = []
 
+    #### Todo - move inside it
     items = []
     items.append({'key':'startup-script', 'value':GenerateStartupScript(context)})
     metadata = {'items': items}
