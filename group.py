@@ -63,8 +63,8 @@ def GenerateStartupScript(context):
     script += 'services=' + context.properties['services'] + '\n'
 
     if 'syncGateway' in services or 'accelerator' in services:
-        script+=context.imports['installMobile.sh']
+        script+=context.imports['scripts/installMobile.sh']
     else:
-        script+= context.imports['installServer.sh']
-#        script+= context.imports['configureServer.sh']
+        script+= context.imports['scripts/installServer.sh']
+#        script+= context.imports['scripts/configureServer.sh']
     return script
