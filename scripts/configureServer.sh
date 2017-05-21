@@ -45,7 +45,6 @@ else
   output=""
   while [[ $output != "Server $nodePrivateDNS:8091 added" && ! $output =~ "Node is already part of cluster." ]]
   do
-    vm0PrivateDNS=`host vm0 | awk '{print $1}'`
     output=`./couchbase-cli server-add \
       --cluster=$rallyPrivateDNS \
       --user=$couchbaseUsername \

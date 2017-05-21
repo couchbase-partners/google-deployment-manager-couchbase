@@ -60,11 +60,11 @@ def GenerateStartupScript(context):
     script = '#!/usr/bin/env bash\n'
     script += 'couchbaseUsername=' + context.properties['couchbaseUsername'] + '\n'
     script += 'couchbasePassword=' + context.properties['couchbasePassword'] + '\n'
+    script += 'services=' + context.properties['services'] + '\n'
 
-    services=context.properties['services']
     if 'syncGateway' in services or 'accelerator' in services:
         script+=context.imports['installMobile.sh']
     else:
         script+= context.imports['installServer.sh']
-
+#        script+= context.imports['configureServer.sh']
     return script
