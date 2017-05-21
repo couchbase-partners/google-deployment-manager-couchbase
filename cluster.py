@@ -46,8 +46,8 @@ def GenerateConfig(context):
                 'region': context.properties['region'],
                 'group': group['group'],
                 'diskSize': group['diskSize'],
-                'machineCount': group['machineCount'],
-                'machineType': group['machineType'],
+                'nodeCount': group['nodeCount'],
+                'nodeType': group['nodeType'],
                 'services': group['services']
             }
         }
