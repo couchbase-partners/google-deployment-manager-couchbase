@@ -3,10 +3,10 @@ def GenerateConfig(context):
     config={}
     config['resources'] = []
 
-    runtimeconfigName = context.env['deployment'] + '-' + cluster['cluster'] + '-runtimeconfig'
+    runtimeconfigName = context.env['deployment'] + '-' + context.properties['cluster'] + '-runtimeconfig'
     runtimeconfig = {
         'name': runtimeconfigName,
-        'type': runtimeconfig.v1beta1.config,
+        'type': 'runtimeconfig.v1beta1.config',
         'properties': {
             'config': runtimeconfigName
         }
@@ -15,7 +15,7 @@ def GenerateConfig(context):
 
     nodeCount = {
         'name': 'nodeCount',
-        'type': runtimeconfig.v1beta1.variable,
+        'type': 'runtimeconfig.v1beta1.variable',
         'properties': {
             'parent': '$(ref.' + runtimeconfigName + '.name)',
             'variable': 'nodeCount',
@@ -26,7 +26,7 @@ def GenerateConfig(context):
 
     nodeNames = {
         'name': 'nodeNames',
-        'type': runtimeconfig.v1beta1.variable,
+        'type': 'runtimeconfig.v1beta1.variable',
         'properties': {
             'parent': '$(ref.' + runtimeconfigName + '.name)',
             'variable': 'nodeNames',
@@ -37,7 +37,7 @@ def GenerateConfig(context):
 
     for group in context.properties['groups']:
         groupJSON = {
-            'name': context.env['deployment'] + '-' + cluster['cluster'] + '-' + group['group'],
+            'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + group['group'],
             'type': 'group.py',
             'properties': {
                 'couchbaseUsername': context.properties['couchbaseUsername'],
