@@ -1,13 +1,14 @@
 def GenerateConfig(context):
     URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
+    resources = []
 
     items = []
     items.append({'key':'startup-script', 'value':GenerateStartupScript(context)})
     metadata = {'items': items}
 
-    it_name = context.env['deployment'] + '-' + context.properties['clusterName'] + '-' + context.properties['groupName'] + '-it'
+    itName = context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
     it = {
-        'name': it_name,
+        'name': itName,
         'type': 'compute.v1.instanceTemplate',
         'properties': {
             'properties': {
@@ -34,6 +35,7 @@ def GenerateConfig(context):
             }
         }
     }
+    resources.append(it)
 
     igm = {
         'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-igm',
@@ -41,17 +43,15 @@ def GenerateConfig(context):
         'properties': {
             'region': context.properties['region'],
             'baseInstanceName': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-instance',
-            'instanceTemplate': '$(ref.' + it_name + '.selfLink)',
+            'instanceTemplate': '$(ref.' + itName + '.selfLink)',
             'targetSize': context.properties['machineCount'],
             'autoHealingPolicies': [{
                 'initialDelaySec': 60
             }]
         }
     }
-
-    resources = []
-    resources.append(it)
     resources.append(igm)
+
     return {'resources': resources}
 
 def GenerateStartupScript(context):
@@ -64,4 +64,5 @@ def GenerateStartupScript(context):
         script+=context.imports['installMobile.sh']
     else:
         script+= context.imports['installServer.sh']
+
     return script

@@ -4,6 +4,14 @@ echo "Using the settings:"
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
 
+##### Advice from Chris
+# Now, add code in your startup script that runs on each VM.
+# Have that VM
+# 1. register it's name under nodenames/
+# 2. read the variables in nodenames
+# if you get nodecount items, then sort the 5 items and pick the first one
+# else, sleep and try the read again
+
 rallyPrivateDNS=''
 nodePrivateDNS=`curl http://metadata/computeMetadata/v1beta1/instance/hostname`
 
