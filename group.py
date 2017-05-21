@@ -12,7 +12,7 @@ def GenerateConfig(context):
         'type': 'compute.v1.instanceTemplate',
         'properties': {
             'properties': {
-                'machineType': context.properties['machineType'],
+                'machineType': context.properties['nodeType'],
                 'networkInterfaces': [{
                     'network': URL_BASE + context.env['project'] + '/global/networks/default',
                     'accessConfigs': [{
@@ -44,7 +44,7 @@ def GenerateConfig(context):
             'region': context.properties['region'],
             'baseInstanceName': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-instance',
             'instanceTemplate': '$(ref.' + itName + '.selfLink)',
-            'targetSize': context.properties['machineCount'],
+            'targetSize': context.properties['nodeCount'],
             'autoHealingPolicies': [{
                 'initialDelaySec': 60
             }]

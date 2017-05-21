@@ -19,7 +19,7 @@ def GenerateConfig(context):
         'properties': {
             'parent': '$(ref.' + runtimeconfigName + '.name)'
             'variable': 'nodeCount'
-            'text': 'variable_value'
+            'text': getNodeCount(context)
         }
     }
     config['resources'].append(nodeCount)
@@ -53,3 +53,9 @@ def GenerateConfig(context):
         }
         config['resources'].append(groupJSON)
     return config
+
+def getNodeCount(context):
+    nodeCount = 0
+    for group in context.properties['groups']:
+        nodeCount += group['nodeCount']
+    return nodeCount

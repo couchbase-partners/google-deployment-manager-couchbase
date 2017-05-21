@@ -18,8 +18,8 @@ resources:
         groups:
           - group: group1
             diskSize: 100
-            machineCount: 5
-            machineType: n1-standard-4
+            nodeCount: 5
+            nodeType: n1-standard-4
             services:
               - data
               - query
@@ -27,8 +27,8 @@ resources:
               - fts
           - group: mobile1
             diskSize: 10
-            machineCount: 3
-            machineType: n1-standard-4
+            nodeCount: 3
+            nodeType: n1-standard-4
             services:
               - syncGateway
               - accelerator
