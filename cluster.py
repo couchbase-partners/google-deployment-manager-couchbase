@@ -14,22 +14,22 @@ def GenerateConfig(context):
     config['resources'].append(runtimeconfig)
 
     nodeCount = {
-        'name': 'nodeCount'
-        'type': runtimeconfig.v1beta1.variable
+        'name': 'nodeCount',
+        'type': runtimeconfig.v1beta1.variable,
         'properties': {
-            'parent': '$(ref.' + runtimeconfigName + '.name)'
-            'variable': 'nodeCount'
+            'parent': '$(ref.' + runtimeconfigName + '.name)',
+            'variable': 'nodeCount',
             'text': getNodeCount(context)
         }
     }
     config['resources'].append(nodeCount)
 
     nodeNames = {
-        'name': 'nodeNames'
-        'type': runtimeconfig.v1beta1.variable
+        'name': 'nodeNames',
+        'type': runtimeconfig.v1beta1.variable,
         'properties': {
-            'parent': '$(ref.' + runtimeconfigName + '.name)'
-            'variable': 'nodeNames'
+            'parent': '$(ref.' + runtimeconfigName + '.name)',
+            'variable': 'nodeNames',
             'value': None
         }
     }
