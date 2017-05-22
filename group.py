@@ -1,9 +1,8 @@
 URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 
 def GenerateConfig(context):
-    resources = []
-
-    metadata = {'items': [{'key':'startup-script', 'value':GenerateStartupScript(context)}]}
+    config={}
+    config['resources'] = []
 
     itName = context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
     it = {
@@ -30,11 +29,11 @@ def GenerateConfig(context):
                     'diskType': 'pd-ssd',
                     'diskSizeGb': context.properties['diskSize']
                 }],
-                'metadata': metadata,
+                'metadata': {'items': [{'key':'startup-script', 'value':GenerateStartupScript(context)}]},
             }
         }
     }
-    resources.append(it)
+    config['resources'].append(it)
 
     igm = {
         'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-igm',
@@ -49,17 +48,22 @@ def GenerateConfig(context):
             }]
         }
     }
-    resources.append(igm)
+    config['resources'].append(igm)
 
-    return {'resources': resources}
+    return config
 
 def GenerateStartupScript(context):
     script = '#!/usr/bin/env bash\n\n'
-#    script += 'couchbaseUsername=' + context.properties['couchbaseUsername'] + '\n'
-#    script += 'couchbasePassword=' + context.properties['couchbasePassword'] + '\n'
-#    script += 'services=' + context.properties['services'] + '\n'
+    script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
+    script += 'couchbasePassword="' + context.properties['couchbasePassword'] + '"\n'
 
     services=context.properties['services']
+    servicesParameter=''
+    for service in services:
+        servicesParameter += service + ','
+    servicesParameter=servicesParameter[:-1]
+    script += 'services="' + servicesParameter + '"\n\n'
+
     if 'syncGateway' in services or 'accelerator' in services:
         script+=context.imports['scripts/installMobile.sh']
     else:

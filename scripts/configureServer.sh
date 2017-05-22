@@ -22,8 +22,6 @@ echo "Running couchbase-cli node-init"
 ./couchbase-cli node-init \
   --cluster=$nodePrivateDNS \
   --node-init-hostname=$nodePrivateDNS \
-  --node-init-data-path=/mnt/datadisk/data \
-  --node-init-index-path=/mnt/datadisk/index \
   --user=$couchbaseUsername \
   --pass=$couchbasePassword
 
@@ -53,7 +51,7 @@ else
       --server-add=$nodePrivateDNS \
       --server-add-username=$couchbaseUsername \
       --server-add-password=$couchbasePassword \
-      --services=data,index,query,fts`
+      --services=${services}`
     echo server-add output \'$output\'
     sleep 10
   done
