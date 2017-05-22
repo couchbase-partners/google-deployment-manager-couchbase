@@ -1,4 +1,5 @@
 echo "Running installServer"
+
 wget http://packages.couchbase.com/releases/4.6.1/couchbase-server-enterprise_4.6.1-ubuntu14.04_amd64.deb
 
 # Using these instructions

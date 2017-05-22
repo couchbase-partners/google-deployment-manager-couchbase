@@ -2,6 +2,7 @@ imports:
   - path: deployment.py
   - path: cluster.py
   - path: group.py
+  - path: scripts/configureMobile.sh
   - path: scripts/configureServer.sh
   - path: scripts/installMobile.sh
   - path: scripts/installServer.sh
