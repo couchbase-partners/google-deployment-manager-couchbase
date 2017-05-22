@@ -4,9 +4,9 @@ def GenerateConfig(context):
     config={}
     config['resources'] = []
 
-    itName = context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
-    it = {
-        'name': itName,
+    instanceTemplateName = context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
+    instanceTemplate = {
+        'name': instanceTemplateName,
         'type': 'compute.v1.instanceTemplate',
         'properties': {
             'properties': {
@@ -33,22 +33,22 @@ def GenerateConfig(context):
             }
         }
     }
-    config['resources'].append(it)
+    config['resources'].append(instanceTemplate)
 
-    igm = {
+    instanceGroupManager = {
         'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-igm',
         'type': 'compute.v1.regionInstanceGroupManager',
         'properties': {
             'region': context.properties['region'],
             'baseInstanceName': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-instance',
-            'instanceTemplate': '$(ref.' + itName + '.selfLink)',
+            'instanceTemplate': '$(ref.' + instanceTemplateName + '.selfLink)',
             'targetSize': context.properties['nodeCount'],
             'autoHealingPolicies': [{
                 'initialDelaySec': 60
             }]
         }
     }
-    config['resources'].append(igm)
+    config['resources'].append(instanceGroupManager)
 
     return config
 
