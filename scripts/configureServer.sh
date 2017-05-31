@@ -5,13 +5,13 @@ echo couchbaseUsername \'$couchbaseUsername\'
 echo couchbasePassword \'$couchbasePassword\'
 echo services \'$services\'
 
-##### Advice from Chris
-# Now, add code in your startup script that runs on each VM.
-# Have that VM
-# 1. register it's name under nodenames/
-# 2. read the variables in nodenames
-# if you get nodecount items, then sort the 5 items and pick the first one
-# else, sleep and try the read again
+gcloud beta runtime-config configs variables set nodeList/nodeA nodea --is-text  --config-name [resource config name]
+gcloud beta runtime-config configs variables get-value nodeCount --config-name ben10-cluster1-runtimeconfig
+gcloud beta runtime-config configs variables list  --filter=nodeList  --config-name [resource config name]
+
+
+
+
 
 rallyPrivateDNS=''
 nodePrivateDNS=`curl http://metadata/computeMetadata/v1beta1/instance/hostname`
