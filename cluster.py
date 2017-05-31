@@ -19,7 +19,7 @@ def GenerateConfig(context):
         'properties': {
             'parent': '$(ref.' + runtimeconfigName + '.name)',
             'variable': 'nodeCount',
-            'value': getNodeCount(context)
+            'text': getNodeCount(context)
         }
     }
     config['resources'].append(nodeCount)
@@ -31,7 +31,7 @@ def GenerateConfig(context):
         'properties': {
             'parent': '$(ref.' + runtimeconfigName + '.name)',
             'variable': 'nodeNames',
-            'value': 'asd'
+            'text': 'asd'
         }
     }
     config['resources'].append(nodeNames)
