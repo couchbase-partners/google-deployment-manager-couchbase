@@ -13,18 +13,18 @@ def GenerateConfig(context):
     }
     config['resources'].append(runtimeconfig)
 
-    '''
     nodeCount = {
         'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-nodeCount',
         'type': 'runtimeconfig.v1beta1.variable',
         'properties': {
             'parent': '$(ref.' + runtimeconfigName + '.name)',
             'variable': 'nodeCount',
-            'text': getNodeCount(context)
+            'value': getNodeCount(context)
         }
     }
     config['resources'].append(nodeCount)
 
+    '''
     nodeNames = {
         'name': context.env['deployment'] + '-' + context.properties['cluster'] +'-nodeNames',
         'type': 'runtimeconfig.v1beta1.variable',
