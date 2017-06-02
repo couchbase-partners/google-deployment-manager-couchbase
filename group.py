@@ -64,6 +64,10 @@ def GenerateStartupScript(context):
     servicesParameter=servicesParameter[:-1]
     script += 'services="' + servicesParameter + '"\n\n'
 
+    # We need a beta of gcloud to use the runtime config to select a rally point
+    script += 'gcloud components update -q\n'
+    script += 'gcloud components install beta -q\n'
+
     if 'syncGateway' in services or 'accelerator' in services:
         script+=context.imports['scripts/installMobile.sh']
 #        script+= context.imports['scripts/configureMobile.sh']
