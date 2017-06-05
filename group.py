@@ -1,5 +1,3 @@
-URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
-
 def GenerateConfig(context):
     config={}
     config['resources'] = []
@@ -12,7 +10,7 @@ def GenerateConfig(context):
             'properties': {
                 'machineType': context.properties['nodeType'],
                 'networkInterfaces': [{
-                    'network': URL_BASE + context.env['project'] + '/global/networks/default',
+                    'network': GlobalComputeUrl(context.env['project'], 'networks', 'default'),
                     'accessConfigs': [{
                         'name': 'External NAT',
                         'type': 'ONE_TO_ONE_NAT'
@@ -24,7 +22,7 @@ def GenerateConfig(context):
                     'boot': True,
                     'autoDelete': True,
                     'initializeParams': {
-                        'sourceImage': URL_BASE + 'ubuntu-os-cloud/global/images/ubuntu-1404-trusty-v20170424'
+                        'sourceImage': GlobalComputeUrl('debian-cloud', 'images', ''.join(['backports-debian', '-7-wheezy-v20151104']))
                     },
                     'diskType': 'pd-ssd',
                     'diskSizeGb': context.properties['diskSize']
