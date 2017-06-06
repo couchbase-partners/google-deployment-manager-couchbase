@@ -24,7 +24,7 @@ def GenerateConfig(context):
                     'boot': True,
                     'autoDelete': True,
                     'initializeParams': {
-                        'sourceImage': URL_BASE + 'debian-cloud/global/images/backports-debian-7-wheezy-v20151104'
+                        'sourceImage': URL_BASE + 'debian-cloud/global/images/debian-8-jessie-v20170523'
                     },
                     'diskType': 'pd-ssd',
                     'diskSizeGb': context.properties['diskSize']
@@ -74,5 +74,5 @@ def GenerateStartupScript(context):
 #        script+= context.imports['scripts/configureMobile.sh']
     else:
         script+= context.imports['scripts/installServer.sh']
-#        script+= context.imports['scripts/configureServer.sh']
+        script+= context.imports['scripts/configureServer.sh']
     return script
