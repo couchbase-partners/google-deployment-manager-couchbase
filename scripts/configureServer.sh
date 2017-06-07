@@ -5,8 +5,9 @@ echo couchbaseUsername \'$couchbaseUsername\'
 echo couchbasePassword \'$couchbasePassword\'
 echo services \'$services\'
 
+##### This part doesn't work at the moment
+gcloud beta runtime-config configs variables get-value nodeCount --config-name ben3-cluster1-runtimeconfig
 gcloud beta runtime-config configs variables set nodeList/nodeA nodea --is-text  --config-name [resource config name]
-gcloud beta runtime-config configs variables get-value nodeCount --config-name ben10-cluster1-runtimeconfig
 gcloud beta runtime-config configs variables list  --filter=nodeList  --config-name [resource config name]
 
 rallyPrivateDNS=''
