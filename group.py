@@ -30,6 +30,10 @@ def GenerateConfig(context):
                     'diskSizeGb': context.properties['diskSize']
                 }],
                 'metadata': {'items': [{'key':'startup-script', 'value':GenerateStartupScript(context)}]},
+                'serviceAccounts': [{
+                    'email': 'ben.lackey@couchbase.com',
+                    'scopes': ['https://www.googleapis.com/auth/cloud-platform']
+                }]
             }
         }
     }
