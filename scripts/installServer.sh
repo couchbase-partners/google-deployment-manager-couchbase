@@ -1,16 +1,10 @@
 echo "Running installServer"
 
-wget http://packages.couchbase.com/releases/4.6.2/couchbase-server-enterprise_4.6.2-debian7_amd64.deb
-
-# Using these instructions
-# https://developer.couchbase.com/documentation/server/4.6/install/ubuntu-debian-install.html
-dpkg -i couchbase-server-enterprise_4.6.2-debian7_amd64.deb
-apt-get update
-apt-get -y install couchbase-server
-
 #######################################################
 ############ Turn Off Transparent Hugepages ###########
 #######################################################
+
+echo "Turning off transparent hugepages..."
 
 # Please look at http://bit.ly/1ZAcLjD as for how to PERMANENTLY alter this setting.
 
@@ -37,9 +31,24 @@ update-rc.d disable-thp defaults
 ################# Set Swappiness to 0 #################
 #######################################################
 
+echo "Setting swappiness to 0..."
+
 # Please look at http://bit.ly/1k2CtNn as for how to PERMANENTLY alter this setting.
 
 sysctl vm.swappiness=0
 echo "
 # Required for Couchbase
 vm.swappiness = 0" >> /etc/sysctl.conf
+
+#######################################################
+################## Install Couchbase ##################
+#######################################################
+
+echo "Installing Couchbase..."
+
+# Using these instructions
+# https://developer.couchbase.com/documentation/server/4.6/install/ubuntu-debian-install.html
+wget http://packages.couchbase.com/releases/4.6.2/couchbase-server-enterprise_4.6.2-debian7_amd64.deb
+dpkg -i couchbase-server-enterprise_4.6.2-debian7_amd64.deb
+apt-get update
+apt-get -y install couchbase-server
