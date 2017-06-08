@@ -74,5 +74,5 @@ def GenerateStartupScript(context):
 #        script+= context.imports['scripts/configureMobile.sh']
     else:
         script+= context.imports['scripts/installServer.sh']
-#        script+= context.imports['scripts/configureServer.sh']
+        script+= context.imports['scripts/configureServer.sh']
     return script

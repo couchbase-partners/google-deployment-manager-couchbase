@@ -5,16 +5,25 @@ echo couchbaseUsername \'$couchbaseUsername\'
 echo couchbasePassword \'$couchbasePassword\'
 echo services \'$services\'
 
-ACCESS_TOKEN=$(curl -s -H "Metadata-Flavor:Google" http://metadata/computeMetadata/v1/instance/service-accounts/default/token | awk -F\" '{ print $4 }')
-INSTANCE_NAME=$(curl -s -H "Metadata-Flavor:Google" http://metadata/computeMetadata/v1/instance/name)
-RUNTIME_CONFIG_URL=$(curl -s -H "Metadata-Flavor:Google" http://metadata/computeMetadata/v1/instance/attributes/status-config-url)
-RUNTIME_CONFIG_PATH=$(echo "$RUNTIME_CONFIG_URL" | sed 's|https\?://[^/]\+/v1\(beta1\)\?/||')
-VARIABLE_PATH=$(curl -s -H "Metadata-Flavor:Google" http://metadata/computeMetadata/v1/instance/attributes/status-variable-path)
+ACCESS_TOKEN=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token | awk -F\" '{ print $4 }')
+echo ACCESS_TOKEN: $ACCESS_TOKEN
 
-ACTIONBASE64=$(echo -n "$ACTION" | base64)
-PAYLOAD=$(printf '{"name": "%s", "value": "%s"}' "$RUNTIME_CONFIG_PATH/variables/$VARIABLE_PATH/$ACTION/$INSTANCE_NAME" "$ACTIONBASE64")
-echo "Posting software startup $ACTION status"
-curl -s -X POST -d "$PAYLOAD" -H "Authorization: Bearer $ACCESS_TOKEN" -H "Content-Type: application/json" "$RUNTIME_CONFIG_URL/variables"
+INSTANCE_NAME=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
+echo INSTANCE_NAME: $INSTANCE_NAME
+
+RUNTIME_CONFIG_URL=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/status-config-url)
+echo RUNTIME_CONFIG_URL: $RUNTIME_CONFIG_URL
+
+RUNTIME_CONFIG_PATH=$(echo "$RUNTIME_CONFIG_URL" | sed 's|https\?://[^/]\+/v1\(beta1\)\?/||')
+echo RUNTIME_CONFIG_PATH: $RUNTIME_CONFIG_PATH
+
+VARIABLE_PATH=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/status-variable-path)
+echo VARIABLE_PATH: $VARIABLE_PATH
+
+#ACTIONBASE64=$(echo -n "$ACTION" | base64)
+#PAYLOAD=$(printf '{"name": "%s", "value": "%s"}' "$RUNTIME_CONFIG_PATH/variables/$VARIABLE_PATH/$ACTION/$INSTANCE_NAME" "$ACTIONBASE64")
+#echo "Posting software startup $ACTION status"
+#curl -s -X POST -d "$PAYLOAD" -H "Authorization: Bearer $ACCESS_TOKEN" -H "Content-Type: application/json" "$RUNTIME_CONFIG_URL/variables"
 
 rallyPrivateDNS=''
 nodePrivateDNS=`curl http://metadata/computeMetadata/v1beta1/instance/hostname`
