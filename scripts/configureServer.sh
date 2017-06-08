@@ -5,10 +5,16 @@ echo couchbaseUsername \'$couchbaseUsername\'
 echo couchbasePassword \'$couchbasePassword\'
 echo services \'$services\'
 
-##### This part doesn't work at the moment
-gcloud beta runtime-config configs variables get-value nodeCount --config-name ben3-cluster1-runtimeconfig
-gcloud beta runtime-config configs variables set nodeList/nodeA nodea --is-text  --config-name [resource config name]
-gcloud beta runtime-config configs variables list  --filter=nodeList  --config-name [resource config name]
+ACCESS_TOKEN=$(curl -s -H "Metadata-Flavor:Google" http://metadata/computeMetadata/v1/instance/service-accounts/default/token | awk -F\" '{ print $4 }')
+INSTANCE_NAME=$(curl -s -H "Metadata-Flavor:Google" http://metadata/computeMetadata/v1/instance/name)
+RUNTIME_CONFIG_URL=$(curl -s -H "Metadata-Flavor:Google" http://metadata/computeMetadata/v1/instance/attributes/status-config-url)
+RUNTIME_CONFIG_PATH=$(echo "$RUNTIME_CONFIG_URL" | sed 's|https\?://[^/]\+/v1\(beta1\)\?/||')
+VARIABLE_PATH=$(curl -s -H "Metadata-Flavor:Google" http://metadata/computeMetadata/v1/instance/attributes/status-variable-path)
+
+ACTIONBASE64=$(echo -n "$ACTION" | base64)
+PAYLOAD=$(printf '{"name": "%s", "value": "%s"}' "$RUNTIME_CONFIG_PATH/variables/$VARIABLE_PATH/$ACTION/$INSTANCE_NAME" "$ACTIONBASE64")
+echo "Posting software startup $ACTION status"
+curl -s -X POST -d "$PAYLOAD" -H "Authorization: Bearer $ACCESS_TOKEN" -H "Content-Type: application/json" "$RUNTIME_CONFIG_URL/variables"
 
 rallyPrivateDNS=''
 nodePrivateDNS=`curl http://metadata/computeMetadata/v1beta1/instance/hostname`
