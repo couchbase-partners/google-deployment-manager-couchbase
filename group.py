@@ -31,7 +31,7 @@ def GenerateConfig(context):
                 }],
                 'metadata': {'items': [{'key':'startup-script', 'value':GenerateStartupScript(context)}]},
                 'serviceAccounts': [{
-                    'email': 'ben.lackey@couchbase.com',
+                    'name': context.env['deployment'] + '-sa',
                     'scopes': ['https://www.googleapis.com/auth/cloud-platform']
                 }]
             }
