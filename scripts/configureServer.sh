@@ -25,8 +25,15 @@ echo VARIABLE_PATH: $VARIABLE_PATH
 #echo "Posting software startup $ACTION status"
 #curl -s -X POST -d "$PAYLOAD" -H "Authorization: Bearer $ACCESS_TOKEN" -H "Content-Type: application/json" "$RUNTIME_CONFIG_URL/variables"
 
-rallyPrivateDNS=''
 nodePrivateDNS=`curl http://metadata/computeMetadata/v1beta1/instance/hostname`
+
+# 1. Add nodePrivateDNS to runtime config
+# 2. Get nodeCount from runtime config
+
+# 3. while ...
+# a. Get number of nodes currently in runtime config
+# b. If number of nodes currently in runtime config == nodeCount then pick a rally point
+rallyPrivateDNS=''
 
 cd /opt/couchbase/bin/
 
