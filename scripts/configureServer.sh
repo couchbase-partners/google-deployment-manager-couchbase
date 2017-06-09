@@ -9,8 +9,8 @@ ACCESS_TOKEN=$(curl -H "Metadata-Flavor:Google" http://metadata.google.internal/
 echo ACCESS_TOKEN: $ACCESS_TOKEN
 
 PROJECT_ID=couchbase-dev
-CONFIG_NAME=ben4-cluster1-runtimeconfig
-VARIABLE_KEY=ben4-cluster1-nodeCount
+CONFIG_NAME=ben1-cluster1-runtimeconfig
+VARIABLE_KEY=ben1-cluster1-nodeCount
 curl -H "Authorization":"Bearer ${ACCESS_TOKEN}" https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG_NAME}
 curl -H "Authorization":"Bearer ${ACCESS_TOKEN}" https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG_NAME}/variables?returnValue=True
 curl -H "Authorization":"Bearer ${ACCESS_TOKEN}" https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG_NAME}/variables/${VARIABLE_KEY}
