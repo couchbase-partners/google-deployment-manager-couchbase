@@ -15,4 +15,15 @@ def GenerateConfig(context):
             }
         }
         config['resources'].append(clusterJSON)
+
+    serviceAccount = {
+        'name': context.env['deployment'] + '-sa',
+        'type': 'iam.v1.serviceAccount',
+        'properties': {
+            'accountId': context.env['deployment'] + '-sa',
+            'displayName': context.env['deployment'] + '-sa'
+        }
+    }
+    config['resources'].append(serviceAccount)
+
     return config
