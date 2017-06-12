@@ -49,7 +49,6 @@ rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True \
   | jq ".variables[1].text" \
   | sed 's/"//g')
-  )
 echo rallyPrivateDNS: ${rallyPrivateDNS}
 
 #######################################################
