@@ -41,12 +41,14 @@ nodeList=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${VARIABLE_KEY})
 echo nodeList: ${nodeList}
 
-#variables=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-#  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True)
-#
-#lengthOfVariables=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-#  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True \
-#  jq ".variables")
+variables=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True)
+
+lengthOfVariables=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True \
+  | jq ".variables"
+  | jq length)
+echo lengthOfVariables: ${lengthOfVariables}
 
 # b. If number of nodes currently in runtime config == nodeCount then pick a rally point
 
