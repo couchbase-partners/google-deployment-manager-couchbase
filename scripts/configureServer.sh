@@ -37,7 +37,7 @@ nodeCount=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
 echo nodeCount: ${nodeCount}
 
 liveNodeCount=0
-while [ $liveNodeCount -lt $nodeCount ]
+while [[ $liveNodeCount -lt $nodeCount ]]
 do
   # Get number of nodes currently in runtime config
   liveNodeCount=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
