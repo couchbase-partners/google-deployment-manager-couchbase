@@ -34,9 +34,10 @@ nodeCount=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/nodeCount \
   | jq ".text" \
   | sed 's/"//g')
+echo nodeCount: ${nodeCount}
 
 liveNodeCount=0
-while [ $liveNodeCount -lt $nodeCount]
+while [ $liveNodeCount -lt $nodeCount ]
 do
   # Get number of nodes currently in runtime config
   liveNodeCount=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
@@ -45,9 +46,12 @@ do
   echo liveNodeCount: ${liveNodeCount}
 done
 
+# Need to impose an order here.
+# Currently we're assuming 0 is the same on every node.
+# That might not be the case.
 rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True \
-  | jq ".variables[1].text" \
+  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/?filter=projects%2F${PROJECT_ID}%2Fconfigs%2F${CONFIG}%2Fvariables%2FnodeList\&returnValues=True \
+  | jq ".variables[0].text" \
   | sed 's/"//g')
 echo rallyPrivateDNS: ${rallyPrivateDNS}
 
