@@ -49,8 +49,8 @@ done
 
 rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/?filter=projects%2F${PROJECT_ID}%2Fconfigs%2F${CONFIG}%2Fvariables%2FnodeList\&returnValues=True \
-  | jq --sort-keys "." \
-  | jq ".variables[0].text" \
+  | jq ".variables | sort_by(.text)" \
+  | jq ".[0].text" \
   | sed 's/"//g')
 echo rallyPrivateDNS: ${rallyPrivateDNS}
 
