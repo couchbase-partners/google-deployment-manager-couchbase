@@ -24,7 +24,7 @@ curl -s -k -X POST \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}" \
   -H "X-GFE-SSL: yes" \
-  -d "{name: \"projects/${PROJECT_ID}/configs/$CONFIG/variables/nodeList-${hostname}\", text: \"${nodePrivateDNS}\" }" \
+  -d "{name: \"projects/${PROJECT_ID}/configs/$CONFIG/variables/nodeList/${hostname}\", text: \"${nodePrivateDNS}\" }" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables
 
 # 2. Get nodeCount from runtime config
@@ -36,14 +36,17 @@ nodeCount=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
 
 # 3. while ...
 # a. Get number of nodes currently in runtime config
-VARIABLE_KEY=nodeList
+VARIABLE_KEY=nodeList/
 nodeList=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${VARIABLE_KEY})
 echo nodeList: ${nodeList}
 
-variables=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True)
-echo variables: ${variables}
+#variables=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+#  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True)
+#
+#lengthOfVariables=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+#  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True \
+#  jq ".variables")
 
 # b. If number of nodes currently in runtime config == nodeCount then pick a rally point
 
