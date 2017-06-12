@@ -44,6 +44,7 @@ do
     https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/?filter=projects%2F${PROJECT_ID}%2Fconfigs%2F${CONFIG}%2Fvariables%2FnodeList \
     | jq ".variables | length")
   echo liveNodeCount: ${liveNodeCount}
+  sleep 10
 done
 
 # Need to impose an order here.
