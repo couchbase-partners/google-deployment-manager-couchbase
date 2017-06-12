@@ -5,25 +5,44 @@ echo couchbaseUsername \'$couchbaseUsername\'
 echo couchbasePassword \'$couchbasePassword\'
 echo services \'$services\'
 
-ACCESS_TOKEN=$(curl -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token | awk -F\" '{ print $4 }')
-echo ACCESS_TOKEN: $ACCESS_TOKEN
+apt-get -y install jq
 
-PROJECT_ID=couchbase-dev
-CONFIG_NAME=ben1-cluster1-runtimeconfig
-VARIABLE_KEY=nodeCount
-curl -H "Authorization":"Bearer ${ACCESS_TOKEN}" https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG_NAME}
-curl -H "Authorization":"Bearer ${ACCESS_TOKEN}" https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG_NAME}/variables?returnValues=True
-nodeCount=`curl -H "Authorization":"Bearer ${ACCESS_TOKEN}" https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG_NAME}/variables/${VARIABLE_KEY}`
-
-nodePrivateDNS=`curl http://metadata/computeMetadata/v1beta1/instance/hostname`
+ACCESS_TOKEN=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token | awk -F\" '{ print $4 }')
+PROJECT_ID=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/project/project-id)
+DEPLOYMENT=`hostname | cut -d "-" -f 1`
+CLUSTER=`hostname | cut -d "-" -f 2`
+CONFIG=${DEPLOYMENT}-${CLUSTER}-runtimeconfig
 
 # 1. Add nodePrivateDNS to runtime config
+nodePrivateDNS=`curl -s http://metadata/computeMetadata/v1beta1/instance/hostname`
+hostname=`hostname`
+curl -s -k -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+  -H "X-GFE-SSL: yes" \
+  -d "{name: \"projects/${PROJECT_ID}/configs/$CONFIG/variables/nodeList-${hostname}\", text: \"${nodePrivateDNS}\" }" \
+  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables
+
 # 2. Get nodeCount from runtime config
+VARIABLE_KEY=nodeCount
+nodeCount=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${VARIABLE_KEY} \
+  | jq ".text" \
+  | sed 's/"//g')
 
 # 3. while ...
 # a. Get number of nodes currently in runtime config
+VARIABLE_KEY=nodeList
+nodeList=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${VARIABLE_KEY})
+
+curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True
+
 # b. If number of nodes currently in runtime config == nodeCount then pick a rally point
-rallyPrivateDNS=''
+
+#placeholder.  This creates a cluster per node
+rallyPrivateDNS=nodePrivateDNS
 
 cd /opt/couchbase/bin/
 
