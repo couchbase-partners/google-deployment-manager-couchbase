@@ -20,7 +20,7 @@ CONFIG=${DEPLOYMENT}-${CLUSTER}-runtimeconfig
 nodePrivateDNS=`curl -s http://metadata/computeMetadata/v1beta1/instance/hostname`
 echo nodePrivateDNS: ${nodePrivateDNS}
 
-# Add nodePrivateDNS to runtime config
+echo "Creating new runtimeconfig variable for this host..."
 hostname=`hostname`
 curl -s -k -X POST \
   -H "Content-Type: application/json" \
