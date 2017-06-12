@@ -5,6 +5,10 @@ echo couchbaseUsername \'$couchbaseUsername\'
 echo couchbasePassword \'$couchbasePassword\'
 echo services \'$services\'
 
+#######################################################
+################### Pick Rally Point ##################
+#######################################################
+
 apt-get -y install jq
 
 ACCESS_TOKEN=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token | awk -F\" '{ print $4 }')
@@ -35,14 +39,20 @@ nodeCount=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
 VARIABLE_KEY=nodeList
 nodeList=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${VARIABLE_KEY})
+echo nodeList: ${nodeList}
 
-curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True
+variables=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True)
+echo variables: ${variables}
 
 # b. If number of nodes currently in runtime config == nodeCount then pick a rally point
 
 #placeholder.  This creates a cluster per node
 rallyPrivateDNS=nodePrivateDNS
+
+#######################################################
+############# Configure with Couchbase CLI ############
+#######################################################
 
 cd /opt/couchbase/bin/
 
