@@ -48,7 +48,7 @@ echo variables: ${variables}
 # b. If number of nodes currently in runtime config == nodeCount then pick a rally point
 
 #placeholder.  This creates a cluster per node
-rallyPrivateDNS=nodePrivateDNS
+rallyPrivateDNS=${nodePrivateDNS}
 
 #######################################################
 ############# Configure with Couchbase CLI ############
