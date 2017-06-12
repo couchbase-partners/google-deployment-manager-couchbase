@@ -17,7 +17,7 @@ DEPLOYMENT=`hostname | cut -d "-" -f 1`
 CLUSTER=`hostname | cut -d "-" -f 2`
 CONFIG=${DEPLOYMENT}-${CLUSTER}-runtimeconfig
 
-# 1. Add nodePrivateDNS to runtime config
+# Add nodePrivateDNS to runtime config
 nodePrivateDNS=`curl -s http://metadata/computeMetadata/v1beta1/instance/hostname`
 hostname=`hostname`
 curl -s -k -X POST \
@@ -27,30 +27,26 @@ curl -s -k -X POST \
   -d "{name: \"projects/${PROJECT_ID}/configs/$CONFIG/variables/nodeList/${hostname}\", text: \"${nodePrivateDNS}\" }" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables
 
-# 2. Get nodeCount from runtime config
-VARIABLE_KEY=nodeCount
+# Get nodeCount from runtimeconfig
 nodeCount=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${VARIABLE_KEY} \
+  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/nodeCount \
   | jq ".text" \
   | sed 's/"//g')
 
-# 3. while ...
-# a. Get number of nodes currently in runtime config
-VARIABLE_KEY=nodeList/
-nodeList=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${VARIABLE_KEY})
-echo nodeList: ${nodeList}
+liveNodeCount=0
+while [ $liveNodeCount -lt $nodeCount]
+do
+  # Get number of nodes currently in runtime config
+  liveNodeCount=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+    https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/?filter=projects%2F${PROJECT_ID}%2Fconfigs%2F${CONFIG}%2Fvariables%2FnodeList \
+    | jq ".variables | length")
+  echo liveNodeCount: ${liveNodeCount}
+done
 
+# Pick a rally point
 variables=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True)
 
-lengthOfVariables=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True \
-  | jq ".variables"
-  | jq length)
-echo lengthOfVariables: ${lengthOfVariables}
-
-# b. If number of nodes currently in runtime config == nodeCount then pick a rally point
 
 #placeholder.  This creates a cluster per node
 rallyPrivateDNS=${nodePrivateDNS}
