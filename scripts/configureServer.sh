@@ -17,8 +17,10 @@ DEPLOYMENT=`hostname | cut -d "-" -f 1`
 CLUSTER=`hostname | cut -d "-" -f 2`
 CONFIG=${DEPLOYMENT}-${CLUSTER}-runtimeconfig
 
-# Add nodePrivateDNS to runtime config
 nodePrivateDNS=`curl -s http://metadata/computeMetadata/v1beta1/instance/hostname`
+echo nodePrivateDNS: ${nodePrivateDNS}
+
+# Add nodePrivateDNS to runtime config
 hostname=`hostname`
 curl -s -k -X POST \
   -H "Content-Type: application/json" \
@@ -43,13 +45,12 @@ do
   echo liveNodeCount: ${liveNodeCount}
 done
 
-# Pick a rally point
-variables=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True)
-
-
-#placeholder.  This creates a cluster per node
-rallyPrivateDNS=${nodePrivateDNS}
+rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables?returnValues=True \
+  | jq ".variables[1].text" \
+  | sed 's/"//g')
+  )
+echo rallyPrivateDNS: ${rallyPrivateDNS}
 
 #######################################################
 ############# Configure with Couchbase CLI ############
