@@ -26,7 +26,7 @@ def GenerateConfig(context):
     }
     config['resources'].append(serviceAccount)
 
-    firewall = [{
+    firewall = {
         'name': context.env['deployment'] + '-firewall',
         'type': 'compute.v1.firewall',
         'properties': {
@@ -36,7 +36,7 @@ def GenerateConfig(context):
                 'ports': ['8091']
             }]
         }
-    }]
+    }
     config['resources'].append(firewall)
 
     return config
