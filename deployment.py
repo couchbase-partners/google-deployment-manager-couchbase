@@ -26,4 +26,18 @@ def GenerateConfig(context):
     }
     config['resources'].append(serviceAccount)
 
+    firewall = [{
+        'name': context.env['deployment'] + '-firewall',
+        'type': 'compute.v1.firewall',
+        'properties': {
+            'sourceRanges': ['0.0.0.0/0'],
+            'allowed': [{
+                'IPProtocol': 'tcp',
+                'ports': ['8091']
+            }]
+        }
+    }]
+    config['resources'].append(firewall)
+
+
     return config
