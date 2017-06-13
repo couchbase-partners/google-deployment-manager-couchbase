@@ -39,5 +39,4 @@ def GenerateConfig(context):
     }]
     config['resources'].append(firewall)
 
-
     return config
