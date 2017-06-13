@@ -26,7 +26,7 @@ resources:
               - query
               - index
               - fts
-          - group: mobile1
+          - group: group2
             diskSize: 10
             nodeCount: 3
             nodeType: n1-standard-4

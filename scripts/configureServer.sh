@@ -1,9 +1,11 @@
 echo "Running configureServer"
 
 echo "Using the settings:"
-echo couchbaseUsername \'$couchbaseUsername\'
-echo couchbasePassword \'$couchbasePassword\'
-echo services \'$services\'
+echo couchbaseUsername ${couchbaseUsername}
+echo couchbasePassword ${couchbasePassword}
+echo services ${services}
+echo DEPLOYMENT ${DEPLOYMENT}
+echo CLUSTER ${CLUSTER}
 
 #######################################################
 ################### Pick Rally Point ##################
@@ -13,8 +15,6 @@ apt-get -y install jq
 
 ACCESS_TOKEN=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token | awk -F\" '{ print $4 }')
 PROJECT_ID=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/project/project-id)
-DEPLOYMENT=`hostname | cut -d "-" -f 1`
-CLUSTER=`hostname | cut -d "-" -f 2`
 CONFIG=${DEPLOYMENT}-${CLUSTER}-runtimeconfig
 
 nodePrivateDNS=`curl -s http://metadata/computeMetadata/v1beta1/instance/hostname`

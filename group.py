@@ -60,6 +60,8 @@ def GenerateStartupScript(context):
     script = '#!/usr/bin/env bash\n\n'
     script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
     script += 'couchbasePassword="' + context.properties['couchbasePassword'] + '"\n'
+    script += 'DEPLOYMENT="' + context.env['deployment'] + '"\n'
+    script += 'CLUSTER="' + context.properties['cluster'] + '"\n'
 
     services=context.properties['services']
     servicesParameter=''
@@ -70,8 +72,10 @@ def GenerateStartupScript(context):
 
     if 'syncGateway' in services or 'accelerator' in services:
         script+=context.imports['scripts/installMobile.sh']
-#        script+= context.imports['scripts/configureMobile.sh']
-    else:
+        script+= context.imports['scripts/configureMobile.sh']
+
+    if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
         script+= context.imports['scripts/installServer.sh']
         script+= context.imports['scripts/configureServer.sh']
+
     return script
