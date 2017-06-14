@@ -70,7 +70,12 @@ def GenerateStartupScript(context):
     servicesParameter=servicesParameter[:-1]
     script += 'services="' + servicesParameter + '"\n\n'
 
-    if 'syncGateway' in services or 'accelerator' in services:
+    ## need to validate only one
+    if 'syncGateway' in services:
+        script+=context.imports['scripts/installMobile.sh']
+        script+= context.imports['scripts/configureMobile.sh']
+
+    if 'accelerator' in services:
         script+=context.imports['scripts/installMobile.sh']
         script+= context.imports['scripts/configureMobile.sh']
 

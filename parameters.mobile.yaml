@@ -17,7 +17,7 @@ resources:
       - cluster: cluster1
         region: us-east1
         groups:
-          - group: group1
+          - group: server
             diskSize: 100
             nodeCount: 5
             nodeType: n1-standard-4
@@ -26,10 +26,15 @@ resources:
               - query
               - index
               - fts
-          - group: group2
+          - group: syncgateway
             diskSize: 10
             nodeCount: 3
             nodeType: n1-standard-4
             services:
               - syncGateway
+          - group: accelerator
+            diskSize: 10
+            nodeCount: 1
+            nodeType: n1-standard-4
+            services:
               - accelerator
