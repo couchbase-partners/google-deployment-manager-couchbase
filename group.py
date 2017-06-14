@@ -24,7 +24,7 @@ def GenerateConfig(context):
                     'boot': True,
                     'autoDelete': True,
                     'initializeParams': {
-                        'sourceImage': URL_BASE + 'debian-cloud/global/images/debian-7-wheezy-v20151104'
+                        'sourceImage': URL_BASE + 'ubuntu-os-cloud/global/images/ubuntu-1404-trusty-v20170424'
                     },
                     'diskType': 'pd-ssd',
                     'diskSizeGb': context.properties['diskSize']
