@@ -20,15 +20,6 @@ CONFIG=${DEPLOYMENT}-${CLUSTER}-runtimeconfig
 nodePrivateDNS=`curl -s http://metadata/computeMetadata/v1beta1/instance/hostname`
 echo nodePrivateDNS: ${nodePrivateDNS}
 
-echo "Creating new runtimeconfig variable for this host..."
-hostname=`hostname`
-curl -s -k -X POST \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-  -H "X-GFE-SSL: yes" \
-  -d "{name: \"projects/${PROJECT_ID}/configs/$CONFIG/variables/nodeList/${hostname}\", text: \"${nodePrivateDNS}\" }" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables
-
 # Get nodeCount from runtimeconfig
 nodeCount=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/nodeCount \

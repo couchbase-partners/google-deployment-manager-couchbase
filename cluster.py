@@ -46,5 +46,7 @@ def GenerateConfig(context):
 def getNodeCount(context):
     nodeCount = 0
     for group in context.properties['groups']:
-        nodeCount += group['nodeCount']
+        services = group['services']
+        if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
+            nodeCount += group['nodeCount']
     return nodeCount
