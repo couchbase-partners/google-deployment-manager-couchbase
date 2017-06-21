@@ -10,7 +10,9 @@ The DM template is currently setting 50% for data and 25% for index.  These can 
 
 ### Fault Tolerance and High Availability
 
-The Couchbase concept of a Server Group maps closely to an Availability Zone.
+The Instance Group Manager (IGM) in the Deployment Manager (DM) templates places nodes across AZs in a round robin fashion.  For most installs this will be sufficient.
+
+Ideally you may want to configure Couchbase Server Groups to map to Availability Zones.
 
 ## Storage
 
@@ -26,6 +28,6 @@ For the vast majority of applications, pd-ssd is preferable.  It often outperfor
 
 The Google network is globally flat.  This is amazing for running a geographically distributed database like Couchbase.  Private IPs can be routed around the world without need for VPN or leased line solutions.  When connecting with another cloud or an on-premises cluster in a hybrid scenario, VPN or leased lines are still required.
 
-### Security
+## Security
 
 By default the template opens 8091 and 4984 to internet traffic.  You may want to consider closing these.
