@@ -1,4 +1,4 @@
-echo "Running configureMobile"
+echo "Running configureSyncGateway"
 
 echo "Using the settings:"
 echo couchbaseUsername ${couchbaseUsername}
@@ -38,62 +38,22 @@ do
   sleep 10
 done
 
-rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+serverDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/?filter=projects%2F${PROJECT_ID}%2Fconfigs%2F${CONFIG}%2Fvariables%2FnodeList\&returnValues=True \
   | jq ".variables | sort_by(.text)" \
   | jq ".[0].text" \
   | sed 's/"//g')
-echo rallyPrivateDNS: ${rallyPrivateDNS}
+echo serverDNS: ${serverDNS}
 
-
-#if syncGateway
-
+echo '
 {
-    "log":[
-        "HTTP+"
-    ],
-    "adminInterface":"127.0.0.1:4985",
-    "interface":"0.0.0.0:4984",
-    "databases":{
-        "db":{
-            "server":"http://localhost:8091",
-            "bucket":"data-bucket",
-            "channel_index":{
-                "server":"http://localhost:8091",
-                "bucket":"index-bucket",
-                "writer":false
-            }
-        }
-    },
-    "cluster_config":{
-        "server":"http://localhost:8091",
-        "bucket":"data-bucket",
-        "data_dir":"."
+  "log": ["*"],
+  "databases": {
+    "db": {
+      "server": "http://${serverDNS}:8091",
+      "bucket": "default",
+      "users": { "GUEST": { "disabled": false, "admin_channels": ["*"] } }
     }
+  }
 }
-
-# if accelerator
-
-{
-    "log":[
-        "HTTP+"
-    ],
-    "adminInterface":"127.0.0.1:4985",
-    "interface":"0.0.0.0:4984",
-    "databases":{
-        "db":{
-            "server":"http://localhost:8091",
-            "bucket":"data-bucket",
-            "channel_index":{
-                "server":"http://localhost:8091",
-                "bucket":"index-bucket",
-                "writer":true
-            }
-        }
-    },
-    "cluster_config":{
-        "server":"http://localhost:8091",
-        "bucket":"data-bucket",
-        "data_dir":"."
-    }
-}
+' > /home/sync_gateway/sync_gateway.json
