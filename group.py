@@ -73,7 +73,7 @@ def GenerateStartupScript(context):
     if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
         script+= context.imports['scripts/installServer.sh']
         script+= context.imports['scripts/configureServer.sh']
-    if 'syncGateway' in services
+    if 'syncGateway' in services:
         script+=context.imports['scripts/installSyncGateway.sh']
         script+= context.imports['scripts/configureSyncGateway.sh']
 
