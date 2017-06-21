@@ -1,18 +1,22 @@
 # Best Practices
 
+The Deployment Manager (DM) templates aim to configure Couchbase according to our recommended best practices on Google Compute Engine (GCE).
+
 ## Compute
 
 GCE offers both standard compute types and custom types.  Machine sizes depend on workload.  The standard Couchbase recommendations [here](https://developer.couchbase.com/documentation/server/current/install/pre-install.html) are a good place to start.
 
+We recommend deploying GCE nodes via an Instance Group Manager (IGM) as it improves reliability and simplifies the addition and removal of nodes.
+
 ### Memory Allocation
 
-The DM template is currently setting 50% for data and 25% for index.  These can be adjusted post deploy.
+Couchbase recommends allocating 85% of system memory to the database. When using MDS this can be tuned between data, query, etc. The templates currently allocate 50% for data and 15% for index. This can be adjusted after deployment.
 
 ### Fault Tolerance and High Availability
 
-The Instance Group Manager (IGM) in the Deployment Manager (DM) templates places nodes across AZs in a round robin fashion.  For most installs this will be sufficient.
+The IGM in the templates places nodes across AZs in a round robin fashion.  For most installs this will be sufficient.
 
-Ideally you may want to configure Couchbase Server Groups to map to Availability Zones.
+Ideally you may want to configure Couchbase Server Groups to map to Availability Zones.  The templates do not set this up.
 
 ## Storage
 
@@ -31,3 +35,5 @@ The Google network is globally flat.  This is amazing for running a geographical
 ## Security
 
 By default the template opens 8091 and 4984 to internet traffic.  You may want to consider closing these.
+
+The template does not currently configure SSL. We recommend setting it up for production applications.
