@@ -45,15 +45,19 @@ serverDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
   | sed 's/"//g')
 echo serverDNS: ${serverDNS}
 
+file="/home/sync_gateway/sync_gateway.json"
 echo '
 {
   "log": ["*"],
   "databases": {
     "db": {
-      "server": "http://${serverDNS}:8091",
+      "server": "http://'${serverDNS}':8091",
       "bucket": "default",
       "users": { "GUEST": { "disabled": false, "admin_channels": ["*"] } }
     }
   }
 }
-' > /home/sync_gateway/sync_gateway.json
+' > ${file}
+chmod 755 ${file}
+chown couchbase ${file}
+chgrp couchbase ${file}
