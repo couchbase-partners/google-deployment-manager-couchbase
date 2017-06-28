@@ -8,6 +8,8 @@ GCE offers both standard compute types and custom types.  Machine sizes depend o
 
 We recommend deploying GCE nodes via an Instance Group Manager (IGM) as it improves reliability and simplifies the addition and removal of nodes.
 
+Machines with 16 cores and more will have higher I/O limits than machines with fewer cores.  For this reason we recommend 16 core machines for most applications.
+
 ### Memory Allocation
 
 Couchbase recommends allocating 85% of system memory to the database. When using MDS this can be tuned between data, query, etc. The templates currently allocate 50% for data and 15% for index. This can be adjusted after deployment.
@@ -27,6 +29,8 @@ Google offers numerous storage options for IaaS.  When running Couchbase, three 
 * RAM Disk
 
 For the vast majority of applications, pd-ssd is preferable.  It often outperforms the ephemeral as it is network bound and offers persistence that the ephemeral does not.  pd-ssd does all this at an attractive price point.
+
+As of 6/28/17, I/O for pd-ssd caps out at 1.7TB  This is not currently reflected in Google's documentation.
 
 ## Network
 
