@@ -1,9 +1,6 @@
 echo "Running configureSyncGateway"
 
 echo "Using the settings:"
-echo couchbaseUsername ${couchbaseUsername}
-echo couchbasePassword ${couchbasePassword}
-echo services ${services}
 echo DEPLOYMENT ${DEPLOYMENT}
 echo CLUSTER ${CLUSTER}
 
