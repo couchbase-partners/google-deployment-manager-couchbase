@@ -84,7 +84,7 @@ then
 
     echo "Running couchbase-cli bucket-create"
   ./couchbase-cli bucket-create \
-    --cluster=$nodePublicDNS \
+    --cluster=$nodePrivateDNS \
     --user=$adminUsername \
     --pass=$adminPassword \
     --bucket=sync_gateway \
