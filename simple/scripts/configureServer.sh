@@ -81,6 +81,15 @@ then
     --cluster-username=$couchbaseUsername \
     --cluster-password=$couchbasePassword \
     --services=${services}
+
+    echo "Running couchbase-cli bucket-create"
+  ./couchbase-cli bucket-create \
+    --cluster=$nodePublicDNS \
+    --user=$adminUsername \
+    --pass=$adminPassword \
+    --bucket=sync_gateway \
+    --bucket-type=couchbase \
+    --bucket-ramsize=$dataRAM
 else
   echo "Running couchbase-cli server-add"
   output=""
