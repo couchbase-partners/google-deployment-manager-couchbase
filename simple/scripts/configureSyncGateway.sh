@@ -60,8 +60,8 @@ echo '
 }
 ' > ${file}
 chmod 755 ${file}
-chown couchbase ${file}
-chgrp couchbase ${file}
+chown sync_gateway ${file}
+chgrp sync_gateway ${file}
 
 # Need to restart to load the changes
 service sync_gateway stop
