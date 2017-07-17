@@ -38,6 +38,8 @@ The Google network is globally flat.  This is amazing for running a geographical
 
 ## Security
 
-By default the template opens 8091 and 4984 to internet traffic.  You may want to consider closing these.
+The template automatically sets up a username and password for the Couchbase Web Administrator.  By default the template opens 8091 to internet traffic.  You may want to consider closing this.
 
 The template does not currently configure SSL. We recommend setting it up for production applications.
+
+These templates open Sync Gateway access to the internet over ports 4984 and 4985.  We typically recommend securing the admin interface for access from `127.0.0.1` only.  That can be done by editing the `/home/sync_gateway/sync_gateway.json` file.
