@@ -1,27 +1,24 @@
 # Build VM Image
 
-This README describes how we build the VM that the templates use.  Users should not need to do this.
+This README describes how we build the VMs that the templates use.  Users should not need to do this.
 
-# Script
+First off, we need to decide what OS image to use.  We're using the latest Ubuntu 14.04.  You can figure out what that is by running:
 
-    INSTANCE=couchbase-45ce
-    NEWINSTANCE=couchbase-new-$INSTANCE
-    SNAPSHOT=image-snapshot-$INSTANCE
-    IMAGEDISK=image-disk-$INSTANCE
-    TEMPORARYDISK=temporary-disk-$INSTANCE
+    gcloud compute images list
+    IMAGE_NAME=ubuntu-1404-trusty-v20170718
 
-    gcloud compute instances stop $INSTANCE
-    gcloud compute disks snapshot $INSTANCE  --snapshot-names  $SNAPSHOT
-    gcloud compute disks create $IMAGEDISK --source-snapshot $SNAPSHOT
-    gcloud compute disks create $TEMPORARYDISK --size 200
-    gcloud compute instances create $NEWINSTANCE --scopes storage-rw --disk name=$IMAGEDISK,device-name=$IMAGEDISK --disk name=$TEMPORARYDISK,device-name=$TEMPORARYDISK
-    gcloud compute ssh $NEWINSTANCE
+Next, create the instances:
 
-    sudo mkdir /mnt/tmp
-    sudo mkfs.ext4 -F /dev/disk/by-id/google-$TEMPORARYDISK
-    sudo mount -o discard,defaults /dev/disk/by-id/google-$TEMPORARYDISK /mnt/tmp
-    sudo mkdir /mnt/image-disk
-    sudo mount /dev/disk/by-id/google-$IMAGEDISK-part1 /mnt/image-disk
+    INSTANCES=( couchbase-server-ee-hourly couchbase-sync-gateway-ee-hourly couchbase-server-ee-byol couchbase-sync-gateway-ee-byol)
 
-    sudo umount /mnt/image-disk/
-    sudo dd if=/dev/disk/by-id/google-$IMAGEDISK of=/mnt/tmp/disk.raw bs=4096
+    for INSTANCE in "${INSTANCES[@]}"
+    do
+      gcloud compute --project "couchbase-public" instances create ${INSTANCE} --zone "us-central1-f" --machine-type "n1-standard-8" --network "default" --maintenance-policy "MIGRATE" --scopes default="https://www.googleapis.com/auth/cloud-platform" --image "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/${IMAGE_NAME}" --boot-disk-size "20" --boot-disk-type "pd-standard" --boot-disk-device-name ${INSTANCE} --scopes "storage-rw"
+    done
+
+Now make sure the instances all started up ok:
+
+    for INSTANCE in "${INSTANCES[@]}"
+    do
+      gcloud compute instances describe ${INSTANCE}
+    done
