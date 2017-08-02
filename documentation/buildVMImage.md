@@ -23,6 +23,12 @@ Now make sure the instances all started up ok:
       gcloud compute instances describe ${INSTANCE}
     done
 
-Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).
+Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).  Note that you do not need to mount the disks and delete files since none were created.  If everything is configured, all you need to do is run:
+
+    for INSTANCE in "${INSTANCES[@]}"
+    do
+      python image_creator.py --project couchbase-public --disk ${INSTANCE} --name ${INSTANCE} --description ${INSTANCE} --destination_project couchbase-public --license "couchbase-public/${INSTANCE}
+    done
+
 
 The admin portal is at https://console.cloud.google.com/partner/solutions?project=couchbase-public&authuser=1
