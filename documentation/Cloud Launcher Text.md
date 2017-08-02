@@ -1,4 +1,4 @@
-The admin portal is at https://console.cloud.google.com/partner/solutions?project=couchbase-public&authuser=3
+The admin portal is [here](https://console.cloud.google.com/partner/solutions?project=couchbase-public&authuser=1).
 
 # 1 - Solution Metadata
 
