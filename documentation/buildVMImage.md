@@ -30,5 +30,4 @@ Now you need to attach the license ID to each image.  That process is described 
       python image_creator.py --project couchbase-public --disk ${INSTANCE} --name ${INSTANCE} --description ${INSTANCE} --destination-project couchbase-public --license couchbase-public/${INSTANCE}
     done
 
-
 The admin portal is at https://console.cloud.google.com/partner/solutions?project=couchbase-public&authuser=1
