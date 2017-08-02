@@ -5,7 +5,7 @@ The admin portal is [here](https://console.cloud.google.com/partner/solutions?pr
 ## Solution Name
 * couchbase-enterprise-edition
 
-## Search Metadata (256 characters)
+## Search Metadata
 Couchbase, NoSQL, Big Data, Cache, Database
 
 ## Search Keywords
@@ -20,13 +20,13 @@ Couchbase, NoSQL, Big Data, Cache, Database
 ## Name of Solution
 Couchbase Enterprise Edition
 
-## Tagline (64 characters)
+## Tagline
 The system of engagement database for web, mobile and IoT
 
 ## Solution Icon
 [./images/logo.png](./images/logo.png)
 
-## Solution Description (2048 characters)
+## Solution Description
 Couchbase Server provides highly elastic, available, scalable & real-time big data management system with consistent high performance, flexible global deployment topologies and a set of native SDKs to ease development & deployment of modern applications.
 
 ## Price Description
