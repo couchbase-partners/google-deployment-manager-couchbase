@@ -27,7 +27,7 @@ Now you need to attach the license ID to each image.  That process is described 
 
     for INSTANCE in "${INSTANCES[@]}"
     do
-      python image_creator.py --project couchbase-public --disk ${INSTANCE} --name ${INSTANCE} --description ${INSTANCE} --destination_project couchbase-public --license couchbase-public/${INSTANCE}
+      python image_creator.py --project couchbase-public --disk ${INSTANCE} --name ${INSTANCE} --description ${INSTANCE} --destination-project couchbase-public --license couchbase-public/${INSTANCE}
     done
 
 
