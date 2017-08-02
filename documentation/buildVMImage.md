@@ -22,3 +22,7 @@ Now make sure the instances all started up ok:
     do
       gcloud compute instances describe ${INSTANCE}
     done
+
+Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).
+
+The admin portal is at https://console.cloud.google.com/partner/solutions?project=couchbase-public&authuser=1
