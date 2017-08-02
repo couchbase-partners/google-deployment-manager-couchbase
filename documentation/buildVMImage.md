@@ -23,7 +23,7 @@ Now make sure the instances all started up ok:
       gcloud compute instances describe ${INSTANCE}
     done
 
-Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).  Note that you do not need to mount the disks and delete files since none were created.  If everything is configured, all you need to do is run:
+Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).  Note that you do not need to mount the disks and delete files since none were created.  If everything is configured, all you need to do is delete the instances while not deleting the disks and then run:
 
     for INSTANCE in "${INSTANCES[@]}"
     do
