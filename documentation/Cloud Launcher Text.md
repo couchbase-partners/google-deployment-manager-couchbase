@@ -58,7 +58,7 @@ With Couchbase customers all around the world, our support team provides global 
 http://support.couchbase.com/
 
 ## EULA URL
-https://www.couchbase.com/ESLA-11132015
+https://www.couchbase.com/docs/common/terms-of-service.html
 
 # 6 - Deployment Package
 
