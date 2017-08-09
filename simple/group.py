@@ -4,6 +4,11 @@ def GenerateConfig(context):
     config={}
     config['resources'] = []
 
+    if 'syncGateway' in context.properties['services']:
+        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-byol'
+    else:
+        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-byol'
+
     instanceTemplateName = context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
     instanceTemplate = {
         'name': instanceTemplateName,
@@ -24,7 +29,7 @@ def GenerateConfig(context):
                     'boot': True,
                     'autoDelete': True,
                     'initializeParams': {
-                        'sourceImage': URL_BASE + 'ubuntu-os-cloud/global/images/ubuntu-1404-trusty-v20170424'
+                        'sourceImage': sourceImage
                     },
                     'diskType': 'pd-ssd',
                     'diskSizeGb': context.properties['diskSize']
