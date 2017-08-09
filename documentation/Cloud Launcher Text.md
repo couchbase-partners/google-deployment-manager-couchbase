@@ -1,9 +1,10 @@
-The admin portal is [here](https://console.cloud.google.com/partner/solutions?project=couchbase-public&authuser=1).
+The Partner Portal is [here](https://console.cloud.google.com/partner/solutions?project=couchbase-public&authuser=1).
 
 # 1 - Solution Metadata
 
 ## Solution Name
-* couchbase-enterprise-edition
+* couchbase-enterprise-edition-hourly-pricing
+* couchbase-enterprise-edition-byol
 
 ## Search Metadata
 Couchbase, NoSQL, Big Data, Cache, Database
@@ -18,7 +19,8 @@ Couchbase, NoSQL, Big Data, Cache, Database
 # 2 - Solution Details
 
 ## Name of Solution
-Couchbase Enterprise Edition
+* Couchbase Enterprise Edition (Hourly Pricing)
+* Couchbase Enterprise Edition (BYOL)
 
 ## Tagline
 The system of engagement database for web, mobile and IoT
@@ -30,7 +32,9 @@ The system of engagement database for web, mobile and IoT
 Couchbase Server provides highly elastic, available, scalable & real-time big data management system with consistent high performance, flexible global deployment topologies and a set of native SDKs to ease development & deployment of modern applications.
 
 ## Price Description
-This template offers a choice between hourly pricing that includes a Couchbase license with <a href="https://www.couchbase.com/support-policy">Silver Support</a> and a <a href="https://www.couchbase.com/subscriptions-and-support">Bring Your Own License (BYOL)</a> model.
+This template includes a license for Couchbase Enterprise Edition and <a href="https://www.couchbase.com/support-policy">Silver Support</a>.
+
+This template is for bring your own license (BYOL) users.  To purchase a license go <a href="https://www.couchbase.com/subscriptions-and-support">here</a>.
 
 ## Version
 4.6.2
