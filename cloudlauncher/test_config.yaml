@@ -1,0 +1,6 @@
+imports:
+- path: emily-test.jinja
+
+resources:
+- name: emily-test
+  type: emily-test.jinja
