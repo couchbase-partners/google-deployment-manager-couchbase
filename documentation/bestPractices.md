@@ -8,6 +8,8 @@ GCE offers both standard compute types and custom types.  Machine sizes depend o
 
 Machines with 16 cores and more will have higher I/O limits than machines with fewer cores.  For this reason we recommend 16 core machines for most applications.
 
+For a majority of applications the n1-highmem-16 will be a good balance of price and performance.
+
 We recommend deploying GCE nodes via an Instance Group Manager (IGM) as it improves reliability and simplifies the addition and removal of nodes.
 
 ### Memory Allocation
@@ -31,6 +33,8 @@ Google offers numerous storage options for IaaS.  When running Couchbase, three 
 For the vast majority of applications, pd-ssd is preferable.  It often outperforms the ephemeral as it is network bound and offers persistence that the ephemeral does not.  pd-ssd does all this at an attractive price point.
 
 As of 6/28/17, I/O for pd-ssd caps out at 1.7TB  This is not currently reflected in Google's documentation.
+
+pd-ssd comes in a variety of sizes.  We recommend a 1.7TB pd-ssd drive as the upper end.  Large drives can lead to overly dense nodes that suffer from long rebuild times.  It's usually preferable to scale horizontally instead.
 
 ## Network
 
