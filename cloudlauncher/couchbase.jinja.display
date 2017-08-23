@@ -1,14 +1,14 @@
 description:
   author:
-    title: marketplaceimagetest
-    descriptionHtml: marketplaceimagetest
-    shortDescription: marketplaceimagetest
-  logo: '@media/emily-test_store.png'
-  title: emily-test
+    title: couchbase
+    descriptionHtml: couchbase
+    shortDescription: couchbase
+  logo: '@media/logo.png'
+  title: couchbase
   version: default-version
   support:
     - title: Support
-  icon: '@media/emily-test_small.png'
+  icon: '@media/logo.png'
   softwareGroups: []
 input:
   properties:

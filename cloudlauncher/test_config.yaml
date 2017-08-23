@@ -1,6 +1,6 @@
 imports:
-- path: emily-test.jinja
+- path: couchbase.jinja
 
 resources:
-- name: emily-test
-  type: emily-test.jinja
+- name: couchbase
+  type: couchbase.jinja

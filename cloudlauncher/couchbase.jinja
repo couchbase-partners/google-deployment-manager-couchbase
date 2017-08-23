@@ -1,0 +1,41 @@
+{% import "path_utils.jinja" as path_utils with context %}
+
+{% set project = env["project"] %}
+{% set deployment = env["deployment"] %}
+{% set name = "%s-vm-tmpl" % env["name"] %}
+{% set instanceName = "%s-vm" % deployment %}
+{% set zone = properties["zone"] %}
+{% set machineType = properties["machineType"] %}
+{% set network = path_utils.networkPath(properties["network"]) %}
+{% set subnetwork = properties["subnetwork"] %}
+{% set bootDiskType = properties["bootDiskType"] %}
+{% set bootDiskSizeGb = properties["bootDiskSizeGb"] %}
+{% set hasExternalIP = properties["externalIP"] != "None" %}
+{# Software status only works if the VM has an external IP. #}
+{% set enableStatusWaiter = hasExternalIP %}
+
+resources:
+- name: deployment
+  type: deployment.py
+  properties:
+    couchbaseUsername: couchbase
+    couchbasePassword: foo123!
+    clusters:
+      - cluster: cluster1
+        region: us-east1
+        groups:
+          - group: server
+            diskSize: 100
+            nodeCount: 5
+            nodeType: n1-standard-4
+            services:
+              - data
+              - query
+              - index
+              - fts
+
+outputs:
+  - name: deployment
+    value: {{ deployment }}
+  - name: project
+    value: {{ project }}

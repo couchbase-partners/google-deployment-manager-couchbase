@@ -1,7 +1,7 @@
 {
-  "defaultDeploymentType": "SINGLE_VM",
-  "imageName": "bitnami-tomcatstack-img",
-  "projectId": "marketplaceimagetest",
+  "defaultDeploymentType": "MULTI_VM",
+  "imageName": "couchbase-server-ee-byol",
+  "projectId": "couchbase-public",
   "templateName": "nonexistent_template",
   "useSolutionPackage": "true"
 }
