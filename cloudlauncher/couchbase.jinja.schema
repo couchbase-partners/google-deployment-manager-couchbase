@@ -1,18 +1,14 @@
 imports:
-  - name: common.py
-    path: common/common.py
-  - name: default.py
-    path: common/default.py
-  - name: password.py
-    path: common/password.py
-  - name: path_utils.jinja
-    path: common/path_utils.jinja
-  - name: vm_instance.py
-    path: common/vm_instance.py
+  - name: deployment.py
+    path: deployment.py
+  - name: cluster.py
+    path: cluster.py
+  - name: group.py
+    path: group.py
 
 info:
   version: 1.0
-  title: emily-test Template
+  title: Couchbase
 
 required:
   - zone

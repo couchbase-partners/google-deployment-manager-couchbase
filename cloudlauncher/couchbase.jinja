@@ -1,4 +1,7 @@
-{% import "path_utils.jinja" as path_utils with context %}
+{% import "installServer.sh" as installServer with context %}
+{% import "configureServer.sh" as configureServer with context %}
+{% import "installSyncGateway.sh" as installSyncGateway with context %}
+{% import "configureSyncGateway.sh" as configureSyncGateway with context %}
 
 {% set project = env["project"] %}
 {% set deployment = env["deployment"] %}
@@ -6,7 +9,6 @@
 {% set instanceName = "%s-vm" % deployment %}
 {% set zone = properties["zone"] %}
 {% set machineType = properties["machineType"] %}
-{% set network = path_utils.networkPath(properties["network"]) %}
 {% set subnetwork = properties["subnetwork"] %}
 {% set bootDiskType = properties["bootDiskType"] %}
 {% set bootDiskSizeGb = properties["bootDiskSizeGb"] %}
