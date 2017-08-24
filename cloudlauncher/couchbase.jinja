@@ -1,8 +1,3 @@
-{% import "installServer.sh" as installServer with context %}
-{% import "configureServer.sh" as configureServer with context %}
-{% import "installSyncGateway.sh" as installSyncGateway with context %}
-{% import "configureSyncGateway.sh" as configureSyncGateway with context %}
-
 {% set project = env["project"] %}
 {% set deployment = env["deployment"] %}
 {% set name = "%s-vm-tmpl" % env["name"] %}
