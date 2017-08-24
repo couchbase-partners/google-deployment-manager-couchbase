@@ -16,11 +16,77 @@ description:
   documentations: []
 
 input:
+  sections:
+    - name: general
+      title: General
+    - name: server
+      title: Couchbase Server
+    - name: syncgateway
+      title: Couchbase Sync Gateway
+
+    - name: BOOT_DISK
+      title: Boot Disk
+      tooltip: Each instance requires a disk to boot from.
+    - name: NETWORKING
+      title: Networking
+
+  booleanGroups:
+    - name: regions
+      title: Regions
+      subtext: "Select at least one region to deploy a Couchbase Enterprise clusters in."
+
   properties:
     - name: couchbaseUsername
       title: Couchbase Username
+      section: server
     - name: couchbasePassword
       title: Couchbase Password
+      section: server
+
+    - name: us-central1
+      title: us-central1
+      booleanGroup: regions
+      section: general
+    - name: us-west1
+      title: us-west1
+      booleanGroup: regions
+      section: general
+    - name: us-east1
+      title: us-east1
+      booleanGroup: regions
+      section: general
+    - name: us-east4
+      title: us-east4
+      booleanGroup: regions
+      section: general
+    - name: europe-west1
+      title: europe-west1
+      booleanGroup: regions
+      section: general
+    - name: europe-west2
+      title: europe-west2
+      booleanGroup: regions
+      section: general
+    - name: europe-west3
+      title: europe-west3
+      booleanGroup: regions
+      section: general
+    - name: asia-southeast1
+      title: asia-southeast1
+      booleanGroup: regions
+      section: general
+    - name: asia-east1
+      title: asia-east1
+      booleanGroup: regions
+      section: general
+    - name: asia-northeast1
+      title: asia-northeast1
+      booleanGroup: regions
+      section: general
+    - name: australia-southeast1
+      title: australia-southeast1
+      booleanGroup: regions
+      section: general
 
     - name: zone
       title: Zone
@@ -43,12 +109,7 @@ input:
       tooltip: 'An external IP address associated with this instance. Selecting "None" will result in the instance having no external internet access. <a href="https://cloud.google.com/compute/docs/configure-instance-ip-addresses">Learn more</a>'
       section: NETWORKING
       level: 1
-  sections:
-    - name: BOOT_DISK
-      title: Boot Disk
-      tooltip: Each instance requires a disk to boot from.
-    - name: NETWORKING
-      title: Networking
+
 runtime:
   deployingMessage: Deployment can take several minutes to complete.
   applicationTable:
