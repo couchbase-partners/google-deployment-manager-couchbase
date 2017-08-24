@@ -1,10 +1,4 @@
 imports:
-  - name: deployment.py
-    path: deployment.py
-  - name: cluster.py
-    path: cluster.py
-  - name: group.py
-    path: group.py
 
 info:
   version: 1.0
