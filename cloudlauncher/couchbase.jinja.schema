@@ -11,18 +11,16 @@ info:
   title: Couchbase
 
 required:
-  - zone
-  - machineType
-  - network
-  - bootDiskType
-  - bootDiskSizeGb
+  - serverNodeCount
+  - serverNodeType
+  - serverDiskSize
+  - couchbaseUsername
+  - couchbasePassword
+  - syncgatewayNodeCount
+  - syncgatewayNodeType
+  - syncgatewayDiskSize
 
 properties:
-  couchbaseUsername:
-    type: string
-  couchbasePassword:
-      type: string
-
   us-central1:
     type: boolean
     default: true
@@ -57,45 +55,17 @@ properties:
     type: boolean
     default: false
 
-
-
-
-  zone:
-    type: string
-    default: us-central1-f
-    x-googleProperty:
-      type: GCE_ZONE
-  machineType:
+  serverNodeCount:
+    type: integer
+    default: 3
+    minimum: 1
+    maximum: 100
+  serverNodeType:
     type: string
     default: f1-micro
     x-googleProperty:
       type: GCE_MACHINE_TYPE
-      zoneProperty: zone
-  network:
-    type: string
-    default: default
-    x-googleProperty:
-      type: GCE_NETWORK
-  subnetwork:
-    type: string
-    x-googleProperty:
-      type: GCE_SUBNETWORK
-      zoneProperty: zone
-      gceSubnetwork:
-        networkProperty: network
-  externalIP:
-    type: string
-    enum:
-      - Ephemeral
-      - None
-    default: Ephemeral
-  bootDiskType:
-    type: string
-    default: pd-standard
-    x-googleProperty:
-      type: GCE_DISK_TYPE
-      zoneProperty: zone
-  bootDiskSizeGb:
+  serverDiskSize:
     type: integer
     default: 10
     minimum: 10
@@ -103,7 +73,31 @@ properties:
     x-googleProperty:
       type: GCE_DISK_SIZE
       gceDiskSize:
-        diskTypeProperty: bootDiskType
+        diskTypeProperty: "pd-ssd"
+  couchbaseUsername:
+    type: string
+  couchbasePassword:
+    type: string
+
+  syncgatewayNodeCount:
+    type: integer
+    default: 2
+    minimum: 0
+    maximum: 100
+  syncgatewayNodeType:
+    type: string
+    default: f1-micro
+    x-googleProperty:
+      type: GCE_MACHINE_TYPE
+  syncgatewayDiskSize:
+    type: integer
+    default: 10
+    minimum: 10
+    maximum: 10000
+    x-googleProperty:
+      type: GCE_DISK_SIZE
+      gceDiskSize:
+        diskTypeProperty: "pd-ssd"
 
 outputs:
   deployment:
