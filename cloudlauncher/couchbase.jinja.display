@@ -33,7 +33,7 @@ input:
   booleanGroups:
     - name: regions
       title: Regions
-      subtext: "Select at least one region to deploy a Couchbase Enterprise clusters in."
+      subtext: "Select at least one region to deploy a Couchbase Enterprise cluster in."
 
   properties:
     - name: couchbaseUsername
