@@ -62,7 +62,7 @@ properties:
     maximum: 100
   serverNodeType:
     type: string
-    default: f1-micro
+    default: n1-standard-4
     x-googleProperty:
       type: GCE_MACHINE_TYPE
   serverDiskSize:
@@ -72,8 +72,6 @@ properties:
     maximum: 10000
     x-googleProperty:
       type: GCE_DISK_SIZE
-      gceDiskSize:
-        diskTypeProperty: "pd-ssd"
   couchbaseUsername:
     type: string
   couchbasePassword:
@@ -86,7 +84,7 @@ properties:
     maximum: 100
   syncgatewayNodeType:
     type: string
-    default: f1-micro
+    default: n1-standard-4
     x-googleProperty:
       type: GCE_MACHINE_TYPE
   syncgatewayDiskSize:
@@ -96,8 +94,6 @@ properties:
     maximum: 10000
     x-googleProperty:
       type: GCE_DISK_SIZE
-      gceDiskSize:
-        diskTypeProperty: "pd-ssd"
 
 outputs:
   deployment:
