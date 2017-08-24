@@ -70,7 +70,7 @@ Couchbase, NoSQL, Big Data, Cache, Database
 The system of engagement database for web, mobile and IoT
 
 ### Solution Icon
-[./resource/en-us/logo.png](./resource/en-us/logo.png)
+[./resources/en-us/logo.png](./resources/en-us/logo.png)
 
 ### Solution Description
 Couchbase Server provides highly elastic, available, scalable & real-time big data management system with consistent high performance, flexible global deployment topologies and a set of native SDKs to ease development & deployment of modern applications.
@@ -111,7 +111,4 @@ https://www.couchbase.com/docs/common/terms-of-service.html
 ## 6 - Deployment Package
 
 ### Configure Deployment Package
-Upload a package
-
-Once complete you can test
-To test the BYOL offer click the BYOL offer [here](https://console.cloud.google.com/launcher/config/couchbase-public/couchbase-enterprise-edition-byol?src=console&project=couchbase-dev&authuser=1&preview=couchbase-public%2Fcouchbase-enterprise-edition-byol).
+Select `Upload a package` and upload the zip you created with `markArchive.sh` earlier.  Once complete you can test the BYOL by clicking [here](https://console.cloud.google.com/launcher/config/couchbase-public/couchbase-enterprise-edition-byol?src=console&project=couchbase-dev&authuser=1&preview=couchbase-public%2Fcouchbase-enterprise-edition-byol).
