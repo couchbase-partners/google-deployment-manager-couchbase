@@ -5,6 +5,14 @@ imports:
     path: cluster.py
   - name: group.py
     path: group.py
+  - name: scripts/installServer.sh
+    path: scripts/installServer.sh
+  - name: scripts/configureServer.sh
+    path: scripts/configureServer.sh
+  - name: scripts/installSyncGateway.sh
+    path: scripts/installSyncGateway.sh
+  - name: scripts/configureSyncGateway.sh
+    path: scripts/configureSyncGateway.sh
 
 info:
   version: 1.0
