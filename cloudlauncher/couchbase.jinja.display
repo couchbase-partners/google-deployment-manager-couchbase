@@ -90,18 +90,3 @@ input:
 
 runtime:
   deployingMessage: Deployment can take several minutes to complete.
-  applicationTable:
-    rows:
-      - label: Instance
-        value: 'foo'
-  primaryButton:
-    label: SSH
-    type: TYPE_GCE_VM_SSH
-    action: '{{ outputs().vmSelfLink }}'
-  suggestedActions:
-    - heading: Assign a static external IP address to your VM instance
-      description: 'An ephemeral external IP address has been assigned to the VM instance. If you require a static external IP address, you may promote the address to static. <a href="https://cloud.google.com/compute/docs/instances-and-network#promote_ephemeral_ip">Learn more</a>'
-annotations:
-  autogenSpecType: SINGLE_VM
-  vmImage0: 'https://www.googleapis.com/compute/v1/projects/marketplaceimagetest/global/images/bitnami-tomcatstack-img'
-metadata_version: v1
