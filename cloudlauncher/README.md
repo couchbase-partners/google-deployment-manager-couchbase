@@ -4,8 +4,6 @@ This folder contains artifacts for the Couchbase Cloud Launcher offer.  This sho
 
 # Build VM Image
 
-This README describes how we build the VMs that the templates use.  Users should not need to do this.
-
 First off, we need to decide what OS image to use.  We're using the latest Ubuntu 14.04.  You can figure out what that is by running:
 
     gcloud compute images list
