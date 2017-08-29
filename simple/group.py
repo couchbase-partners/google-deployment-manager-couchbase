@@ -66,11 +66,11 @@ def GenerateStartupScript(context):
     script += 'DEPLOYMENT="' + context.env['deployment'] + '"\n'
     script += 'CLUSTER="' + context.properties['cluster'] + '"\n'
 
+    services=context.properties['services']
     if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
         script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
         script += 'couchbasePassword="' + context.properties['couchbasePassword'] + '"\n'
 
-        services=context.properties['services']
         servicesParameter=''
         for service in services:
             servicesParameter += service + ','
