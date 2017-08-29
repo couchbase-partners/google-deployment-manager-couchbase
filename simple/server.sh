@@ -45,9 +45,6 @@ vm.swappiness = 0" >> /etc/sysctl.conf
 #######################################################
 
 echo "Installing Couchbase Server..."
-
-# Using these instructions
-# https://developer.couchbase.com/documentation/server/4.6/install/ubuntu-debian-install.html
 wget http://packages.couchbase.com/releases/4.6.2/couchbase-server-enterprise_4.6.2-ubuntu14.04_amd64.deb
 dpkg -i couchbase-server-enterprise_4.6.2-ubuntu14.04_amd64.deb
 apt-get update
