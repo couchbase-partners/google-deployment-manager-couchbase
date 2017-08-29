@@ -63,23 +63,23 @@ def GenerateConfig(context):
 
 def GenerateStartupScript(context):
     script = '#!/usr/bin/env bash\n\n'
-    script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
-    script += 'couchbasePassword="' + context.properties['couchbasePassword'] + '"\n'
     script += 'DEPLOYMENT="' + context.env['deployment'] + '"\n'
     script += 'CLUSTER="' + context.properties['cluster'] + '"\n'
 
-    services=context.properties['services']
-    servicesParameter=''
-    for service in services:
-        servicesParameter += service + ','
-    servicesParameter=servicesParameter[:-1]
-    script += 'services="' + servicesParameter + '"\n\n'
-
     if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
-        script+= context.imports['scripts/installServer.sh']
-        script+= context.imports['scripts/configureServer.sh']
+        script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
+        script += 'couchbasePassword="' + context.properties['couchbasePassword'] + '"\n'
+
+        services=context.properties['services']
+        servicesParameter=''
+        for service in services:
+            servicesParameter += service + ','
+        servicesParameter=servicesParameter[:-1]
+
+        script += 'services="' + servicesParameter + '"\n\n'
+        script+= context.imports['scripts/server.sh']
+
     if 'syncGateway' in services:
-        script+=context.imports['scripts/installSyncGateway.sh']
-        script+= context.imports['scripts/configureSyncGateway.sh']
+        script+=context.imports['scripts/syncGateway.sh']
 
     return script

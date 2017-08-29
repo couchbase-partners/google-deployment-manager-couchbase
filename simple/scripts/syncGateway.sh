@@ -1,4 +1,19 @@
-echo "Running configureSyncGateway"
+echo "Running syncGateway.sh"
+
+#######################################################
+############ Install Couchbase Sync Gateway ###########
+#######################################################
+
+echo "Installing Couchbase Sync Gateway..."
+
+wget https://packages.couchbase.com/releases/couchbase-sync-gateway/1.4.1/couchbase-sync-gateway-enterprise_1.4.1-3_x86_64.deb
+dpkg -i couchbase-sync-gateway-enterprise_1.4.1-3_x86_64.deb
+
+#######################################################
+########### Configure Couchbase Sync Gateway ##########
+#######################################################
+
+echo "Configuring Couchbase Sync Gateway..."
 
 echo "Using the settings:"
 echo DEPLOYMENT ${DEPLOYMENT}
