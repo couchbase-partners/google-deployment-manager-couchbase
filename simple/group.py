@@ -77,9 +77,9 @@ def GenerateStartupScript(context):
         servicesParameter=servicesParameter[:-1]
 
         script += 'services="' + servicesParameter + '"\n\n'
-        script+= context.imports['scripts/server.sh']
+        script+= context.imports['server.sh']
 
     if 'syncGateway' in services:
-        script+=context.imports['scripts/syncGateway.sh']
+        script+=context.imports['syncGateway.sh']
 
     return script

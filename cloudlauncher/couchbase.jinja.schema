@@ -1,14 +1,9 @@
 imports:
-  - name: deployment.py
-    path: deployment.py
-  - name: cluster.py
-    path: cluster.py
-  - name: group.py
-    path: group.py
-  - name: scripts/server.sh
-    path: scripts/server.sh
-  - name: scripts/syncGateway.sh
-    path: scripts/syncGateway.sh
+  - path: deployment.py
+  - path: cluster.py
+  - path: group.py
+  - path: server.sh
+  - path: syncGateway.sh
 
 info:
   version: 1.0

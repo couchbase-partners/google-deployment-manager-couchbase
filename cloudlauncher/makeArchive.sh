@@ -3,7 +3,7 @@
 mkdir tmp
 
 cp -r ../simple/*.py tmp
-cp -r ../simple/scripts tmp
+cp -r ../simple/*.sh tmp
 
 cp -r resources tmp
 #cp couchbase.py tmp
