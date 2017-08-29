@@ -2,10 +2,8 @@ imports:
   - path: deployment.py
   - path: cluster.py
   - path: group.py
-  - path: scripts/configureSyncGateway.sh
-  - path: scripts/configureServer.sh
-  - path: scripts/installSyncGateway.sh
-  - path: scripts/installServer.sh
+  - path: scripts/syncGateway.sh
+  - path: scripts/server.sh
 
 resources:
 - name: deployment
