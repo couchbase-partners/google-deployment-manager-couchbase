@@ -1,0 +1,28 @@
+{% set deployment = env["deployment"] %}
+{% set project = env["project"] %}
+
+resources:
+- name: deployment
+  type: deployment.py
+  properties:
+    couchbaseUsername: couchbase
+    couchbasePassword: foo123!
+    clusters:
+      - cluster: cluster1
+        region: us-east1
+        groups:
+          - group: server
+            diskSize: 100
+            nodeCount: 5
+            nodeType: n1-standard-4
+            services:
+              - data
+              - query
+              - index
+              - fts
+
+outputs:
+  - name: deployment
+    value: {{ deployment }}
+  - name: project
+    value: {{ project }}
