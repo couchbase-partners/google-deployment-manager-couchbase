@@ -1,6 +1,0 @@
-imports:
-- path: couchbase.jinja
-
-resources:
-- name: couchbase
-  type: couchbase.jinja
