@@ -11,88 +11,20 @@ info:
 
 required:
   - serverNodeCount
-  - serverNodeType
-  - serverDiskSize
-  - couchbaseUsername
-  - couchbasePassword
   - syncgatewayNodeCount
-  - syncgatewayNodeType
-  - syncgatewayDiskSize
 
 properties:
-  us-central1:
-    type: boolean
-    default: true
-  us-west1:
-    type: boolean
-    default: false
-  us-east1:
-    type: boolean
-    default: false
-  us-east4:
-    type: boolean
-    default: false
-  europe-west1:
-    type: boolean
-    default: true
-  europe-west2:
-    type: boolean
-    default: false
-  europe-west3:
-    type: boolean
-    default: false
-  asia-southeast1:
-    type: boolean
-    default: false
-  asia-east1:
-    type: boolean
-    default: true
-  asia-northeast1:
-    type: boolean
-    default: false
-  australia-southeast1:
-    type: boolean
-    default: false
-
   serverNodeCount:
     type: integer
     default: 3
     minimum: 1
     maximum: 100
-  serverNodeType:
-    type: string
-    default: n1-standard-4
-    x-googleProperty:
-      type: GCE_MACHINE_TYPE
-  serverDiskSize:
-    type: integer
-    default: 10
-    minimum: 10
-    maximum: 10000
-    x-googleProperty:
-      type: GCE_DISK_SIZE
-  couchbaseUsername:
-    type: string
-  couchbasePassword:
-    type: string
 
   syncgatewayNodeCount:
     type: integer
     default: 2
     minimum: 0
     maximum: 100
-  syncgatewayNodeType:
-    type: string
-    default: n1-standard-4
-    x-googleProperty:
-      type: GCE_MACHINE_TYPE
-  syncgatewayDiskSize:
-    type: integer
-    default: 10
-    minimum: 10
-    maximum: 10000
-    x-googleProperty:
-      type: GCE_DISK_SIZE
 
 outputs:
   deployment:
