@@ -36,8 +36,15 @@ def GenerateConfig(context):
                 }],
                 'metadata': {'items': [{'key':'startup-script', 'value':GenerateStartupScript(context)}]},
                 'serviceAccounts': [{
-                    'name': context.env['deployment'] + '-sa',
-                    'scopes': ['https://www.googleapis.com/auth/cloud-platform']
+                    'email': 'default',
+                    'scopes': [
+                        'https://www.googleapis.com/auth/cloud-platform',
+                        'https://www.googleapis.com/auth/cloud.useraccounts.readonly',
+                        'https://www.googleapis.com/auth/devstorage.read_only',
+                        'https://www.googleapis.com/auth/logging.write',
+                        'https://www.googleapis.com/auth/monitoring.write',
+                        'https://www.googleapis.com/auth/cloudruntimeconfig'
+                    ]
                 }]
             }
         }
