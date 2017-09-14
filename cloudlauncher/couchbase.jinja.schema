@@ -53,6 +53,12 @@ properties:
     default: us-central1-f
     x-googleProperty:
       type: GCE_ZONE
+  dataDiskType:
+    type: string
+    default: pd-ssd
+    x-googleProperty:
+      type: GCE_DISK_TYPE
+      zoneProperty: defaultZone
 
   serverNodeCount:
     type: integer
