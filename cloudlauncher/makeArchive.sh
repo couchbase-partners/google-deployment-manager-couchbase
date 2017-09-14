@@ -4,8 +4,8 @@ rm archive.zip
 mkdir tmp
 
 cp couchbase.py tmp
-cp couchbase.jinja.display tmp
-cp couchbase.jinja.schema tmp
+cp couchbase.py.display tmp
+cp couchbase.py.schema tmp
 cp c2d_deployment_configuration.json tmp
 cp test_config.yaml tmp
 
