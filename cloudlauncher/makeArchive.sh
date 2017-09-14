@@ -1,5 +1,6 @@
 #!/bin/sh
 
+rm archive.zip
 mkdir tmp
 
 cp couchbase.jinja tmp
