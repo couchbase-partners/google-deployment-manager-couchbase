@@ -82,7 +82,8 @@ properties:
     default: 10
     x-googleProperty:
       type: GCE_DISK_SIZE
-      diskTypeProperty: dataDiskType
+      gceDiskSize:
+        diskTypeProperty: dataDiskType
   couchbaseUsername:
     type: string
     default: couchbase
@@ -106,7 +107,8 @@ properties:
     default: 10
     x-googleProperty:
       type: GCE_DISK_SIZE
-      diskTypeProperty: dataDiskType
+      gceDiskSize:
+        diskTypeProperty: dataDiskType
 
 outputs:
   deployment:
