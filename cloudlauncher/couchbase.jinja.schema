@@ -53,12 +53,24 @@ properties:
     default: 3
     minimum: 1
     maximum: 100
+  serverNodeType:
+    type: string
+  serverDiskSize:
+    type: string
+  couchbaseUsername:
+    type: string
+  couchbasePassword:
+    type: string
 
   syncgatewayNodeCount:
     type: integer
     default: 2
     minimum: 0
     maximum: 100
+  syncgatewayNodeType:
+    type: string
+  syncgatewayDiskSize:
+    type: string
 
 outputs:
   deployment:

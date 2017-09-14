@@ -65,9 +65,27 @@ input:
     - name: serverNodeCount
       title: Couchbase Server Node Count
       section: server
+    - name: serverNodeType
+      title: Couchbase Server Node Type
+      section: server
+    - name: serverDiskSize
+      title: Couchbase Server pd-ssd disk size in GB
+      section: server
+    - name: couchbaseUsername
+      title: Couchbase Username
+      section: server
+    - name: couchbasePassword
+      title: Couchbase Password
+      section: server
 
     - name: syncgatewayNodeCount
       title: Couchbase Sync Gateway Node Count
+      section: syncgateway
+    - name: syncgatewayNodeType
+      title: Couchbase Sync Gateway Node Type
+      section: syncgateway
+    - name: syncgatewayDiskSize
+      title: Couchbase Sync Gateway pd-ssd disk size in GB
       section: syncgateway
 
 runtime:
