@@ -14,25 +14,25 @@ def GenerateConfig(context):
     }
     config['resources'].append(deploymentJSON)
 
-    zones = GetZonesList(context)
-    for zone in zones:
+    regions = GetRegionsList(context)
+    for region in regions:
         clusterJSON = {
-            'cluster': zone,
-            'region': zone,
+            'cluster': region,
+            'region': region,
             'groups':
             [
                 {
                     'group': 'server',
-                    'diskSize': 100,
-                    'nodeCount': 5,
-                    'nodeType': 'n1-standard-4',
+                    'diskSize': context.properties['serverDiskSize'],
+                    'nodeCount': context.properties['serverNodeCount'],
+                    'nodeType': context.properties['serverNodeType'],
                     'services': ['data','query','index','fts']
                 },
                 {
                     'group': 'syncGateway',
-                    'diskSize': 100,
-                    'nodeCount': 5,
-                    'nodeType': 'n1-standard-4',
+                    'diskSize': context.properties['syncgatewayDiskSize'],
+                    'nodeCount': context.properties['syncgatewayNodeCount'],
+                    'nodeType': context.properties['syncgatewayNodeType'],
                     'services': ['syncGateway']
                 }
             ]
@@ -40,8 +40,8 @@ def GenerateConfig(context):
 
     return config
 
-def GetZonesList(context):
-    zones = []
+def GetRegionsList(context):
+    regions = []
     if context.properties['us-central1']:
         regions.append('us-central1')
     if context.properties['us-west1']:
