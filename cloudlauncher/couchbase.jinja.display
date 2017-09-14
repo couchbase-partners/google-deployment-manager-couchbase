@@ -1,3 +1,4 @@
+metadata_version: v1
 description:
   author:
     title: couchbase
@@ -90,5 +91,3 @@ input:
 
 runtime:
   deployingMessage: Deployment can take several minutes to complete.
-
-metadata_version: v1
