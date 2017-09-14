@@ -17,22 +17,22 @@ def GenerateConfig(context):
     zones = GetZonesList(context)
     for zone in zones:
         clusterJSON = {
-            'cluster': zone
-            'region': zone
+            'cluster': zone,
+            'region': zone,
             'groups':
             [
                 {
-                    'group': 'server'
-                    'diskSize': 100
-                    'nodeCount': 5
-                    'nodeType': 'n1-standard-4'
+                    'group': 'server',
+                    'diskSize': 100,
+                    'nodeCount': 5,
+                    'nodeType': 'n1-standard-4',
                     'services': ['data','query','index','fts']
                 },
                 {
-                    'group': 'syncGateway'
-                    'diskSize': 100
-                    'nodeCount': 5
-                    'nodeType': 'n1-standard-4'
+                    'group': 'syncGateway',
+                    'diskSize': 100,
+                    'nodeCount': 5,
+                    'nodeType': 'n1-standard-4',
                     'services': ['syncGateway']
                 }
             ]
