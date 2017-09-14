@@ -33,7 +33,7 @@ def GetClusters(context):
                     'services': ['data','query','index','fts']
                 },
                 {
-                    'group': 'syncGateway',
+                    'group': 'syncgateway',
                     'diskSize': context.properties['syncgatewayDiskSize'],
                     'nodeCount': context.properties['syncgatewayNodeCount'],
                     'nodeType': context.properties['syncgatewayNodeType'],
