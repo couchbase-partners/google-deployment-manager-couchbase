@@ -1,11 +1,11 @@
 metadata_version: v1
 description:
   author:
-    title: couchbase
-    descriptionHtml: couchbase
-    shortDescription: couchbase
+    title: Couchbase
+    descriptionHtml: Couchbase description HTML goes here.
+    shortDescription: Couchbase short description goes here.
   logo: '@media/logo.png'
-  title: couchbase
+  title: Couchbase Enterprise Edition
   version: 4.6.3
   support:
     - title: Support

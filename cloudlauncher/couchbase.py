@@ -2,9 +2,41 @@ def GenerateConfig(context):
     config={}
     config['resources'] = []
 
+    deploymentJSON = {
+        'name': 'deployment',
+        'type': 'deployment.py',
+        'properties': {
+            'couchbaseUsername': context.properties['couchbaseUsername'],
+            'couchbasePassword': context.properties['couchbasePassword'],
+            'clusters': {
+            }
+        }
+    }
+    config['resources'].append(deploymentJSON)
+
     zones = GetZonesList(context)
     for zone in zones:
-        pass
+        clusterJSON = {
+            'cluster': zone
+            'region': zone
+            'groups':
+            [
+                {
+                    'group': 'server'
+                    'diskSize': 100
+                    'nodeCount': 5
+                    'nodeType': 'n1-standard-4'
+                    'services': ['data','query','index','fts']
+                },
+                {
+                    'group': 'syncGateway'
+                    'diskSize': 100
+                    'nodeCount': 5
+                    'nodeType': 'n1-standard-4'
+                    'services': ['syncGateway']
+                }
+            ]
+        }
 
     return config
 
