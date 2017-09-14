@@ -48,18 +48,6 @@ properties:
     type: boolean
     default: false
 
-  defaultZone:
-    type: string
-    default: us-central1-f
-    x-googleProperty:
-      type: GCE_ZONE
-  dataDiskType:
-    type: string
-    default: pd-ssd
-    x-googleProperty:
-      type: GCE_DISK_TYPE
-      zoneProperty: defaultZone
-
   serverNodeCount:
     type: integer
     default: 3
@@ -70,7 +58,11 @@ properties:
     default: n1-standard-4
     x-googleProperty:
       type: GCE_MACHINE_TYPE
-      zoneProperty: defaultZone
+      zoneProperty:
+        type: string
+        default: us-central1-f
+        x-googleProperty:
+          type: GCE_ZONE
   serverDiskSize:
     type: integer
     default: 10
@@ -89,7 +81,11 @@ properties:
     default: n1-standard-4
     x-googleProperty:
       type: GCE_MACHINE_TYPE
-      zoneProperty: defaultZone
+      zoneProperty:
+        type: string
+        default: us-central1-f
+        x-googleProperty:
+          type: GCE_ZONE
   syncgatewayDiskSize:
     type: integer
     default: 10
