@@ -11,7 +11,13 @@ info:
 
 required:
   - serverNodeCount
+  - serverNodeType
+  - serverDiskSize
+  - couchbaseUsername
+  - couchbasePassword
   - syncgatewayNodeCount
+  - syncgatewayNodeType
+  - syncgatewayDiskSize
 
 properties:
   us-central1:
@@ -74,6 +80,9 @@ properties:
   serverDiskSize:
     type: integer
     default: 10
+    x-googleProperty:
+      type: GCE_DISK_SIZE
+      diskTypeProperty: dataDiskType
   couchbaseUsername:
     type: string
     default: couchbase
@@ -95,6 +104,9 @@ properties:
   syncgatewayDiskSize:
     type: integer
     default: 10
+    x-googleProperty:
+      type: GCE_DISK_SIZE
+      diskTypeProperty: dataDiskType
 
 outputs:
   deployment:
