@@ -1,6 +1,6 @@
 imports:
-- path: couchbase.jinja
+- path: couchbase.py
 
 resources:
 - name: couchbase
-  type: couchbase.jinja
+  type: couchbase.py
