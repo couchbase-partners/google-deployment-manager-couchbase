@@ -64,6 +64,4 @@ def GetRegionsList(context):
         regions.append('asia-northeast1')
     if context.properties['australia-southeast1']:
         regions.append('australia-southeast1')
-
-    assert len(zones) > 0, 'No regions selected for Couchbase nodes.'
     return regions
