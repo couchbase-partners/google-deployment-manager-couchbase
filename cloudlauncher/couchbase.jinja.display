@@ -22,7 +22,46 @@ input:
     - name: syncgateway
       title: Couchbase Sync Gateway
 
+  booleanGroups:
+    - name: regions
+      title: Regions
+      subtext: "Select at least one region to deploy a Couchbase Enterprise cluster in."
+
   properties:
+    - name: us-central1
+      title: us-central1
+      booleanGroup: regions
+    - name: us-west1
+      title: us-west1
+      booleanGroup: regions
+    - name: us-east1
+      title: us-east1
+      booleanGroup: regions
+    - name: us-east4
+      title: us-east4
+      booleanGroup: regions
+    - name: europe-west1
+      title: europe-west1
+      booleanGroup: regions
+    - name: europe-west2
+      title: europe-west2
+      booleanGroup: regions
+    - name: europe-west3
+      title: europe-west3
+      booleanGroup: regions
+    - name: asia-southeast1
+      title: asia-southeast1
+      booleanGroup: regions
+    - name: asia-east1
+      title: asia-east1
+      booleanGroup: regions
+    - name: asia-northeast1
+      title: asia-northeast1
+      booleanGroup: regions
+    - name: australia-southeast1
+      title: australia-southeast1
+      booleanGroup: regions
+
     - name: serverNodeCount
       title: Couchbase Server Node Count
       section: server

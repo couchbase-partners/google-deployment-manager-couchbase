@@ -14,6 +14,40 @@ required:
   - syncgatewayNodeCount
 
 properties:
+  us-central1:
+    type: boolean
+    default: true
+  us-west1:
+    type: boolean
+    default: false
+  us-east1:
+    type: boolean
+    default: false
+  us-east4:
+    type: boolean
+    default: false
+  europe-west1:
+    type: boolean
+    default: true
+  europe-west2:
+    type: boolean
+    default: false
+  europe-west3:
+    type: boolean
+    default: false
+  asia-southeast1:
+    type: boolean
+    default: false
+  asia-east1:
+    type: boolean
+    default: true
+  asia-northeast1:
+    type: boolean
+    default: false
+  australia-southeast1:
+    type: boolean
+    default: false
+
   serverNodeCount:
     type: integer
     default: 3
