@@ -53,6 +53,12 @@ properties:
     default: us-central1-f
     x-googleProperty:
       type: GCE_ZONE
+  dataDiskType:
+    type: string
+    default: pd-ssd
+    x-googleProperty:
+      type: GCE_DISK_TYPE
+      zoneProperty: defaultZone
 
   serverNodeCount:
     type: integer
@@ -68,8 +74,11 @@ properties:
   serverDiskSize:
     type: integer
     default: 10
-    minimum: 10
-    maximum: 10000
+    x-googleProperty:
+    type: GCE_DISK_SIZE
+    gceDiskSize:
+      diskTypeProperty: dataDiskType
+
   couchbaseUsername:
     type: string
   couchbasePassword:
@@ -83,11 +92,16 @@ properties:
   syncgatewayNodeType:
     type: string
     default: n1-standard-4
+    x-googleProperty:
+      type: GCE_MACHINE_TYPE
+      zoneProperty: defaultZone
   syncgatewayDiskSize:
     type: integer
     default: 10
-    minimum: 10
-    maximum: 10000
+    x-googleProperty:
+      type: GCE_DISK_SIZE
+      gceDiskSize:
+        diskTypeProperty: dataDiskType
 
 outputs:
   deployment:
