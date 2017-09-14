@@ -55,8 +55,12 @@ properties:
     maximum: 100
   serverNodeType:
     type: string
+    default: n1-standard-4
   serverDiskSize:
-    type: string
+    type: integer
+    default: 10
+    minimum: 10
+    maximum: 10000
   couchbaseUsername:
     type: string
   couchbasePassword:
@@ -69,8 +73,12 @@ properties:
     maximum: 100
   syncgatewayNodeType:
     type: string
+    default: n1-standard-4
   syncgatewayDiskSize:
-    type: string
+    type: integer
+    default: 10
+    minimum: 10
+    maximum: 10000
 
 outputs:
   deployment:
