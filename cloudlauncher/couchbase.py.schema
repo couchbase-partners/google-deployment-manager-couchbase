@@ -80,10 +80,6 @@ properties:
   serverDiskSize:
     type: integer
     default: 10
-    x-googleProperty:
-      type: GCE_DISK_SIZE
-      gceDiskSize:
-        diskTypeProperty: dataDiskType
   couchbaseUsername:
     type: string
     default: couchbase
@@ -105,10 +101,6 @@ properties:
   syncgatewayDiskSize:
     type: integer
     default: 10
-    x-googleProperty:
-      type: GCE_DISK_SIZE
-      gceDiskSize:
-        diskTypeProperty: dataDiskType
 
 outputs:
   deployment:
