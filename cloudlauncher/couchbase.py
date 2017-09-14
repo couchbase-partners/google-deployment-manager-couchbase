@@ -8,8 +8,7 @@ def GenerateConfig(context):
         'properties': {
             'couchbaseUsername': context.properties['couchbaseUsername'],
             'couchbasePassword': context.properties['couchbasePassword'],
-            'clusters': {
-            }
+            'clusters': []
         }
     }
     config['resources'].append(deploymentJSON)
@@ -37,6 +36,7 @@ def GenerateConfig(context):
                 }
             ]
         }
+        config['resources']['properties']['clusters'].append(deploymentJSON)
 
     return config
 
