@@ -58,7 +58,7 @@ properties:
     default: n1-standard-4
     x-googleProperty:
       type: GCE_MACHINE_TYPE
-      zoneProperty: usEast1b
+      zoneProperty: us-central1-f
   serverDiskSize:
     type: integer
     default: 10
