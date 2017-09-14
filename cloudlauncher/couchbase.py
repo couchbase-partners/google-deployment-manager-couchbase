@@ -1,21 +1,26 @@
 def GenerateConfig(context):
-    config={}
-    config['resources'] = []
+    clusters=GetClusters(context)
 
-    deploymentJSON = {
+    deployment = {
         'name': 'deployment',
         'type': 'deployment.py',
         'properties': {
             'couchbaseUsername': context.properties['couchbaseUsername'],
             'couchbasePassword': context.properties['couchbasePassword'],
-            'clusters': []
+            'clusters': clusters
         }
     }
-    config['resources'].append(deploymentJSON)
 
+    config={}
+    config['resources'] = []
+    config['resources'].append(deployment)
+    return config
+
+def GetClusters(context):
+    clusters = []
     regions = GetRegionsList(context)
     for region in regions:
-        clusterJSON = {
+        cluster = {
             'cluster': region,
             'region': region,
             'groups':
@@ -36,9 +41,8 @@ def GenerateConfig(context):
                 }
             ]
         }
-        config['resources']['properties']['clusters'].append(deploymentJSON)
-
-    return config
+        clusters.append(cluster)
+    return clusters
 
 def GetRegionsList(context):
     regions = []
