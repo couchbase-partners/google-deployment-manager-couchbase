@@ -4,7 +4,7 @@ def GenerateConfig(context):
     config={}
     config['resources'] = []
 
-    license=context.properties['services']
+    license=context.properties['license']
     if 'syncGateway' in context.properties['services']:
         sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license
     else:
