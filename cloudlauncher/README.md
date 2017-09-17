@@ -7,11 +7,11 @@ This folder contains artifacts for the Couchbase Cloud Launcher offer.  This sho
 First off, we need to decide what OS image to use.  We're using the latest Ubuntu 14.04.  You can figure out what that is by running:
 
     gcloud compute images list
-    IMAGE_NAME=ubuntu-1404-trusty-v20170718
+    IMAGE_NAME=ubuntu-1404-trusty-v20170831
 
 Next, create the instances:
 
-    INSTANCES=( couchbase-server-ee-hourly couchbase-sync-gateway-ee-hourly couchbase-server-ee-byol couchbase-sync-gateway-ee-byol)
+    INSTANCES=( couchbase-server-ee-hourly-pricing couchbase-sync-gateway-ee-hourly-pricing couchbase-server-ee-byol couchbase-sync-gateway-ee-byol)
 
     for INSTANCE in "${INSTANCES[@]}"
     do
