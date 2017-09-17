@@ -79,7 +79,6 @@ properties:
     default: couchbase
   couchbasePassword:
     type: string
-    default: foo123!
 
   syncgatewayNodeCount:
     type: integer
