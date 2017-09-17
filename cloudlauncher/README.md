@@ -54,9 +54,9 @@ Now you need to attach the license ID to each image.  That process is described 
 
 To create the deployment package run
 
-    ./makeArchive.sh
+    ./makeArchives.sh
 
-Upload archive-byol.zip and archive-hourly-pricing.zip later in the portal.
+You'll upload archive-byol.zip and archive-hourly-pricing.zip in the portal at a later point in this process.
 
 # Create Solutions
 
