@@ -130,4 +130,4 @@ https://www.couchbase.com/docs/common/terms-of-service.html
 ## 6 - Deployment Package
 
 ### Configure Deployment Package
-Select "Upload a package" and upload the zip you created with [markArchives.sh](makeArchives.sh) earlier.  With this complete you can test and publish the offer.
+Select "Upload a package" and upload the zip you created with [markArchives.sh](makeArchives.sh) earlier.  With this complete you can test and publish the offer.  You may want to upload the package before configuring anything else since it sometimes clobbers others changes in the portal.
