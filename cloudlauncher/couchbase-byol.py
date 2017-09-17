@@ -7,6 +7,7 @@ def GenerateConfig(context):
         'properties': {
             'couchbaseUsername': context.properties['couchbaseUsername'],
             'couchbasePassword': context.properties['couchbasePassword'],
+            'license': 'byol',
             'clusters': clusters
         }
     }
