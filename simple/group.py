@@ -4,10 +4,11 @@ def GenerateConfig(context):
     config={}
     config['resources'] = []
 
+    license=context.properties['services']
     if 'syncGateway' in context.properties['services']:
-        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-byol'
+        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license
     else:
-        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-byol'
+        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license
 
     instanceTemplateName = context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
     instanceTemplate = {

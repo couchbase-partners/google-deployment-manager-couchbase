@@ -11,6 +11,7 @@ resources:
   properties:
     couchbaseUsername: couchbase
     couchbasePassword: foo123!
+    license: byol
     clusters:
       - cluster: cluster1
         region: us-east1
