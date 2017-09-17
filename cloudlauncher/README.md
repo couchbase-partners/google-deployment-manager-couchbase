@@ -130,4 +130,4 @@ https://www.couchbase.com/docs/common/terms-of-service.html
 ## 6 - Deployment Package
 
 ### Configure Deployment Package
-Select "Upload a package" and upload the zip you created with `markArchive.sh` earlier.  Once complete you can test the BYOL by clicking [here](https://console.cloud.google.com/launcher/config/couchbase-public/couchbase-enterprise-edition-byol?src=console&project=couchbase-dev&authuser=1&preview=couchbase-public%2Fcouchbase-enterprise-edition-byol).
+Select "Upload a package" and upload the zip you created with [markArchives.sh](makeArchives.sh) earlier.  With this complete you can test and publish the offer.
