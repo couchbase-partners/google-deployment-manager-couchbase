@@ -1,9 +1,6 @@
 URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 
 def GenerateConfig(context):
-    config={}
-    config['resources'] = []
-
     license=context.properties['license']
     if 'syncGateway' in context.properties['services']:
         sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license
@@ -50,7 +47,6 @@ def GenerateConfig(context):
             }
         }
     }
-    config['resources'].append(instanceTemplate)
 
     instanceGroupManager = {
         'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-igm',
@@ -65,8 +61,11 @@ def GenerateConfig(context):
             }]
         }
     }
-    config['resources'].append(instanceGroupManager)
 
+    config={}
+    config['resources'] = []
+    config['resources'].append(instanceTemplate)
+    config['resources'].append(instanceGroupManager)
     return config
 
 def GenerateStartupScript(context):

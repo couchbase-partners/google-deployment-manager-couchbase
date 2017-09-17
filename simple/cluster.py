@@ -1,8 +1,5 @@
 
 def GenerateConfig(context):
-    config={}
-    config['resources'] = []
-
     runtimeconfigName = context.env['deployment'] + '-' + context.properties['cluster'] + '-runtimeconfig'
     runtimeconfig = {
         'name': runtimeconfigName,
@@ -11,7 +8,6 @@ def GenerateConfig(context):
             'config': runtimeconfigName
         }
     }
-    config['resources'].append(runtimeconfig)
 
     nodeCount = {
         'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-nodeCount',
@@ -22,6 +18,10 @@ def GenerateConfig(context):
             'text': str(getNodeCount(context))
         }
     }
+
+    config={}
+    config['resources'] = []
+    config['resources'].append(runtimeconfig)
     config['resources'].append(nodeCount)
 
     for group in context.properties['groups']:
