@@ -56,7 +56,7 @@ To create the deployment package run
 
     ./makeArchive.sh
 
-Upload archive.zip later in the portal.  Note that you will have to modify `group.py` to create the Hourly Pricing and BYOL offers.
+Upload archive-byol.zip and archive-hourly-pricing.zip later in the portal.
 
 # Create Solutions
 
