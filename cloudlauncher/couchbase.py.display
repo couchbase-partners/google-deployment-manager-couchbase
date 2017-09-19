@@ -1,20 +1,4 @@
 metadata_version: v1
-description:
-  author:
-    title: Couchbase
-    descriptionHtml: Couchbase description HTML goes here.
-    shortDescription: Couchbase short description goes here.
-  logo: '@media/logo.png'
-  title: Couchbase Enterprise Edition
-  version: 4.6.3
-  support:
-    - title: Support
-  icon: '@media/logo.png'
-  softwareGroups: []
-  tagline: 'The system of engagement database for web, mobile and IoT'
-  descriptionHtml: 'Couchbase Server provides highly elastic, available, scalable & real-time big data management system with consistent high performance, flexible global deployment topologies and a set of native SDKs to ease development & deployment of modern applications.'
-  eulaUrl: 'https://www.couchbase.com/docs/common/terms-of-service.html'
-  documentations: []
 
 input:
   sections:
