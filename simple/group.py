@@ -3,9 +3,9 @@ URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 def GenerateConfig(context):
     license=context.properties['license']
     if 'syncGateway' in context.properties['services']:
-        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license
+        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-ee-sync-gateway-' + license
     else:
-        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license
+        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-ee-server-' + license
 
     instanceTemplateName = context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
     instanceTemplate = {

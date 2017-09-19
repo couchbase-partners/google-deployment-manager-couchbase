@@ -11,7 +11,7 @@ First off, we need to decide what OS image to use.  We're using the latest Ubunt
 
 Next, create the instances:
 
-    INSTANCES=( couchbase-server-ee-hourly-pricing couchbase-sync-gateway-ee-hourly-pricing couchbase-server-ee-byol couchbase-sync-gateway-ee-byol)
+    INSTANCES=( couchbase-ee-server-hourly-pricing couchbase-ee-sync-gateway-hourly-pricing couchbase-ee-server-byol couchbase-ee-sync-gateway-byol)
 
     for INSTANCE in "${INSTANCES[@]}"
     do
@@ -28,16 +28,9 @@ Next, create the instances:
         --scopes "storage-rw"
     done
 
-Now make sure the instances all started up ok:
+Now edit each instance in the console so that delete the VM does not delete the disk.  When that is complete delete all four VMs.
 
-    for INSTANCE in "${INSTANCES[@]}"
-    do
-      gcloud compute instances describe ${INSTANCE} \
-        --project "couchbase-public" \
-        --zone "us-central1-f"
-    done
-
-Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).  Note that you do not need to mount the disks and delete files since none were created.  If everything is configured, all you need to do is delete the instances while not deleting the disks and then run:
+Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).  Note that you do not need to mount the disks and delete files since none were created.  Now run the command:
 
     for INSTANCE in "${INSTANCES[@]}"
     do
