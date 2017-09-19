@@ -5,10 +5,6 @@ imports:
   - path: server.sh
   - path: syncGateway.sh
 
-info:
-  version: 1.0
-  title: Couchbase
-
 required:
   - serverNodeCount
   - serverNodeType

@@ -1,5 +1,11 @@
 metadata_version: v1
 
+description:
+  title: Couchbase Enterprise Edition
+  version: 4.6.3
+  author:
+    title: Couchbase
+
 input:
   sections:
     - name: server
