@@ -1,6 +1,6 @@
 # Cloud Launcher
 
-This folder contains artifacts for the Couchbase Cloud Launcher offer.  This should not be used diretly, but through the Cloud Launcher instead.
+This folder contains artifacts for the Couchbase Cloud Launcher offer.  This should not be used directly, but through the Cloud Launcher instead.
 
 # Build VM Image
 
