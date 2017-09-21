@@ -30,7 +30,7 @@ Next, create the instances:
 
 Now edit each instance in the console so that delete the VM does not delete the disk.  When that is complete delete all four VMs.
 
-Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).  Note that you do not need to mount the disks and delete files since none were created.  Now run the command:
+Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).  Note that you do not need to mount the disks and delete files since none were created.  Running this command should be sufficient:
 
     for INSTANCE in "${INSTANCES[@]}"
     do
