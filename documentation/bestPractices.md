@@ -38,9 +38,11 @@ pd-ssd comes in a variety of sizes.  We recommend a 1.7TB pd-ssd drive as the up
 
 ## Network
 
-The Google network is globally flat.  This is amazing for running a geographically distributed database like Couchbase.  Private IPs can be routed around the world without need for VPN or leased line solutions.  When connecting with another cloud or an on-premises cluster in a hybrid scenario, VPN or leased lines are still required.
+The Google network is globally flat.  This is amazing for running a geographically distributed database like Couchbase.  Private IPs can be routed around the world without need for VPN or leased line solutions.  Given this, we recommend configuring nodes with their private DNS record.  When connecting with another cloud or an on-premises cluster in a hybrid scenario, VPN or leased lines are still required.
 
 GCP also provides convenient setup of a VPN from your laptop to a GCP project, making it simple to connect applications to the cloud as you develop them.
+
+Note that it is not possible to configure a node with it's public IP because that IP is NAT based and Couchbase cannot bind to it.  GCP does not provide public DNS records for the public IPs.
 
 ## Security
 
