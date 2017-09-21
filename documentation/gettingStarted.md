@@ -1,10 +1,10 @@
 # Getting Started
 
-This document describes how to get started using the Couchbase virtual machine image on Google Cloud Launcher.  Cloud Launcher is a GUI for deploying 3rd party software in Google Cloud Platform (GCP).
+This document describes how to get started using the Couchbase offer on Google Cloud Launcher.  Cloud Launcher is a GUI for deploying 3rd party software in Google Cloud Platform (GCP).
 
 ## Deploying with Cloud Launcher
 
-First, navigate to the Couchbase Cloud Launcher page here.
+First, navigate to the Couchbase Cloud Launcher page [here](need to add link!!!).
 
 ![](./images/vm1.png)
 
