@@ -58,7 +58,7 @@ Couchbase has two solutions in Cloud Launcher.  Those can be edited in the Partn
 ## 1 - Solution Metadata
 
 ### Solution Name
-* couchbase-enterprise-edition-hourly-pricing
+* couchbase-enterprise-edition
 * couchbase-enterprise-edition-byol
 
 ### Search Metadata
@@ -74,7 +74,7 @@ Couchbase, NoSQL, Big Data, Cache, Database
 ## 2 - Solution Details
 
 ### Name of Solution
-* Couchbase Enterprise Edition (Hourly Pricing)
+* Couchbase Enterprise Edition
 * Couchbase Enterprise Edition (BYOL)
 
 ### Tagline
