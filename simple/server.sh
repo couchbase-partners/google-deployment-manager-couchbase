@@ -76,32 +76,47 @@ ACCESS_TOKEN=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.intern
 PROJECT_ID=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/project/project-id)
 CONFIG=${DEPLOYMENT}-runtimeconfig
 
-# check if we already have a rally point for the cluster
-rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS \
-  | jq ".text" \
-  | sed 's/"//g')
-
-# if not then create and populate it
-if [[ $rallyPrivateDNS == "null" ]]
+# We need to have the data service running on this node to be a potential rally point
+if [[ $services =~ "data" ]]
 then
-curl -s -k -X POST \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-  -H "X-GFE-SSL: yes" \
-  -d "{name: \"projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS\", text: \"${nodePrivateDNS}\" }" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables
+  # check if we already have a rally point for the cluster
+  rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+    https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS \
+    | jq ".text" \
+    | sed 's/"//g')
+
+  # if not then create and populate it
+  if [[ $rallyPrivateDNS == "null" ]]
+  then
+  curl -s -k -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+    -H "X-GFE-SSL: yes" \
+    -d "{name: \"projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS\", text: \"${nodePrivateDNS}\" }" \
+    https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables
+  fi
+
+  # wait for any parallel writes to happen
+  sleep 1
+
+  # read the rally value from the config
+  rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+    https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS \
+    | jq ".text" \
+    | sed 's/"//g')
+  echo rallyPrivateDNS: ${rallyPrivateDNS}
+else
+  rallyPrivateDNS=null
+  while [[ $rallyPrivateDNS == "null" ]]
+  do
+    sleep 10
+    rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+      https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS \
+      | jq ".text" \
+      | sed 's/"//g')
+    echo rallyPrivateDNS: ${rallyPrivateDNS}
+  done
 fi
-
-# wait for any parallel writes to happen
-sleep 1
-
-# read the rally value from the config
-rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS \
-  | jq ".text" \
-  | sed 's/"//g')
-echo rallyPrivateDNS: ${rallyPrivateDNS}
 
 #######################################################
 ############# Configure with Couchbase CLI ############
