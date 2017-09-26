@@ -16,7 +16,7 @@ description:
           version: 14.04 LTS
     - software:
         - title: Counchbase Server Enterprise Edition
-          version: 6.4.3
+          version: 4.6.3
     - software:
         - title: Counchbase Sync Gateway Enterprise Edition
           version: 1.4.3-1
