@@ -50,4 +50,4 @@ The template automatically sets up a username and password for the Couchbase Web
 
 The template does not currently configure SSL. We recommend setting it up for production applications.
 
-These templates open Sync Gateway access to the internet over ports 4984 and 4985.  We typically recommend securing the admin interface for access from `127.0.0.1` only.  That can be done by editing the `/home/sync_gateway/sync_gateway.json` file.
+These templates open Sync Gateway access to the internet over ports 4984 and 4985.  For most use cases, port 4984 will be left open so mobile devices can connect to it.  We typically recommend securing the 4985 admin interface for access from 127.0.0.1 only.  That can be done by editing the /home/sync_gateway/sync_gateway.json file.
