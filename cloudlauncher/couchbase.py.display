@@ -85,7 +85,7 @@ input:
       title: Couchbase Username
       section: server
     - name: couchbasePassword
-      title: Couchbase Password
+      title: Couchbase Temporary Password
       section: server
 
     - name: syncgatewayNodeCount
