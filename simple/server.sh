@@ -63,6 +63,9 @@ echo services ${services}
 echo DEPLOYMENT ${DEPLOYMENT}
 echo CLUSTER ${CLUSTER}
 
+nodePrivateDNS=`curl -s http://metadata/computeMetadata/v1beta1/instance/hostname`
+echo nodePrivateDNS: ${nodePrivateDNS}
+
 #######################################################
 ################### Pick Rally Point ##################
 #######################################################
@@ -71,42 +74,32 @@ apt-get -y install jq
 
 ACCESS_TOKEN=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token | awk -F\" '{ print $4 }')
 PROJECT_ID=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/project/project-id)
-CONFIG=${DEPLOYMENT}-${CLUSTER}-runtimeconfig
+CONFIG=${DEPLOYMENT}-runtimeconfig
+VARIABLE=
 
-nodePrivateDNS=`curl -s http://metadata/computeMetadata/v1beta1/instance/hostname`
-echo nodePrivateDNS: ${nodePrivateDNS}
+# check if we already have a rally point for the cluster
+rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
+  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS \
+  | jq ".text" \
+  | sed 's/"//g')
 
-echo "Creating new runtimeconfig variable for this host..."
-hostname=`hostname`
+echo rallyPrivateDNS: ${rallyPrivateDNS}
+
+# if not then create it
 curl -s -k -X POST \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}" \
   -H "X-GFE-SSL: yes" \
-  -d "{name: \"projects/${PROJECT_ID}/configs/$CONFIG/variables/nodeList/${hostname}\", text: \"${nodePrivateDNS}\" }" \
+  -d "{name: \"projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS\", text: \"${nodePrivateDNS}\" }" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables
 
-# Get nodeCount from runtimeconfig
-nodeCount=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/nodeCount \
-  | jq ".text" \
-  | sed 's/"//g')
-echo nodeCount: ${nodeCount}
+# wait for any parallel writes to happen
+sleep 1
 
-liveNodeCount=0
-while [[ $liveNodeCount -lt $nodeCount ]]
-do
-  # Get number of nodes currently in runtime config
-  liveNodeCount=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-    https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/?filter=projects%2F${PROJECT_ID}%2Fconfigs%2F${CONFIG}%2Fvariables%2FnodeList \
-    | jq ".variables | length")
-  echo liveNodeCount: ${liveNodeCount}
-  sleep 10
-done
-
+# read the rally value from the config
 rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
-  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/?filter=projects%2F${PROJECT_ID}%2Fconfigs%2F${CONFIG}%2Fvariables%2FnodeList\&returnValues=True \
-  | jq ".variables | sort_by(.text)" \
-  | jq ".[0].text" \
+  https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS \
+  | jq ".text" \
   | sed 's/"//g')
 echo rallyPrivateDNS: ${rallyPrivateDNS}
 

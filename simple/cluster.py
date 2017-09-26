@@ -1,28 +1,7 @@
 
 def GenerateConfig(context):
-    runtimeconfigName = context.env['deployment'] + '-' + context.properties['cluster'] + '-runtimeconfig'
-    runtimeconfig = {
-        'name': runtimeconfigName,
-        'type': 'runtimeconfig.v1beta1.config',
-        'properties': {
-            'config': runtimeconfigName
-        }
-    }
-
-    nodeCount = {
-        'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-nodeCount',
-        'type': 'runtimeconfig.v1beta1.variable',
-        'properties': {
-            'parent': '$(ref.' + runtimeconfigName + '.name)',
-            'variable': 'nodeCount',
-            'text': str(getNodeCount(context))
-        }
-    }
-
     config={}
     config['resources'] = []
-    config['resources'].append(runtimeconfig)
-    config['resources'].append(nodeCount)
 
     for group in context.properties['groups']:
         groupJSON = {
@@ -43,11 +22,3 @@ def GenerateConfig(context):
         }
         config['resources'].append(groupJSON)
     return config
-
-def getNodeCount(context):
-    nodeCount = 0
-    for group in context.properties['groups']:
-        services = group['services']
-        if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
-            nodeCount += group['nodeCount']
-    return nodeCount
