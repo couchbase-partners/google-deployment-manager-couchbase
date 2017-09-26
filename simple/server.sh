@@ -75,7 +75,6 @@ apt-get -y install jq
 ACCESS_TOKEN=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token | awk -F\" '{ print $4 }')
 PROJECT_ID=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/project/project-id)
 CONFIG=${DEPLOYMENT}-runtimeconfig
-VARIABLE=
 
 # check if we already have a rally point for the cluster
 rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
@@ -83,15 +82,16 @@ rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
   | jq ".text" \
   | sed 's/"//g')
 
-echo rallyPrivateDNS: ${rallyPrivateDNS}
-
-# if not then create it
+# if not then create and populate it
+if [[ $rallyPrivateDNS == "null" ]]
+then
 curl -s -k -X POST \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}" \
   -H "X-GFE-SSL: yes" \
   -d "{name: \"projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS\", text: \"${nodePrivateDNS}\" }" \
   https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables
+fi
 
 # wait for any parallel writes to happen
 sleep 1
