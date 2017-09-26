@@ -23,6 +23,7 @@ echo CLUSTER ${CLUSTER}
 ################### Pick Rally Point ##################
 #######################################################
 
+apt-get update
 apt-get -y install jq
 
 ACCESS_TOKEN=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token | awk -F\" '{ print $4 }')
