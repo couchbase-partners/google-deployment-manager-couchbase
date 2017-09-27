@@ -7,7 +7,7 @@ def GenerateConfig(context):
     else:
         sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-ee-server-' + license
 
-    instanceTemplateName = context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
+    instanceTemplateName = context.env['deployment'][:8] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
     instanceTemplate = {
         'name': instanceTemplateName,
         'type': 'compute.v1.instanceTemplate',
@@ -48,12 +48,13 @@ def GenerateConfig(context):
         }
     }
 
+    instanceGroupManagerName = context.env['deployment'][:8] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-igm'
     instanceGroupManager = {
-        'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-igm',
+        'name': instanceGroupManagerName,
         'type': 'compute.v1.regionInstanceGroupManager',
         'properties': {
             'region': context.properties['region'],
-            'baseInstanceName': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-instance',
+            'baseInstanceName': context.env['deployment'][:8] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-instance',
             'instanceTemplate': '$(ref.' + instanceTemplateName + '.selfLink)',
             'targetSize': context.properties['nodeCount'],
             'autoHealingPolicies': [{
