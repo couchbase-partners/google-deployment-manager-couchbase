@@ -19,7 +19,7 @@ description:
           version: 4.6.3
     - software:
         - title: Counchbase Sync Gateway Enterprise Edition
-          version: 1.4.3-1
+          version: 1.4.1-3
   support:
     - title: Support
       descriptionHtml: 'With Couchbase customers all around the world, our support team provides global coverage. So wherever you’re located, we’ve got you covered. For customers requiring round-the-clock support, 24x7x365 service level agreements are available.'
