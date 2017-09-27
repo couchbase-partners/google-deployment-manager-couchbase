@@ -8,7 +8,7 @@ First, navigate to the Couchbase Cloud Launcher page [here](XXXXXXXXX).
 
 ![](./images/cloudlauncher01.png)
 
-Now click "Launch on Compute Engine."  This will take you to a page where you can configure the VM settings.  The default Deployment name is over a character limit.  Enter a shorter deployment name like "couchbase."
+Now click "Launch on Compute Engine."  This will take you to a page where you can configure the VM settings.  The default Deployment name is over a character limit.  You can enter a shorter deployment name like "couchbase," otherwise the template will truncate the name automatically.
 
 ![](./images/cloudlauncher02.png)
 
