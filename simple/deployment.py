@@ -17,6 +17,7 @@ def GenerateConfig(context):
             'name': context.env['deployment'] + '-' + cluster['cluster'],
             'type': 'cluster.py',
             'properties': {
+                'serverVersion': context.properties['serverVersion'],
                 'couchbaseUsername': context.properties['couchbaseUsername'],
                 'couchbasePassword': context.properties['couchbasePassword'],
                 'license': context.properties['license'],

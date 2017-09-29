@@ -8,6 +8,7 @@ def GenerateConfig(context):
             'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + group['group'],
             'type': 'group.py',
             'properties': {
+                'serverVersion': context.properties['serverVersion'],
                 'couchbaseUsername': context.properties['couchbaseUsername'],
                 'couchbasePassword': context.properties['couchbasePassword'],
                 'license': context.properties['license'],

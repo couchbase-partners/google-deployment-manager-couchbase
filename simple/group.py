@@ -71,11 +71,12 @@ def GenerateConfig(context):
 
 def GenerateStartupScript(context):
     script = '#!/usr/bin/env bash\n\n'
-    script += 'DEPLOYMENT="' + context.env['deployment'] + '"\n'
-    script += 'CLUSTER="' + context.properties['cluster'] + '"\n'
 
     services=context.properties['services']
     if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
+        script += 'DEPLOYMENT="' + context.env['deployment'] + '"\n'
+        script += 'CLUSTER="' + context.properties['cluster'] + '"\n'
+        script += 'serverVersion="' + context.properties['serverVersion'] + '"\n'
         script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
         script += 'couchbasePassword="' + context.properties['couchbasePassword'] + '"\n'
 

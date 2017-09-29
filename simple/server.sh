@@ -6,8 +6,6 @@ echo "Running server.sh"
 
 echo "Turning off transparent hugepages..."
 
-# Please look at http://bit.ly/1ZAcLjD as for how to PERMANENTLY alter this setting.
-
 echo "#!/bin/bash
 ### BEGIN INIT INFO
 # Provides:          disable-thp
@@ -33,20 +31,24 @@ update-rc.d disable-thp defaults
 
 echo "Setting swappiness to 0..."
 
-# Please look at http://bit.ly/1k2CtNn as for how to PERMANENTLY alter this setting.
-
 sysctl vm.swappiness=0
 echo "
 # Required for Couchbase
-vm.swappiness = 0" >> /etc/sysctl.conf
+vm.swappiness = 0
+" >> /etc/sysctl.conf
 
 #######################################################
 ############### Install Couchbase Server ##############
 #######################################################
 
+echo "Installing prerequisites..."
+apt-get update
+apt-get -y install python-httplib2
+apt-get -y install jq
+
 echo "Installing Couchbase Server..."
-wget http://packages.couchbase.com/releases/4.6.3/couchbase-server-enterprise_4.6.3-ubuntu14.04_amd64.deb
-dpkg -i couchbase-server-enterprise_4.6.3-ubuntu14.04_amd64.deb
+wget http://packages.couchbase.com/releases/${serverVersion}/couchbase-server-enterprise_${serverVersion}-ubuntu14.04_amd64.deb
+dpkg -i couchbase-server-enterprise_${serverVersion}-ubuntu14.04_amd64.deb
 apt-get update
 apt-get -y install couchbase-server
 
@@ -57,6 +59,7 @@ apt-get -y install couchbase-server
 echo "Configuring Couchbase Server"
 
 echo "Using the settings:"
+echo serverVersion ${serverVersion}
 echo couchbaseUsername ${couchbaseUsername}
 echo couchbasePassword ${couchbasePassword}
 echo services ${services}
@@ -69,8 +72,6 @@ echo nodePrivateDNS: ${nodePrivateDNS}
 #######################################################
 ################### Pick Rally Point ##################
 #######################################################
-
-apt-get -y install jq
 
 ACCESS_TOKEN=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token | awk -F\" '{ print $4 }')
 PROJECT_ID=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/project/project-id)
@@ -145,15 +146,6 @@ then
     --cluster-username=$couchbaseUsername \
     --cluster-password=$couchbasePassword \
     --services=${services}
-
-    echo "Running couchbase-cli bucket-create"
-  ./couchbase-cli bucket-create \
-    --cluster=$nodePrivateDNS \
-    --user=$couchbaseUsername \
-    --pass=$couchbasePassword \
-    --bucket=sync_gateway \
-    --bucket-type=couchbase \
-    --bucket-ramsize=$dataRAM
 else
   echo "Running couchbase-cli server-add"
   output=""
