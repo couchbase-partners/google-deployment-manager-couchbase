@@ -9,7 +9,7 @@ resources:
 - name: deployment
   type: deployment.py
   properties:
-    serverVersion: 4.6.3
+    serverVersion: 5.0.0
     couchbaseUsername: couchbase
     couchbasePassword: foo123!
     license: byol
