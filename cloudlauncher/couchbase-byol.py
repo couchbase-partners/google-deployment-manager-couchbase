@@ -5,6 +5,7 @@ def GenerateConfig(context):
         'name': 'deployment',
         'type': 'deployment.py',
         'properties': {
+            'serverVersion': '4.6.3',
             'couchbaseUsername': context.properties['couchbaseUsername'],
             'couchbasePassword': context.properties['couchbasePassword'],
             'license': 'byol',
