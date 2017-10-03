@@ -82,9 +82,14 @@ def GetRegionsList(context):
             regions.append(region)
     return regions
 
-
 def GeneratePassword():
-    # https://stackoverflow.com/questions/3854692/generate-password-in-python
-    chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
-    from os import urandom
-    return "".join(chars[ord(c) % len(chars)] for c in urandom(8))
+    import random
+    categories = ['ABCDEFGHJKLMNPQRSTUVWXYZ', 'abcdefghijkmnopqrstuvwxyz', '123456789', '*-+.']
+    candidates = ''.join(categories)
+    generated = ([random.choice(candidates) for _ in range(8 - len(categories))])
+    for category in categories:
+        if set(generated).isdisjoint(category):
+            generated.insert(random.randint(1, len(generated) - 1), random.choice(category))
+        else:
+            generated.insert(random.randint(1, len(generated) - 1), random.choice(candidates))
+    return ''.join(generated)
