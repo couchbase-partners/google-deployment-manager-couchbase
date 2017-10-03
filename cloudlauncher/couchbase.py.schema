@@ -69,11 +69,6 @@ properties:
   serverDiskSize:
     type: integer
     default: 10
-  couchbaseUsername:
-    type: string
-    default: couchbase
-  couchbasePassword:
-    type: string
 
   syncgatewayNodeCount:
     type: integer

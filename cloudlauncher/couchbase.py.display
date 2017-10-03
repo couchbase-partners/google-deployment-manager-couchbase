@@ -81,12 +81,6 @@ input:
     - name: serverDiskSize
       title: Couchbase Server pd-ssd disk size in GB
       section: server
-    - name: couchbaseUsername
-      title: Couchbase Username
-      section: server
-    - name: couchbasePassword
-      title: Couchbase Temporary Password
-      section: server
 
     - name: syncgatewayNodeCount
       title: Couchbase Sync Gateway Node Count
