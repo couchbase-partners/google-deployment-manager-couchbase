@@ -84,8 +84,7 @@ def GetRegionsList(context):
 
 
 def GeneratePassword():
-    import secrets
-    import string
-    alphabet = string.ascii_letters + string.digits
-    password = ''.join(secrets.choice(alphabet) for i in range(8))
-    return password
+    # https://stackoverflow.com/questions/3854692/generate-password-in-python
+    chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
+    from os import urandom
+    return "".join(chars[ord(c) % len(chars)] for c in urandom(8))
