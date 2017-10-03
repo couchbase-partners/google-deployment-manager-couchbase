@@ -84,11 +84,9 @@ def GetRegionsList(context):
 def GeneratePassword():
     import random
     categories = ['ABCDEFGHJKLMNPQRSTUVWXYZ', 'abcdefghijkmnopqrstuvwxyz', '123456789', '*-+.']
-    candidates = ''.join(categories)
-    generated = ([random.choice(candidates) for _ in range(8 - len(categories))])
+    password=[]
     for category in categories:
-        if set(generated).isdisjoint(category):
-            generated.insert(random.randint(1, len(generated) - 1), random.choice(category))
-        else:
-            generated.insert(random.randint(1, len(generated) - 1), random.choice(candidates))
-    return ''.join(generated)
+        password.insert(random.randint(0, len(password)), random.choice(category))
+    while len(password) < 8:
+        password.insert(random.randint(0, len(password)), random.choice(''.join(categories)))
+    return ''.join(password)
