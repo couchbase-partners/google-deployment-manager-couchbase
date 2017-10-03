@@ -2,15 +2,7 @@ def GenerateConfig(context):
     license = 'hourly-pricing'
 
     couchbaseUsername='couchbase'
-    couchbasePassword = {
-        'name': 'generated-password',
-        'type': 'password.py',
-        'properties': {
-            'length': 8,
-            'includeSymbols': True
-        }
-    }
-    couchbasePassword=str(couchbasePassword)
+    couchbasePassword = GeneratePassword()
 
     deployment = {
         'name': 'deployment',
@@ -38,6 +30,7 @@ def GenerateConfig(context):
     config={}
     config['resources'] = []
     config['resources'].append(deployment)
+    config['resources'].append(couchbasePassword)
     config['outputs']=outputs
     return config
 
@@ -88,3 +81,11 @@ def GetRegionsList(context):
         if context.properties[region]:
             regions.append(region)
     return regions
+
+
+def GeneratePassword():
+    import secrets
+    import string
+    alphabet = string.ascii_letters + string.digits
+    password = ''.join(secrets.choice(alphabet) for i in range(8))
+    return password
