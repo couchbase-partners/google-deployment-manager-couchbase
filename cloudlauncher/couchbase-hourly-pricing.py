@@ -30,7 +30,6 @@ def GenerateConfig(context):
     config={}
     config['resources'] = []
     config['resources'].append(deployment)
-    config['resources'].append(couchbasePassword)
     config['outputs']=outputs
     return config
 
