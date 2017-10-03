@@ -10,6 +10,7 @@ def GenerateConfig(context):
             'includeSymbols': True
         }
     }
+    couchbasePassword=str(couchbasePassword)
 
     deployment = {
         'name': 'deployment',
@@ -30,7 +31,7 @@ def GenerateConfig(context):
         },
         {
             'name': 'couchbasePassword',
-            'value': 'asd'
+            'value': couchbasePassword
         }
     ]
 
