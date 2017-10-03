@@ -7,6 +7,7 @@ function makeArchive()
   mkdir tmp
 
   cp couchbase-${license}.py tmp/couchbase.py
+  cp password.py tmp
   cp couchbase.py.display tmp
   cp couchbase.py.schema tmp
   cp c2d_deployment_configuration.json tmp

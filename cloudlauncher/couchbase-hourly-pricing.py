@@ -1,13 +1,15 @@
 def GenerateConfig(context):
     clusters=GetClusters(context)
+    couchbaseUsername='couchbase'
+    couchbasePassword=''
 
     deployment = {
         'name': 'deployment',
         'type': 'deployment.py',
         'properties': {
             'serverVersion': '4.6.3',
-            'couchbaseUsername': context.properties['couchbaseUsername'],
-            'couchbasePassword': context.properties['couchbasePassword'],
+            'couchbaseUsername': couchbaseUsername,
+            'couchbasePassword': couchbasePassword,
             'license': 'hourly-pricing',
             'clusters': clusters
         }

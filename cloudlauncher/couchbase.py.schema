@@ -9,8 +9,6 @@ required:
   - serverNodeCount
   - serverNodeType
   - serverDiskSize
-  - couchbaseUsername
-  - couchbasePassword
   - syncgatewayNodeCount
   - syncgatewayNodeType
   - syncgatewayDiskSize
@@ -92,7 +90,11 @@ properties:
     default: 10
 
 outputs:
+  project:
+    type: string
   deployment:
     type: string
-  project:
+  couchbaseUsername:
+    type: string
+  couchbasePassword:
     type: string
