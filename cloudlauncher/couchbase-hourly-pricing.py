@@ -1,4 +1,6 @@
 def GenerateConfig(context):
+    license = 'hourly-pricing'
+
     clusters=GetClusters(context)
     couchbaseUsername='couchbase'
     couchbasePassword = {
@@ -17,7 +19,7 @@ def GenerateConfig(context):
             'serverVersion': '4.6.3',
             'couchbaseUsername': couchbaseUsername,
             'couchbasePassword': couchbasePassword,
-            'license': 'hourly-pricing',
+            'license': license,
             'clusters': clusters
         }
     }
