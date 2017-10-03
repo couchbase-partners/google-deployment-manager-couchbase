@@ -4,7 +4,7 @@ def GenerateConfig(context):
     couchbaseUsername='couchbase'
     couchbasePassword = {
         'name': 'generated-password',
-        'type': 'password.py'
+        'type': 'password.py',
         'properties': {
             'length': 8,
             'includeSymbols': True
