@@ -90,10 +90,6 @@ properties:
     default: 10
 
 outputs:
-  project:
-    type: string
-  deployment:
-    type: string
   couchbaseUsername:
     type: string
   couchbasePassword:

@@ -15,9 +15,16 @@ def GenerateConfig(context):
         }
     }
 
+    outputs = {
+        'couchbaseUsername': couchbaseUsername,
+        'couchbasePassword': couchbasePassword
+    }
+
     config={}
     config['resources'] = []
     config['resources'].append(deployment)
+    config['outputs'].append(outputs)
+    )
     return config
 
 def GetClusters(context):
