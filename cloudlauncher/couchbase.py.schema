@@ -1,4 +1,5 @@
 imports:
+  - path: password.py
   - path: deployment.py
   - path: cluster.py
   - path: group.py

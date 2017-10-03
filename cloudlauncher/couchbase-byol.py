@@ -1,7 +1,14 @@
 def GenerateConfig(context):
     clusters=GetClusters(context)
     couchbaseUsername='couchbase'
-    couchbasePassword=''
+    couchbasePassword = {
+        'name': 'generated-password',
+        'type': 'password.py'
+        'properties': {
+            'length': 8,
+            'includeSymbols': True
+        }
+    }
 
     deployment = {
         'name': 'deployment',
