@@ -32,7 +32,6 @@ def GenerateConfig(context):
     config['resources'] = []
     config['resources'].append(deployment)
     config['outputs'].append(outputs)
-    )
     return config
 
 def GetClusters(context):
