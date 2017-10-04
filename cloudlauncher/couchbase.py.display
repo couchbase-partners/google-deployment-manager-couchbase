@@ -107,3 +107,5 @@ runtime:
       description: The admin interface will be available on port 8091 of any Couchbase Server node.  You can login with the username and password provided at deploy time.
     - heading: Couchbase Sync Gateway
       description: The Sync Gateway interface will be available on port 4984 of any Couchbase Sync Gateway node.  The admin interface will be available on :4985/_admin of any Couchbase Sync Gateway node.
+    - heading: Instance Groups
+      description: Nodes are deployed using Instance Groups.  You can view your instance groups at https://console.cloud.google.com/compute/instanceGroups/list
