@@ -117,11 +117,6 @@ We're currently working with Orbitera on the Test Drive.  It's not yet complete.
 
 ## 5 - Documentation & Support
 
-### Tutorial and documentation
-
-* Type - Getting Started on Cloud Launcher
-* URL - https://github.com/couchbase-partners/google-deployment-manager-couchbase/blob/master/documentation/cloudLauncher.md
-
 ### Support description
 With Couchbase customers all around the world, our support team provides global coverage. So wherever you’re located, we’ve got you covered. For customers requiring round-the-clock support, 24x7x365 service level agreements are available.
 
