@@ -7,14 +7,16 @@ This folder contains artifacts for the Couchbase Cloud Launcher offer.  This sho
 First off, we need to decide what OS image to use.  We're using the latest Ubuntu 14.04.  You can figure out what that is by running:
 
     gcloud compute images list
-    IMAGE_NAME=ubuntu-1404-trusty-v20170831
+    IMAGE_VERSION=v20170918
+    IMAGE_NAME=ubuntu-1404-trusty-${IMAGE_VERSION}
 
 Next, create the instances:
 
-    INSTANCES=( couchbase-ee-server-hourly-pricing couchbase-ee-sync-gateway-hourly-pricing couchbase-ee-server-byol couchbase-ee-sync-gateway-byol)
+    LICENSES=( couchbase-ee-server-hourly-pricing couchbase-ee-sync-gateway-hourly-pricing couchbase-ee-server-byol couchbase-ee-sync-gateway-byol )
 
-    for INSTANCE in "${INSTANCES[@]}"
+    for LICENSE in "${LICENSES[@]}"
     do
+      INSTANCE=${LICENSE}-${IMAGE_VERSION}
       gcloud compute instances create ${INSTANCE} \
         --project "couchbase-public" \
         --zone "us-central1-f" \
@@ -28,20 +30,24 @@ Next, create the instances:
         --scopes "storage-rw"
     done
 
-Now edit each instance in the console so that delete the VM does not delete the disk.  When that is complete delete all four VMs.
+Now edit each instance in the console so that delete the VM does not delete the disk.  When that is complete stop and then delete all four VMs.
 
 Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).  Note that you do not need to mount the disks and delete files since none were created.  Running this command should be sufficient:
 
-    for INSTANCE in "${INSTANCES[@]}"
+    cd ~/google
+    for LICENSE in "${LICENSES[@]}"
     do
+      INSTANCE=${LICENSE}-${IMAGE_VERSION}
       python image_creator.py \
         --project couchbase-public \
         --disk ${INSTANCE} \
         --name ${INSTANCE} \
         --description ${INSTANCE} \
         --destination-project couchbase-public \
-        --license couchbase-public/${INSTANCE}
+        --license couchbase-public/${LICENSE}
     done
+
+Somehow need to attach this too ubuntu-os-cloud/ubuntu-1404-trusty
 
 # Create Deployment Package
 
