@@ -10,7 +10,11 @@ description:
   eulaUrl: 'https://www.couchbase.com/docs/common/terms-of-service.html'
   documentations:
     - title: Getting Started on Cloud Launcher
-      url: 'https://github.com/couchbase-partners/google-deployment-manager-couchbase/blob/master/documentation/cloudLauncher.md'
+      url: https://github.com/couchbase-partners/google-deployment-manager-couchbase/blob/master/documentation/cloudLauncher.md
+      destinations:
+        - DESTINATION_SOLUTION_DETAILS
+        - DESTINATION_CONFIGURATION
+        - DESTINATION_POST_DEPLOY
   softwareGroups:
     - type: SOFTWARE_GROUP_OS
       software:
