@@ -99,9 +99,9 @@ runtime:
   applicationTable:
      rows:
      - label: Couchbase Username
-       value: '{{outputs().couchbaseUsername }}'
+       value: '{{ outputs().couchbaseUsername }}'
      - label: Couchbase Password
-       value: '{{outputs().couchbasePassword }}'
+       value: '{{ outputs().couchbasePassword }}'
   suggestedActions:
     - heading: Couchbase Server
       description: The admin interface will be available on port 8091 of any Couchbase Server node.  You can login with the username and password provided at deploy time.
