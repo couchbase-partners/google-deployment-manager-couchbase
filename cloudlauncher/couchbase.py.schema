@@ -9,6 +9,7 @@ required:
   - serverNodeCount
   - serverNodeType
   - serverDiskSize
+  - serverVersion
   - syncgatewayNodeCount
   - syncgatewayNodeType
   - syncgatewayDiskSize
@@ -68,6 +69,9 @@ properties:
   serverDiskSize:
     type: integer
     default: 10
+  serverVersion:
+    type: string
+    default: 5.0.0
 
   syncgatewayNodeCount:
     type: integer

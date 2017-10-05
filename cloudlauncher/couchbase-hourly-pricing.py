@@ -8,7 +8,7 @@ def GenerateConfig(context):
         'name': 'deployment',
         'type': 'deployment.py',
         'properties': {
-            'serverVersion': '4.6.3',
+            'serverVersion': context.properties['serverVersion'],
             'couchbaseUsername': couchbaseUsername,
             'couchbasePassword': couchbasePassword,
             'license': license,

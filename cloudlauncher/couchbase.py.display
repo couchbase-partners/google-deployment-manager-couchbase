@@ -2,7 +2,7 @@ metadata_version: v1
 
 description:
   title: Couchbase Enterprise Edition
-  version: 4.6.3
+  version: Server and Sync Gateway
   author:
     title: Couchbase
   tagline: 'The system of engagement database for web, mobile and IoT'
@@ -21,11 +21,8 @@ description:
         - title: Ubuntu
           version: 14.04 LTS
     - software:
-        - title: Counchbase Server Enterprise Edition
-          version: 4.6.3
-    - software:
-        - title: Counchbase Sync Gateway Enterprise Edition
-          version: 1.4.1-3
+        - title: Counchbase Enterprise Edition
+          version: Server and Sync Gateway
   support:
     - title: Support
       descriptionHtml: 'With Couchbase customers all around the world, our support team provides global coverage. So wherever you’re located, we’ve got you covered. For customers requiring round-the-clock support, 24x7x365 service level agreements are available.'
@@ -86,6 +83,9 @@ input:
       section: server
     - name: serverDiskSize
       title: Couchbase Server pd-ssd disk size in GB
+      section: server
+    - name: serverVersion
+      title: Couchbase Server Version
       section: server
 
     - name: syncgatewayNodeCount
