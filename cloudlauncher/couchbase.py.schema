@@ -72,6 +72,10 @@ properties:
   serverVersion:
     type: string
     default: 5.0.0
+    enum:
+      - 5.0.0
+      - 4.6.3
+      - 4.6.2
 
   syncgatewayNodeCount:
     type: integer
