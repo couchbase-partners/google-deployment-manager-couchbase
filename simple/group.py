@@ -7,7 +7,7 @@ def GenerateConfig(context):
     else:
         sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-ee-server-' + license + '-v20170918'
 
-    instanceTemplateName = context.env['deployment'][:9] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
+    instanceTemplateName = '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
     instanceTemplate = {
         'name': instanceTemplateName,
         'type': 'compute.v1.instanceTemplate',
@@ -48,7 +48,7 @@ def GenerateConfig(context):
         }
     }
 
-    instanceGroupManagerName = context.env['deployment'][:9] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-igm'
+    instanceGroupManagerName = '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-igm'
     instanceGroupManager = {
         'name': instanceGroupManagerName,
         'type': 'compute.v1.regionInstanceGroupManager',

@@ -5,7 +5,7 @@ def GenerateConfig(context):
 
     for group in context.properties['groups']:
         groupJSON = {
-            'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + group['group'],
+            'name': '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-' + context.properties['cluster'] + '-' + group['group'],
             'type': 'group.py',
             'properties': {
                 'serverVersion': context.properties['serverVersion'],
