@@ -54,7 +54,7 @@ def GenerateConfig(context):
         'type': 'compute.v1.regionInstanceGroupManager',
         'properties': {
             'region': context.properties['region'],
-            'baseInstanceName': context.env['deployment'][:9] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-instance',
+            'baseInstanceName': '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-instance',
             'instanceTemplate': '$(ref.' + instanceTemplateName + '.selfLink)',
             'targetSize': context.properties['nodeCount'],
             'autoHealingPolicies': [{
@@ -74,7 +74,7 @@ def GenerateStartupScript(context):
 
     services=context.properties['services']
     if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
-        script += 'DEPLOYMENT="' + context.env['deployment'] + '"\n'
+        script += 'DEPLOYMENT="' + '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '"\n'
         script += 'CLUSTER="' + context.properties['cluster'] + '"\n'
         script += 'serverVersion="' + context.properties['serverVersion'] + '"\n'
         script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
