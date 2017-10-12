@@ -10,10 +10,10 @@ required:
   - serverNodeType
   - serverDiskSize
   - serverVersion
-  - syncgatewayNodeCount
-  - syncgatewayNodeType
-  - syncgatewayDiskSize
-  - syncgatewayVersion
+  - syncGatewayNodeCount
+  - syncGatewayNodeType
+  - syncGatewayDiskSize
+  - syncGatewayVersion
 
 properties:
   us-central1:
