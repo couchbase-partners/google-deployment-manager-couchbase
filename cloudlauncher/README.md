@@ -7,12 +7,17 @@ This folder contains artifacts for the Couchbase Cloud Launcher offer.  This sho
 First off, we need to decide what OS image to use.  We're using the latest Ubuntu 14.04.  You can figure out what that is by running:
 
     gcloud compute images list
-    IMAGE_VERSION=v20170918
+    IMAGE_VERSION=v20171010
     IMAGE_NAME=ubuntu-1404-trusty-${IMAGE_VERSION}
 
 Next, create the instances:
 
-    LICENSES=( couchbase-ee-server-hourly-pricing couchbase-ee-sync-gateway-hourly-pricing couchbase-ee-server-byol couchbase-ee-sync-gateway-byol )
+    LICENSES=( \
+      couchbase-server-ee-byol \
+      couchbase-sync-gateway-ee-byol \
+      couchbase-server-ee-hourly-pricing \
+      couchbase-sync-gateway-ee-hourly-pricing \
+    )
 
     for LICENSE in "${LICENSES[@]}"
     do
@@ -34,20 +39,47 @@ Now edit each instance in the console so that delete the VM does not delete the 
 
 Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).  Note that you do not need to mount the disks and delete files since none were created.  Running this command should be sufficient:
 
-    cd ~/google
-    for LICENSE in "${LICENSES[@]}"
-    do
-      INSTANCE=${LICENSE}-${IMAGE_VERSION}
-      python image_creator.py \
-        --project couchbase-public \
-        --disk ${INSTANCE} \
-        --name ${INSTANCE} \
-        --description ${INSTANCE} \
-        --destination-project couchbase-public \
-        --license couchbase-public/${LICENSE}
-    done
+Note the license names are in flux while we wait for ones called "hourly-pricing."
 
-Somehow need to attach this too ubuntu-os-cloud/ubuntu-1404-trusty
+    cd ~/google
+
+    INSTANCE=couchbase-server-ee-byol-v20171010
+    python image_creator.py \
+      --project couchbase-public \
+      --disk ${INSTANCE} \
+      --name ${INSTANCE} \
+      --description ${INSTANCE} \
+      --destination-project couchbase-public \
+      --license couchbase-public/couchbase-server-ee-byol
+
+    INSTANCE=couchbase-sync-gateway-ee-byol-v20171010
+    python image_creator.py \
+      --project couchbase-public \
+      --disk ${INSTANCE} \
+      --name ${INSTANCE} \
+      --description ${INSTANCE} \
+      --destination-project couchbase-public \
+      --license couchbase-public/couchbase-sync-gateway-ee-byol
+
+    INSTANCE=couchbase-server-ee-hourly-pricing-v20171010
+    python image_creator.py \
+      --project couchbase-public \
+      --disk ${INSTANCE} \
+      --name ${INSTANCE} \
+      --description ${INSTANCE} \
+      --destination-project couchbase-public \
+      --license couchbase-public/couchbase-server-ee-hourly
+
+    INSTANCE=couchbase-sync-gateway-ee-hourly-pricing-v20171010
+    python image_creator.py \
+      --project couchbase-public \
+      --disk ${INSTANCE} \
+      --name ${INSTANCE} \
+      --description ${INSTANCE} \
+      --destination-project couchbase-public \
+      --license couchbase-public/couchbase-sync-gateway-ee-hourly
+
+The license ID for ubuntu-os-cloud/ubuntu-1404-trusty should be attached by default.
 
 # Create Deployment Package
 
