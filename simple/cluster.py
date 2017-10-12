@@ -9,6 +9,7 @@ def GenerateConfig(context):
             'type': 'group.py',
             'properties': {
                 'serverVersion': context.properties['serverVersion'],
+                'syncGatewayVersion': context.properties['syncGatewayVersion'],
                 'couchbaseUsername': context.properties['couchbaseUsername'],
                 'couchbasePassword': context.properties['couchbasePassword'],
                 'license': context.properties['license'],

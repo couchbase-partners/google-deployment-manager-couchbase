@@ -10,6 +10,7 @@ resources:
   type: deployment.py
   properties:
     serverVersion: 5.0.0
+    syncGatewayVersion: 1.5.0
     couchbaseUsername: couchbase
     couchbasePassword: foo123!
     license: byol
