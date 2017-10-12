@@ -98,7 +98,7 @@ input:
       title: Couchbase Sync Gateway pd-ssd disk size in GB
       section: syncGateway
     - name: syncGatewayVersion
-      title: Couchbase Server Version
+      title: Couchbase Sync Gateway Version
       section: syncGateway
 
 runtime:
