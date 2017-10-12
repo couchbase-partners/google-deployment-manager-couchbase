@@ -77,7 +77,6 @@ def GenerateStartupScript(context):
         script += 'DEPLOYMENT="' + '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '"\n'
         script += 'CLUSTER="' + context.properties['cluster'] + '"\n'
         script += 'serverVersion="' + context.properties['serverVersion'] + '"\n'
-        script += 'syncGatewayVersion="' + context.properties['syncGatewayVersion'] + '"\n'
         script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
         script += 'couchbasePassword="' + context.properties['couchbasePassword'] + '"\n'
 
@@ -90,6 +89,7 @@ def GenerateStartupScript(context):
         script+= context.imports['server.sh']
 
     if 'syncGateway' in services:
-        script+=context.imports['syncGateway.sh']
+        script += 'syncGatewayVersion="' + context.properties['syncGatewayVersion'] + '"\n'
+        script += context.imports['syncGateway.sh']
 
     return script
