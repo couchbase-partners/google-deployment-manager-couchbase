@@ -32,7 +32,7 @@ input:
   sections:
     - name: server
       title: Couchbase Server
-    - name: syncgateway
+    - name: syncGateway
       title: Couchbase Sync Gateway
 
   booleanGroups:
