@@ -91,13 +91,13 @@ input:
     - name: syncGatewayNodeCount
       title: Couchbase Sync Gateway Node Count
       section: syncGateway
-    - name: syncgatewayNodeType
+    - name: syncGatewayNodeType
       title: Couchbase Sync Gateway Node Type
       section: syncGateway
-    - name: syncgatewayDiskSize
+    - name: syncGatewayDiskSize
       title: Couchbase Sync Gateway pd-ssd disk size in GB
       section: syncGateway
-    - name: syncgatewayVersion
+    - name: syncGatewayVersion
       title: Couchbase Server Version
       section: syncGateway
 
