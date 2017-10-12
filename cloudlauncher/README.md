@@ -98,7 +98,7 @@ This template includes a license for Couchbase Enterprise Edition and <a href="h
 This template is for bring your own license (BYOL) users.  To purchase a license go <a href="https://www.couchbase.com/subscriptions-and-support">here</a>.
 
 ### Version
-4.6.3
+Server and Sync Gateway
 
 ### Category ID
 * Big Data
@@ -129,4 +129,4 @@ https://www.couchbase.com/docs/common/terms-of-service.html
 ## 6 - Deployment Package
 
 ### Configure Deployment Package
-Select "Upload a package" and upload the zip you created with [markArchives.sh](makeArchives.sh) earlier.  With this complete you can test and publish the offer.  You may want to upload the package before configuring anything else since it sometimes clobbers others changes in the portal.
+Select "Upload a package" and upload the zip you created with [markArchives.sh](makeArchives.sh) earlier.  With this complete you can test and publish the offer.  You may want to upload the package before configuring anything else since it sometimes clobbers others changes in the portal.  This package upload will clobber the solution name, so BYOL will need to be renamed after upload.
