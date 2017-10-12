@@ -9,6 +9,7 @@ def GenerateConfig(context):
         'type': 'deployment.py',
         'properties': {
             'serverVersion': context.properties['serverVersion'],
+            'syncGatewayVersion': context.properties['syncGatewayVersion'],
             'couchbaseUsername': couchbaseUsername,
             'couchbasePassword': couchbasePassword,
             'license': license,
@@ -51,9 +52,9 @@ def GetClusters(context):
                 },
                 {
                     'group': 'syncgateway',
-                    'diskSize': context.properties['syncgatewayDiskSize'],
-                    'nodeCount': context.properties['syncgatewayNodeCount'],
-                    'nodeType': context.properties['syncgatewayNodeType'],
+                    'diskSize': context.properties['syncGatewayDiskSize'],
+                    'nodeCount': context.properties['syncGatewayNodeCount'],
+                    'nodeType': context.properties['syncGatewayNodeType'],
                     'services': ['syncGateway']
                 }
             ]

@@ -88,15 +88,18 @@ input:
       title: Couchbase Server Version
       section: server
 
-    - name: syncgatewayNodeCount
+    - name: syncGatewayNodeCount
       title: Couchbase Sync Gateway Node Count
-      section: syncgateway
+      section: syncGateway
     - name: syncgatewayNodeType
       title: Couchbase Sync Gateway Node Type
-      section: syncgateway
+      section: syncGateway
     - name: syncgatewayDiskSize
       title: Couchbase Sync Gateway pd-ssd disk size in GB
-      section: syncgateway
+      section: syncGateway
+    - name: syncgatewayVersion
+      title: Couchbase Server Version
+      section: syncGateway
 
 runtime:
   deployingMessage: Deployment can take several minutes to complete.
