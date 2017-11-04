@@ -1,4 +1,3 @@
-
 import naming
 
 def GenerateConfig(context):

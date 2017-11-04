@@ -2,6 +2,7 @@ imports:
   - path: deployment.py
   - path: cluster.py
   - path: group.py
+  - path: naming.py
   - path: syncGateway.sh
   - path: server.sh
 
