@@ -1,0 +1,62 @@
+imports:
+  - path: deployment.py
+  - path: cluster.py
+  - path: group.py
+  - path: naming.py
+  - path: startupCommon.sh
+  - path: server.sh
+  - path: syncGateway.sh
+  - path: successNotification.sh
+
+required:
+  - serverNodeCount
+  - serverNodeType
+  - serverDiskSize
+  - serverVersion
+  - syncGatewayNodeCount
+  - syncGatewayNodeType
+  - syncGatewayDiskSize
+  - syncGatewayVersion
+
+properties:
+  serverNodeCount:
+    type: integer
+    default: 3
+    minimum: 1
+    maximum: 10
+  serverNodeType:
+    type: string
+    default: n1-standard-1
+  serverDiskSize:
+    type: integer
+    default: 10
+  serverVersion:
+    type: string
+    default: 5.0.0
+    enum:
+      - 5.0.0
+      - 4.6.3
+      - 4.6.2
+
+  syncGatewayNodeCount:
+    type: integer
+    default: 1
+    minimum: 0
+    maximum: 10
+  syncGatewayNodeType:
+    type: string
+    default: n1-standard-1
+  syncGatewayDiskSize:
+    type: integer
+    default: 10
+  syncGatewayVersion:
+    type: string
+    default: 1.5.0
+    enum:
+      - 1.5.0
+
+outputs:
+  couchbaseUsername:
+    type: string
+  couchbasePassword:
+    type: string
