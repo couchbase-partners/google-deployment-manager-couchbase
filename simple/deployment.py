@@ -3,6 +3,7 @@ import naming
 def GenerateConfig(context):
     config={}
     config['resources'] = []
+    config['outputs'] = []
 
     runtimeconfigName = naming.RuntimeConfigName(context)
     runtimeconfig = {
@@ -15,8 +16,11 @@ def GenerateConfig(context):
     config['resources'].append(runtimeconfig)
 
     for cluster in context.properties['clusters']:
+        clusterName = cluster['cluster']
+        clusterResourceName = naming.ClusterName(context, clusterName)
+
         clusterJSON = {
-            'name': naming.ClusterName(context, cluster['cluster']),
+            'name': clusterResourceName,
             'type': 'cluster.py',
             'properties': {
                 'runtimeconfigName': runtimeconfigName,
@@ -31,6 +35,15 @@ def GenerateConfig(context):
             }
         }
         config['resources'].append(clusterJSON)
+
+        for group in cluster['groups']:
+            groupName = group['group']
+            outputName = naming.ExternalIpOutputName(clusterName, groupName)
+            config['outputs'].append({
+                'name': outputName,
+                'value': '$(ref.%s.%s)' % (clusterResourceName, outputName)
+            })
+
 
     firewall = {
         'name': naming.FirewallName(context),

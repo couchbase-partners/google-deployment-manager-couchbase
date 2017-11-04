@@ -1,8 +1,25 @@
+import naming
+
 def GenerateConfig(context):
     license = 'hourly-pricing'
 
+    config={}
+    config['resources'] = []
+    config['outputs'] = []
+
     couchbaseUsername='couchbase'
     couchbasePassword = GeneratePassword()
+
+    config['outputs'].append({
+        'name': 'couchbaseUsername',
+        'value': couchbaseUsername
+    })
+    config['outputs'].append({
+        'name': 'couchbasePassword',
+        'value': couchbasePassword
+    })
+
+    clusters = GetClusters(context)
 
     deployment = {
         'name': 'deployment',
@@ -13,25 +30,20 @@ def GenerateConfig(context):
             'couchbaseUsername': couchbaseUsername,
             'couchbasePassword': couchbasePassword,
             'license': license,
-            'clusters': GetClusters(context)
+            'clusters': clusters
         }
     }
-
-    outputs = [
-        {
-            'name': 'couchbaseUsername',
-            'value': couchbaseUsername
-        },
-        {
-            'name': 'couchbasePassword',
-            'value': couchbasePassword
-        }
-    ]
-
-    config={}
-    config['resources'] = []
     config['resources'].append(deployment)
-    config['outputs']=outputs
+
+    for cluster in clusters:
+        clusterName = cluster['cluster']
+        for group in cluster['groups']:
+            outputName = naming.ExternalIpOutputName(clusterName, group['group'])
+            config['outputs'].append({
+                'name': outputName,
+                'value': '$(ref.deployment.%s)' % outputName
+            })
+
     return config
 
 def GetClusters(context):

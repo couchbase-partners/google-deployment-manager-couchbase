@@ -22,6 +22,17 @@ def WaiterName(context, clusterName, groupName):
     return '%s-%s-%s-waiter' % \
            (BaseDeploymentName(context), clusterName, groupName)
 
+def ExternalIpVariableCreateActionName(context, clusterName, groupName):
+    return '%s-%s-%s-ext-ip-create' % \
+           (BaseDeploymentName(context), clusterName, groupName)
+
+def ExternalIpVariableReadActionName(context, clusterName, groupName):
+    return '%s-%s-%s-ext-ip-read' % \
+           (BaseDeploymentName(context), clusterName, groupName)
+
+def ExternalIpOutputName(clusterName, groupName):
+    return 'externalIp-%s-%s' % (clusterName, groupName)
+
 def FirewallName(context):
     return '%s-firewall' % BaseDeploymentName(context)
 

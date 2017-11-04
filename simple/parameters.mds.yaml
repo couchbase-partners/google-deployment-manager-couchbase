@@ -32,3 +32,9 @@ resources:
               - query
               - index
               - fts
+
+outputs:
+- name: dataGroupAdminUrl
+  value: http://$(ref.deployment.externalIp-cluster1-group1):8091/
+- name: queryGroupAdminUrl
+  value: http://$(ref.deployment.externalIp-cluster1-group2):8091/
