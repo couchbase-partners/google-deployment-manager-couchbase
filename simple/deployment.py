@@ -19,6 +19,7 @@ def GenerateConfig(context):
             'name': naming.ClusterName(context, cluster['cluster']),
             'type': 'cluster.py',
             'properties': {
+                'runtimeconfigName': runtimeconfigName,
                 'serverVersion': context.properties['serverVersion'],
                 'syncGatewayVersion': context.properties['syncGatewayVersion'],
                 'couchbaseUsername': context.properties['couchbaseUsername'],
