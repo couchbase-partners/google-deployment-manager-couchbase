@@ -1,11 +1,13 @@
 
+import naming
+
 def GenerateConfig(context):
     config={}
     config['resources'] = []
 
     for group in context.properties['groups']:
         groupJSON = {
-            'name': '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-' + context.properties['cluster'] + '-' + group['group'],
+            'name': naming.GroupName(context, context.properties['cluster'], group['group']),
             'type': 'group.py',
             'properties': {
                 'serverVersion': context.properties['serverVersion'],

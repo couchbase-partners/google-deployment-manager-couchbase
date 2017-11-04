@@ -1,3 +1,5 @@
+import naming
+
 URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 
 def GenerateConfig(context):
@@ -7,7 +9,10 @@ def GenerateConfig(context):
     else:
         sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-v20171101'
 
-    instanceTemplateName = '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
+    clusterName = context.properties['cluster']
+    groupName = context.properties['group']
+
+    instanceTemplateName = naming.InstanceTemplateName(context, clusterName, groupName)
     instanceTemplate = {
         'name': instanceTemplateName,
         'type': 'compute.v1.instanceTemplate',
@@ -48,13 +53,13 @@ def GenerateConfig(context):
         }
     }
 
-    instanceGroupManagerName = '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-igm'
+    instanceGroupManagerName = naming.InstanceGroupManagerName(context, clusterName, groupName)
     instanceGroupManager = {
         'name': instanceGroupManagerName,
         'type': 'compute.v1.regionInstanceGroupManager',
         'properties': {
             'region': context.properties['region'],
-            'baseInstanceName': '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-instance',
+            'baseInstanceName': naming.InstanceGroupInstanceBaseName(context, clusterName, groupName),
             'instanceTemplate': '$(ref.' + instanceTemplateName + '.selfLink)',
             'targetSize': context.properties['nodeCount'],
             'autoHealingPolicies': [{
@@ -74,7 +79,7 @@ def GenerateStartupScript(context):
 
     services=context.properties['services']
     if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
-        script += 'DEPLOYMENT="' + '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '"\n'
+        script += 'DEPLOYMENT="' + naming.BaseDeploymentName(context) + '"\n'
         script += 'CLUSTER="' + context.properties['cluster'] + '"\n'
         script += 'serverVersion="' + context.properties['serverVersion'] + '"\n'
         script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'

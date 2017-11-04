@@ -15,6 +15,7 @@ function makeArchive()
   cp ../simple/deployment.py tmp
   cp ../simple/cluster.py tmp
   cp ../simple/group.py tmp
+  cp ../simple/naming.py tmp
   cp ../simple/server.sh tmp
   cp ../simple/syncGateway.sh tmp
 
