@@ -1,7 +1,7 @@
 import re
 
-def _SanitizeDeploymentName(deploymentNmae):
-    sanitizedName = '-'.join(deploymentNmae.split("-")[-2:])[-20:]
+def _SanitizeDeploymentName(deploymentName):
+    sanitizedName = '-'.join(deploymentName.split("-")[-2:])[-20:]
     if re.match('[0-9-].*', sanitizedName):
         sanitizedName = 'cb-' + sanitizedName[-17:]
     return sanitizedName
