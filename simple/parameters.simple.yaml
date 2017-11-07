@@ -30,3 +30,7 @@ resources:
               - query
               - index
               - fts
+
+outputs:
+- name: clusterAdminUrl
+  value: http://$(ref.deployment.externalIp-cluster1-group1):8091/

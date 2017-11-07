@@ -3,8 +3,12 @@ import naming
 def GenerateConfig(context):
     config={}
     config['resources'] = []
+    config['outputs'] = []
+
+    clusterName = context.properties['cluster']
 
     for group in context.properties['groups']:
+        groupName = group['group']
         groupJSON = {
             'name': naming.GroupName(context, context.properties['cluster'], group['group']),
             'type': 'group.py',
@@ -25,4 +29,8 @@ def GenerateConfig(context):
             }
         }
         config['resources'].append(groupJSON)
+        config['outputs'].append({
+            'name': naming.ExternalIpOutputName(clusterName, groupName),
+            'value': '$(ref.%s.externalIp)' % naming.GroupName(context, clusterName, groupName)
+        })
     return config

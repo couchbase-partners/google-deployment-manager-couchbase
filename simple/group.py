@@ -4,21 +4,97 @@ URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 WAITER_TIMEOUT = '300s'
 
 def GenerateConfig(context):
+    runtimeconfigName = context.properties['runtimeconfigName']
+    instanceGroupTargetSize = context.properties['nodeCount']
+
+    externalIpCreateAction = GenerateExternalIpCreateActionConfig(context, runtimeconfigName)
+    externalIpCreateActionName = externalIpCreateAction['name']
+
+    instanceTemplate = GenerateInstanceTemplateConfig(context, runtimeconfigName)
+    instanceTemplateName = instanceTemplate['name']
+
+    instanceGroupManager = GenerateInstanceGroupManagerConfig(
+        context, instanceTemplateName, instanceGroupTargetSize, externalIpCreateActionName)
+    instanceGroupManagerName = instanceGroupManager['name']
+
+    groupWaiter = GenerateGroupWaiterConfig(context, runtimeconfigName,
+                                            instanceGroupManagerName, instanceGroupTargetSize)
+    groupWaiterName = groupWaiter['name']
+
+    externalIpReadAction = GenerateExternalIpReadActionConfig(
+        context, runtimeconfigName, externalIpCreateActionName, groupWaiterName)
+    externalIpReadActionName = externalIpReadAction['name']
+
+    config={}
+    config['resources'] = [
+        externalIpCreateAction,
+        instanceTemplate,
+        instanceGroupManager,
+        groupWaiter,
+        externalIpReadAction
+    ]
+    config['outputs'] = [
+        {
+            'name': 'externalIp',
+            'value': '$(ref.%s.text)' % externalIpReadActionName
+        }
+    ]
+    return config
+
+def GenerateExternalIpCreateActionConfig(context, runtimeconfigName):
+    clusterName = context.properties['cluster']
+    groupName = context.properties['group']
+    project = context.env['project']
+
+    externalIpVariablePath = _ExternalIpVariablePath(clusterName, groupName)
+    actionName = naming.ExternalIpVariableCreateActionName(context, clusterName, groupName)
+    action = {
+        'name': actionName,
+        'action': 'gcp-types/runtimeconfig-v1beta1:runtimeconfig.projects.configs.variables.create',
+        'properties': {
+            'parent': 'projects/%s/configs/%s' % (project, runtimeconfigName),
+            'name': 'projects/%s/configs/%s/variables/%s' % (project, runtimeconfigName, externalIpVariablePath),
+            'text': '<new_unknown>'
+        },
+        'metadata': {
+            'dependsOn': [runtimeconfigName]
+        }
+    }
+    return action
+
+def GenerateExternalIpReadActionConfig(context, runtimeconfigName,
+                                       externalIpCreateActionName, groupWaiterName):
+    clusterName = context.properties['cluster']
+    groupName = context.properties['group']
+    project = context.env['project']
+
+    externalIpVariablePath = _ExternalIpVariablePath(clusterName, groupName)
+    name = naming.ExternalIpVariableReadActionName(context, clusterName, groupName)
+    action = {
+        'name': name,
+        'action': 'gcp-types/runtimeconfig-v1beta1:runtimeconfig.projects.configs.variables.watch',
+        'properties': {
+            'name': 'projects/%s/configs/%s/variables/%s' % (project, runtimeconfigName, externalIpVariablePath),
+            'newerThan': '$(ref.%s.updateTime)' % externalIpCreateActionName
+        },
+        'metadata': {
+            'dependsOn': [groupWaiterName]
+        }
+    }
+    return action
+
+def GenerateInstanceTemplateConfig(context, runtimeconfigName):
     license=context.properties['license']
     if 'syncGateway' in context.properties['services']:
         sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license + '-v20171101'
     else:
         sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-v20171101'
 
-    runtimeconfigName = context.properties['runtimeconfigName']
     clusterName = context.properties['cluster']
     groupName = context.properties['group']
 
-    instanceGroupTargetSize = context.properties['nodeCount']
-    waiterSuccessPath = 'status/clusters/%s/groups/%s/success' % (clusterName, groupName)
-    waiterFailurePath = 'status/clusters/%s/groups/%s/failure' % (clusterName, groupName)
-
     instanceTemplateName = naming.InstanceTemplateName(context, clusterName, groupName)
+
     instanceTemplate = {
         'name': instanceTemplateName,
         'type': 'compute.v1.instanceTemplate',
@@ -47,8 +123,9 @@ def GenerateConfig(context):
                     'items': [
                         { 'key': 'startup-script', 'value': GenerateStartupScript(context) },
                         { 'key': 'runtime-config-name', 'value': runtimeconfigName },
-                        { 'key': 'status-success-base-path', 'value': waiterSuccessPath },
-                        { 'key': 'status-failure-base-path', 'value': waiterFailurePath },
+                        { 'key': 'external-ip-variable-path', 'value': _ExternalIpVariablePath(clusterName, groupName) },
+                        { 'key': 'status-success-base-path', 'value': _WaiterSuccessPath(clusterName, groupName) },
+                        { 'key': 'status-failure-base-path', 'value': _WaiterFailurePath(clusterName, groupName) },
                     ]
                 },
                 'serviceAccounts': [{
@@ -65,21 +142,39 @@ def GenerateConfig(context):
             }
         }
     }
+    return instanceTemplate
+
+def GenerateInstanceGroupManagerConfig(context, instanceTemplateName,
+                                       instanceGroupTargetSize, externalIpCreateActionName):
+    clusterName = context.properties['cluster']
+    groupName = context.properties['group']
 
     instanceGroupManagerName = naming.InstanceGroupManagerName(context, clusterName, groupName)
+    baseInstanceName = naming.InstanceGroupInstanceBaseName(context, clusterName, groupName)
+
     instanceGroupManager = {
         'name': instanceGroupManagerName,
         'type': 'compute.v1.regionInstanceGroupManager',
         'properties': {
             'region': context.properties['region'],
-            'baseInstanceName': naming.InstanceGroupInstanceBaseName(context, clusterName, groupName),
+            'baseInstanceName': baseInstanceName,
             'instanceTemplate': '$(ref.' + instanceTemplateName + '.selfLink)',
             'targetSize': instanceGroupTargetSize,
             'autoHealingPolicies': [{
                 'initialDelaySec': 60
             }]
+        },
+        'metadata': {
+            'dependsOn': [externalIpCreateActionName]
         }
     }
+    return instanceGroupManager
+
+def GenerateGroupWaiterConfig(context, runtimeconfigName,
+                              instanceGroupManagerName,
+                              instanceGroupTargetSize):
+    clusterName = context.properties['cluster']
+    groupName = context.properties['group']
 
     groupWaiterName = naming.WaiterName(context, clusterName, groupName)
     groupWaiter = {
@@ -95,24 +190,18 @@ def GenerateConfig(context):
             'success': {
                 'cardinality': {
                     'number': instanceGroupTargetSize,
-                    'path': waiterSuccessPath,
+                    'path': _WaiterSuccessPath(clusterName, groupName),
                 },
             },
             'failure': {
                 'cardinality': {
                     'number': 1,
-                    'path': waiterFailurePath,
+                    'path': _WaiterFailurePath(clusterName, groupName),
                 },
             },
         },
     }
-
-    config={}
-    config['resources'] = []
-    config['resources'].append(instanceTemplate)
-    config['resources'].append(instanceGroupManager)
-    config['resources'].append(groupWaiter)
-    return config
+    return groupWaiter
 
 def GenerateStartupScript(context):
     script = '#!/usr/bin/env bash\n\n'
@@ -140,3 +229,13 @@ def GenerateStartupScript(context):
     script += context.imports['successNotification.sh']
 
     return script
+
+
+def _WaiterSuccessPath(clusterName, groupName):
+    return 'status/clusters/%s/groups/%s/success' % (clusterName, groupName)
+
+def _WaiterFailurePath(clusterName, groupName):
+    return 'status/clusters/%s/groups/%s/failure' % (clusterName, groupName)
+
+def _ExternalIpVariablePath(clusterName, groupName):
+    return 'external-ip/clusters/%s/groups/%s' % (clusterName, groupName)
