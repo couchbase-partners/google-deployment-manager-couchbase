@@ -1,6 +1,7 @@
 import naming
 
 URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
+WAITER_TIMEOUT = '300s'
 
 def GenerateConfig(context):
     license=context.properties['license']
@@ -9,8 +10,13 @@ def GenerateConfig(context):
     else:
         sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-v20171101'
 
+    runtimeconfigName = context.properties['runtimeconfigName']
     clusterName = context.properties['cluster']
     groupName = context.properties['group']
+
+    instanceGroupTargetSize = context.properties['nodeCount']
+    waiterSuccessPath = 'status/clusters/%s/groups/%s/success' % (clusterName, groupName)
+    waiterFailurePath = 'status/clusters/%s/groups/%s/failure' % (clusterName, groupName)
 
     instanceTemplateName = naming.InstanceTemplateName(context, clusterName, groupName)
     instanceTemplate = {
@@ -37,7 +43,14 @@ def GenerateConfig(context):
                     'diskType': 'pd-ssd',
                     'diskSizeGb': context.properties['diskSize']
                 }],
-                'metadata': {'items': [{'key':'startup-script', 'value':GenerateStartupScript(context)}]},
+                'metadata': {
+                    'items': [
+                        { 'key': 'startup-script', 'value': GenerateStartupScript(context) },
+                        { 'key': 'runtime-config-name', 'value': runtimeconfigName },
+                        { 'key': 'status-success-base-path', 'value': waiterSuccessPath },
+                        { 'key': 'status-failure-base-path', 'value': waiterFailurePath },
+                    ]
+                },
                 'serviceAccounts': [{
                     'email': 'default',
                     'scopes': [
@@ -61,25 +74,52 @@ def GenerateConfig(context):
             'region': context.properties['region'],
             'baseInstanceName': naming.InstanceGroupInstanceBaseName(context, clusterName, groupName),
             'instanceTemplate': '$(ref.' + instanceTemplateName + '.selfLink)',
-            'targetSize': context.properties['nodeCount'],
+            'targetSize': instanceGroupTargetSize,
             'autoHealingPolicies': [{
                 'initialDelaySec': 60
             }]
         }
     }
 
+    groupWaiterName = naming.WaiterName(context, clusterName, groupName)
+    groupWaiter = {
+        'name': groupWaiterName,
+        'type': 'runtimeconfig.v1beta1.waiter',
+        'metadata': {
+            'dependsOn': [instanceGroupManagerName],
+        },
+        'properties': {
+            'parent': '$(ref.%s.name)' % runtimeconfigName,
+            'waiter': 'software',
+            'timeout': WAITER_TIMEOUT,
+            'success': {
+                'cardinality': {
+                    'number': instanceGroupTargetSize,
+                    'path': waiterSuccessPath,
+                },
+            },
+            'failure': {
+                'cardinality': {
+                    'number': 1,
+                    'path': waiterFailurePath,
+                },
+            },
+        },
+    }
+
     config={}
     config['resources'] = []
     config['resources'].append(instanceTemplate)
     config['resources'].append(instanceGroupManager)
+    config['resources'].append(groupWaiter)
     return config
 
 def GenerateStartupScript(context):
     script = '#!/usr/bin/env bash\n\n'
+    script += context.imports['startupCommon.sh']
 
     services=context.properties['services']
     if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
-        script += 'DEPLOYMENT="' + naming.BaseDeploymentName(context) + '"\n'
         script += 'CLUSTER="' + context.properties['cluster'] + '"\n'
         script += 'serverVersion="' + context.properties['serverVersion'] + '"\n'
         script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
@@ -96,5 +136,7 @@ def GenerateStartupScript(context):
     if 'syncGateway' in services:
         script += 'syncGatewayVersion="' + context.properties['syncGatewayVersion'] + '"\n'
         script += context.imports['syncGateway.sh']
+
+    script += context.imports['successNotification.sh']
 
     return script

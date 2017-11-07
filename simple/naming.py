@@ -18,6 +18,10 @@ def GroupName(context, clusterName, groupName):
 def RuntimeConfigName(context):
     return '%s-runtimeconfig' % BaseDeploymentName(context)
 
+def WaiterName(context, clusterName, groupName):
+    return '%s-%s-%s-waiter' % \
+           (BaseDeploymentName(context), clusterName, groupName)
+
 def FirewallName(context):
     return '%s-firewall' % BaseDeploymentName(context)
 

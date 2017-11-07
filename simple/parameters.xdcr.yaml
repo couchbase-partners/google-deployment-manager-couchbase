@@ -3,8 +3,10 @@ imports:
   - path: cluster.py
   - path: group.py
   - path: naming.py
+  - path: startupCommon.sh
   - path: syncGateway.sh
   - path: server.sh
+  - path: successNotification.sh
 
 resources:
 - name: deployment
