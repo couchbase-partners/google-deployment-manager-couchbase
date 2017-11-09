@@ -20,3 +20,16 @@ chgrp sync_gateway ${file}
 # Need to restart to load the changes
 service sync_gateway stop
 service sync_gateway start
+
+#######################################################
+####### Wait until web interface is available #########
+#######################################################
+
+checksCount=0
+
+printf "Waiting for server startup..."
+until curl -o /dev/null -s -f http://localhost:4985/_admin || [[ $checksCount -ge 50 ]]; do
+   (( checksCount += 1 ))
+   printf "." && sleep 3
+done
+echo "server is up."

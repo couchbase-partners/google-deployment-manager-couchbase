@@ -213,6 +213,7 @@ def GenerateStartupScript(context):
         script += 'serverVersion="' + context.properties['serverVersion'] + '"\n'
         script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
         script += 'couchbasePassword="' + context.properties['couchbasePassword'] + '"\n'
+        script += 'nodeCount="' + str(context.properties['nodeCount']) + '"\n'
 
         servicesParameter=''
         for service in services:
