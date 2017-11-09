@@ -171,3 +171,34 @@ else
   done
 
 fi
+
+#######################################################
+####### Wait until web interface is available #########
+#######################################################
+
+checksCount=0
+
+printf "Waiting for server startup..."
+until curl -o /dev/null -s -f http://localhost:8091/ui/index.html || [[ $checksCount -ge 50 ]]; do
+   (( checksCount += 1 ))
+   printf "." && sleep 3
+done
+echo "server is up."
+
+#######################################################
+##### Wait until all nodes report healthy status ######
+#######################################################
+
+healthyNodes=0
+checksCount=0
+
+printf "Waiting for all healthy nodes..."
+until [[ $healthyNodes -eq $nodeCount  ]] || [[ $checkCount -ge 50 ]]; do
+  healthyNodes=$(curl -s \
+    -u "$couchbaseUsername:$couchbasePassword" \
+    http://localhost:8091/pools/nodes \
+    | grep -o "\"status\":\"healthy\"" | wc -l)
+  (( checksCount += 1 ))
+  printf "." && sleep 3
+done
+echo "all nodes are healthy."
