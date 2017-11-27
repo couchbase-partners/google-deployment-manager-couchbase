@@ -78,6 +78,7 @@ properties:
     default: 5.0.0
     enum:
       - 5.0.0
+      - 4.6.4
       - 4.6.3
       - 4.6.2
 
