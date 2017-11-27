@@ -9,24 +9,24 @@ def GenerateConfig(context):
 
     for group in context.properties['groups']:
         groupName = group['group']
+
+        groupProperties = {
+            'runtimeconfigName': context.properties['runtimeconfigName'],
+            'serverVersion': context.properties['serverVersion'],
+            'syncGatewayVersion': context.properties['syncGatewayVersion'],
+            'couchbaseUsername': context.properties['couchbaseUsername'],
+            'couchbasePassword': context.properties['couchbasePassword'],
+            'license': context.properties['license'],
+            'cluster': context.properties['cluster'],
+            'region': context.properties['region'],
+        }
+        for key in group:
+            groupProperties[key] = group[key]
+
         groupJSON = {
-            'name': naming.GroupName(context, context.properties['cluster'], group['group']),
+            'name': naming.GroupName(context, clusterName, groupName),
             'type': 'group.py',
-            'properties': {
-                'runtimeconfigName': context.properties['runtimeconfigName'],
-                'serverVersion': context.properties['serverVersion'],
-                'syncGatewayVersion': context.properties['syncGatewayVersion'],
-                'couchbaseUsername': context.properties['couchbaseUsername'],
-                'couchbasePassword': context.properties['couchbasePassword'],
-                'license': context.properties['license'],
-                'cluster': context.properties['cluster'],
-                'region': context.properties['region'],
-                'group': group['group'],
-                'diskSize': group['diskSize'],
-                'nodeCount': group['nodeCount'],
-                'nodeType': group['nodeType'],
-                'services': group['services']
-            }
+            'properties': groupProperties
         }
         config['resources'].append(groupJSON)
         config['outputs'].append({

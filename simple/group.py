@@ -1,6 +1,7 @@
 import naming
 
 URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
+
 WAITER_TIMEOUT = '300s'
 
 def GenerateConfig(context):
@@ -84,11 +85,12 @@ def GenerateExternalIpReadActionConfig(context, runtimeconfigName,
     return action
 
 def GenerateInstanceTemplateConfig(context, runtimeconfigName):
-    license=context.properties['license']
+    license = context.properties['license']
+    useImageFamily = context.properties['useImageFamily']
     if 'syncGateway' in context.properties['services']:
-        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license + '-v20171101'
+        sourceImage = _SyncGatewayImageUrl(license, useImageFamily)
     else:
-        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-v20171101'
+        sourceImage = _ServerImageUrl(license, useImageFamily)
 
     clusterName = context.properties['cluster']
     groupName = context.properties['group']
@@ -231,6 +233,17 @@ def GenerateStartupScript(context):
 
     return script
 
+def _SyncGatewayImageUrl(license, useFamily):
+    if useFamily:
+        return URL_BASE + 'couchbase-public/global/images/family/couchbase-sync-gateway-ee-' + license
+    else:
+        return URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license + '-v20171101'
+
+def _ServerImageUrl(license, useFamily):
+    if (useFamily):
+        return URL_BASE + 'couchbase-public/global/images/family/couchbase-server-ee-' + license
+    else:
+        return URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-v20171101'
 
 def _WaiterSuccessPath(clusterName, groupName):
     return 'status/clusters/%s/groups/%s/success' % (clusterName, groupName)
