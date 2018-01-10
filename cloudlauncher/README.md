@@ -128,7 +128,6 @@ Couchbase
 Couchbase provides the world’s most complete, scalable, and highest performing NoSQL database. We engineered the product to meet the most demanding enterprise and big data requirements for distributed database performance and scalability.
 
 ## 4 - Test Drive (Optional)
-We're currently working with Orbitera on the Test Drive.  It's not yet complete.
 
 ## 5 - Documentation & Support
 
