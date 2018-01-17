@@ -7,10 +7,10 @@ This folder contains artifacts for the Couchbase Cloud Launcher offer.  This sho
 First off, we need to decide what OS image to use.  We're using the latest Ubuntu 14.04.  You can figure out what that is by running:
 
     gcloud compute images list
-    IMAGE_VERSION=v20171101
+    IMAGE_VERSION=v20180110
     IMAGE_NAME=ubuntu-1404-trusty-${IMAGE_VERSION}
 
-Next, create the instances:
+Next, create an image for each license:
 
     LICENSES=( \
       couchbase-server-ee-byol \
@@ -36,15 +36,17 @@ Next, create the instances:
         --scopes "storage-rw"
     done
 
-Now we're going to delete all four VMs.  We'll be left with their boot disks.  This command takes a few minutes to run and doesn't print anything.
+Now we're going to delete all four VMs.  We'll be left with their boot disks.  This command takes a few minutes to run and doesn't print anything.  
 
     for LICENSE in "${LICENSES[@]}"
     do
       INSTANCE=${LICENSE}-${IMAGE_VERSION}
-      yes | gcloud compute instances delete ${INSTANCE} \
+      gcloud compute instances delete ${INSTANCE} \
         --project "couchbase-public" \
         --zone "us-central1-f"
     done
+
+We were previously piping yes, but that doesn't seem to be working currently, so you'll have to type "y" a few times.
 
 Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).  Note that you do not need to mount the disks and delete files since none were created.  Running this command should be sufficient:
 
