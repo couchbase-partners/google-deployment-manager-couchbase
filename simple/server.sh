@@ -63,19 +63,14 @@ echo serverVersion ${serverVersion}
 echo couchbaseUsername ${couchbaseUsername}
 echo couchbasePassword ${couchbasePassword}
 echo services ${services}
-echo DEPLOYMENT ${DEPLOYMENT}
 echo CLUSTER ${CLUSTER}
 
-nodePrivateDNS=`curl -s http://metadata/computeMetadata/v1beta1/instance/hostname`
-echo nodePrivateDNS: ${nodePrivateDNS}
+NODE_PRIVATE_DNS=`curl -s http://metadata/computeMetadata/v1beta1/instance/hostname`
+echo NODE_PRIVATE_DNS: ${NODE_PRIVATE_DNS}
 
 #######################################################
 ################### Pick Rally Point ##################
 #######################################################
-
-ACCESS_TOKEN=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token | awk -F\" '{ print $4 }')
-PROJECT_ID=$(curl -s -H "Metadata-Flavor:Google" http://metadata.google.internal/computeMetadata/v1/project/project-id)
-CONFIG=${DEPLOYMENT}-runtimeconfig
 
 # We need to have the data service running on this node to be a potential rally point
 if [[ $services =~ "data" ]]
@@ -93,7 +88,7 @@ then
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer ${ACCESS_TOKEN}" \
     -H "X-GFE-SSL: yes" \
-    -d "{name: \"projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS\", text: \"${nodePrivateDNS}\" }" \
+    -d "{name: \"projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS\", text: \"${NODE_PRIVATE_DNS}\" }" \
     https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables
   fi
 
@@ -127,12 +122,12 @@ cd /opt/couchbase/bin/
 
 echo "Running couchbase-cli node-init"
 ./couchbase-cli node-init \
-  --cluster=$nodePrivateDNS \
-  --node-init-hostname=$nodePrivateDNS \
+  --cluster=$NODE_PRIVATE_DNS \
+  --node-init-hostname=$NODE_PRIVATE_DNS \
   --user=$couchbaseUsername \
   --pass=$couchbasePassword
 
-if [[ $rallyPrivateDNS == $nodePrivateDNS ]]
+if [[ $rallyPrivateDNS == $NODE_PRIVATE_DNS ]]
 then
   totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
   dataRAM=$((50 * $totalRAM / 100000))
@@ -140,7 +135,7 @@ then
 
   echo "Running couchbase-cli cluster-init"
   ./couchbase-cli cluster-init \
-    --cluster=$nodePrivateDNS \
+    --cluster=$NODE_PRIVATE_DNS \
     --cluster-ramsize=$dataRAM \
     --cluster-index-ramsize=$indexRAM \
     --cluster-username=$couchbaseUsername \
@@ -149,13 +144,13 @@ then
 else
   echo "Running couchbase-cli server-add"
   output=""
-  while [[ $output != "Server $nodePrivateDNS:8091 added" && ! $output =~ "Node is already part of cluster." ]]
+  while [[ $output != "Server $NODE_PRIVATE_DNS:8091 added" && ! $output =~ "Node is already part of cluster." ]]
   do
     output=`./couchbase-cli server-add \
       --cluster=$rallyPrivateDNS \
       --user=$couchbaseUsername \
       --pass=$couchbasePassword \
-      --server-add=$nodePrivateDNS \
+      --server-add=$NODE_PRIVATE_DNS \
       --server-add-username=$couchbaseUsername \
       --server-add-password=$couchbasePassword \
       --services=${services}`
@@ -176,3 +171,34 @@ else
   done
 
 fi
+
+#######################################################
+####### Wait until web interface is available #########
+#######################################################
+
+checksCount=0
+
+printf "Waiting for server startup..."
+until curl -o /dev/null -s -f http://localhost:8091/ui/index.html || [[ $checksCount -ge 50 ]]; do
+   (( checksCount += 1 ))
+   printf "." && sleep 3
+done
+echo "server is up."
+
+#######################################################
+##### Wait until all nodes report healthy status ######
+#######################################################
+
+healthyNodes=0
+checksCount=0
+
+printf "Waiting for all healthy nodes..."
+until [[ $healthyNodes -eq $nodeCount  ]] || [[ $checkCount -ge 50 ]]; do
+  healthyNodes=$(curl -s \
+    -u "$couchbaseUsername:$couchbasePassword" \
+    http://localhost:8091/pools/nodes \
+    | grep -o "\"status\":\"healthy\"" | wc -l)
+  (( checksCount += 1 ))
+  printf "." && sleep 3
+done
+echo "all nodes are healthy."

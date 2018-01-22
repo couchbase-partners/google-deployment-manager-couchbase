@@ -1,13 +1,102 @@
+import naming
+
 URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 
-def GenerateConfig(context):
-    license=context.properties['license']
-    if 'syncGateway' in context.properties['services']:
-        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license + '-v20171101'
-    else:
-        sourceImage = URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-v20171101'
+WAITER_TIMEOUT = '300s'
 
-    instanceTemplateName = '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-it'
+def GenerateConfig(context):
+    runtimeconfigName = context.properties['runtimeconfigName']
+    instanceGroupTargetSize = context.properties['nodeCount']
+
+    externalIpCreateAction = GenerateExternalIpCreateActionConfig(context, runtimeconfigName)
+    externalIpCreateActionName = externalIpCreateAction['name']
+
+    instanceTemplate = GenerateInstanceTemplateConfig(context, runtimeconfigName)
+    instanceTemplateName = instanceTemplate['name']
+
+    instanceGroupManager = GenerateInstanceGroupManagerConfig(
+        context, instanceTemplateName, instanceGroupTargetSize, externalIpCreateActionName)
+    instanceGroupManagerName = instanceGroupManager['name']
+
+    groupWaiter = GenerateGroupWaiterConfig(context, runtimeconfigName,
+                                            instanceGroupManagerName, instanceGroupTargetSize)
+    groupWaiterName = groupWaiter['name']
+
+    externalIpReadAction = GenerateExternalIpReadActionConfig(
+        context, runtimeconfigName, externalIpCreateActionName, groupWaiterName)
+    externalIpReadActionName = externalIpReadAction['name']
+
+    config={}
+    config['resources'] = [
+        externalIpCreateAction,
+        instanceTemplate,
+        instanceGroupManager,
+        groupWaiter,
+        externalIpReadAction
+    ]
+    config['outputs'] = [
+        {
+            'name': 'externalIp',
+            'value': '$(ref.%s.text)' % externalIpReadActionName
+        }
+    ]
+    return config
+
+def GenerateExternalIpCreateActionConfig(context, runtimeconfigName):
+    clusterName = context.properties['cluster']
+    groupName = context.properties['group']
+    project = context.env['project']
+
+    externalIpVariablePath = _ExternalIpVariablePath(clusterName, groupName)
+    actionName = naming.ExternalIpVariableCreateActionName(context, clusterName, groupName)
+    action = {
+        'name': actionName,
+        'action': 'gcp-types/runtimeconfig-v1beta1:runtimeconfig.projects.configs.variables.create',
+        'properties': {
+            'parent': 'projects/%s/configs/%s' % (project, runtimeconfigName),
+            'name': 'projects/%s/configs/%s/variables/%s' % (project, runtimeconfigName, externalIpVariablePath),
+            'text': '<new_unknown>'
+        },
+        'metadata': {
+            'dependsOn': [runtimeconfigName]
+        }
+    }
+    return action
+
+def GenerateExternalIpReadActionConfig(context, runtimeconfigName,
+                                       externalIpCreateActionName, groupWaiterName):
+    clusterName = context.properties['cluster']
+    groupName = context.properties['group']
+    project = context.env['project']
+
+    externalIpVariablePath = _ExternalIpVariablePath(clusterName, groupName)
+    name = naming.ExternalIpVariableReadActionName(context, clusterName, groupName)
+    action = {
+        'name': name,
+        'action': 'gcp-types/runtimeconfig-v1beta1:runtimeconfig.projects.configs.variables.watch',
+        'properties': {
+            'name': 'projects/%s/configs/%s/variables/%s' % (project, runtimeconfigName, externalIpVariablePath),
+            'newerThan': '$(ref.%s.updateTime)' % externalIpCreateActionName
+        },
+        'metadata': {
+            'dependsOn': [groupWaiterName]
+        }
+    }
+    return action
+
+def GenerateInstanceTemplateConfig(context, runtimeconfigName):
+    license = context.properties['license']
+    useImageFamily = context.properties['useImageFamily']
+    if 'syncGateway' in context.properties['services']:
+        sourceImage = _SyncGatewayImageUrl(license, useImageFamily)
+    else:
+        sourceImage = _ServerImageUrl(license, useImageFamily)
+
+    clusterName = context.properties['cluster']
+    groupName = context.properties['group']
+
+    instanceTemplateName = naming.InstanceTemplateName(context, clusterName, groupName)
+
     instanceTemplate = {
         'name': instanceTemplateName,
         'type': 'compute.v1.instanceTemplate',
@@ -32,7 +121,15 @@ def GenerateConfig(context):
                     'diskType': 'pd-ssd',
                     'diskSizeGb': context.properties['diskSize']
                 }],
-                'metadata': {'items': [{'key':'startup-script', 'value':GenerateStartupScript(context)}]},
+                'metadata': {
+                    'items': [
+                        { 'key': 'startup-script', 'value': GenerateStartupScript(context) },
+                        { 'key': 'runtime-config-name', 'value': runtimeconfigName },
+                        { 'key': 'external-ip-variable-path', 'value': _ExternalIpVariablePath(clusterName, groupName) },
+                        { 'key': 'status-success-base-path', 'value': _WaiterSuccessPath(clusterName, groupName) },
+                        { 'key': 'status-failure-base-path', 'value': _WaiterFailurePath(clusterName, groupName) },
+                    ]
+                },
                 'serviceAccounts': [{
                     'email': 'default',
                     'scopes': [
@@ -47,38 +144,78 @@ def GenerateConfig(context):
             }
         }
     }
+    return instanceTemplate
 
-    instanceGroupManagerName = '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-igm'
+def GenerateInstanceGroupManagerConfig(context, instanceTemplateName,
+                                       instanceGroupTargetSize, externalIpCreateActionName):
+    clusterName = context.properties['cluster']
+    groupName = context.properties['group']
+
+    instanceGroupManagerName = naming.InstanceGroupManagerName(context, clusterName, groupName)
+    baseInstanceName = naming.InstanceGroupInstanceBaseName(context, clusterName, groupName)
+
     instanceGroupManager = {
         'name': instanceGroupManagerName,
         'type': 'compute.v1.regionInstanceGroupManager',
         'properties': {
             'region': context.properties['region'],
-            'baseInstanceName': '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-' + context.properties['cluster'] + '-' + context.properties['group'] + '-instance',
+            'baseInstanceName': baseInstanceName,
             'instanceTemplate': '$(ref.' + instanceTemplateName + '.selfLink)',
-            'targetSize': context.properties['nodeCount'],
+            'targetSize': instanceGroupTargetSize,
             'autoHealingPolicies': [{
                 'initialDelaySec': 60
             }]
+        },
+        'metadata': {
+            'dependsOn': [externalIpCreateActionName]
         }
     }
+    return instanceGroupManager
 
-    config={}
-    config['resources'] = []
-    config['resources'].append(instanceTemplate)
-    config['resources'].append(instanceGroupManager)
-    return config
+def GenerateGroupWaiterConfig(context, runtimeconfigName,
+                              instanceGroupManagerName,
+                              instanceGroupTargetSize):
+    clusterName = context.properties['cluster']
+    groupName = context.properties['group']
+
+    groupWaiterName = naming.WaiterName(context, clusterName, groupName)
+    groupWaiter = {
+        'name': groupWaiterName,
+        'type': 'runtimeconfig.v1beta1.waiter',
+        'metadata': {
+            'dependsOn': [instanceGroupManagerName],
+        },
+        'properties': {
+            'parent': '$(ref.%s.name)' % runtimeconfigName,
+            'waiter': 'software',
+            'timeout': WAITER_TIMEOUT,
+            'success': {
+                'cardinality': {
+                    'number': instanceGroupTargetSize,
+                    'path': _WaiterSuccessPath(clusterName, groupName),
+                },
+            },
+            'failure': {
+                'cardinality': {
+                    'number': 1,
+                    'path': _WaiterFailurePath(clusterName, groupName),
+                },
+            },
+        },
+    }
+    return groupWaiter
 
 def GenerateStartupScript(context):
     script = '#!/usr/bin/env bash\n\n'
+    script += context.imports['startupCommon.sh']
 
     services=context.properties['services']
     if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
-        script += 'DEPLOYMENT="' + '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '"\n'
         script += 'CLUSTER="' + context.properties['cluster'] + '"\n'
         script += 'serverVersion="' + context.properties['serverVersion'] + '"\n'
         script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
         script += 'couchbasePassword="' + context.properties['couchbasePassword'] + '"\n'
+        script += 'nodeCount="' + str(context.properties['nodeCount']) + '"\n'
 
         servicesParameter=''
         for service in services:
@@ -92,4 +229,27 @@ def GenerateStartupScript(context):
         script += 'syncGatewayVersion="' + context.properties['syncGatewayVersion'] + '"\n'
         script += context.imports['syncGateway.sh']
 
+    script += context.imports['successNotification.sh']
+
     return script
+
+def _SyncGatewayImageUrl(license, useFamily):
+    if useFamily:
+        return URL_BASE + 'couchbase-public/global/images/family/couchbase-sync-gateway-ee-' + license
+    else:
+        return URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license + '-v20180110'
+
+def _ServerImageUrl(license, useFamily):
+    if (useFamily):
+        return URL_BASE + 'couchbase-public/global/images/family/couchbase-server-ee-' + license
+    else:
+        return URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-vv20180110'
+
+def _WaiterSuccessPath(clusterName, groupName):
+    return 'status/clusters/%s/groups/%s/success' % (clusterName, groupName)
+
+def _WaiterFailurePath(clusterName, groupName):
+    return 'status/clusters/%s/groups/%s/failure' % (clusterName, groupName)
+
+def _ExternalIpVariablePath(clusterName, groupName):
+    return 'external-ip/clusters/%s/groups/%s' % (clusterName, groupName)

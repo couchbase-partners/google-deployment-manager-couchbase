@@ -2,15 +2,18 @@ imports:
   - path: deployment.py
   - path: cluster.py
   - path: group.py
+  - path: naming.py
+  - path: startupCommon.sh
   - path: syncGateway.sh
   - path: server.sh
+  - path: successNotification.sh
 
 resources:
 - name: deployment
   type: deployment.py
   properties:
-    serverVersion: 5.0.0
-    syncGatewayVersion: 1.5.0
+    serverVersion: 5.0.1
+    syncGatewayVersion: 1.5.1
     couchbaseUsername: couchbase
     couchbasePassword: foo123!
     license: byol
@@ -27,3 +30,7 @@ resources:
               - query
               - index
               - fts
+
+outputs:
+- name: clusterAdminUrl
+  value: http://$(ref.deployment.externalIp-cluster1-group1):8091/

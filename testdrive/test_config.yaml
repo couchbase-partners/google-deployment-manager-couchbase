@@ -1,0 +1,25 @@
+imports:
+- path: couchbase.py
+
+resources:
+- name: couchbase
+  type: couchbase.py
+  properties:
+    serverVersion: '5.0.1'
+    serverNodeCount: 3
+    serverNodeType: 'n1-standard-1'
+    serverDiskSize: 500
+    syncGatewayVersion: '1.5.1'
+    syncGatewayNodeCount: 1
+    syncGatewayNodeType: 'n1-standard-1'
+    syncGatewayDiskSize: 500
+
+outputs:
+- name: username
+  value: $(ref.couchbase.couchbaseUsername)
+- name: password
+  value: $(ref.couchbase.couchbasePassword)
+- name: serverAdminUrl
+  value: $(ref.couchbase.serverAdminUrl)
+- name: syncGatewayAdminUrl
+  value: $(ref.couchbase.syncGatewayAdminUrl)

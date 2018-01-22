@@ -2,6 +2,6 @@
   "defaultDeploymentType": "MULTI_VM",
   "templateName": "couchbase",
   "projectId": "couchbase-public",
-  "imageName": "couchbase-server-ee-byol",
+  "imageName": "couchbase-server-ee-byol-v20171101",
   "useSolutionPackage": "true"
 }

@@ -1,25 +1,18 @@
 import naming
+import random
 
 def GenerateConfig(context):
-    license = 'hourly-pricing'
-
     config={}
     config['resources'] = []
-    config['outputs'] = []
 
     couchbaseUsername='couchbase'
     couchbasePassword = GeneratePassword()
 
-    config['outputs'].append({
-        'name': 'couchbaseUsername',
-        'value': couchbaseUsername
-    })
-    config['outputs'].append({
-        'name': 'couchbasePassword',
-        'value': couchbasePassword
-    })
+    clusterName = 'td'
+    serverGroupName = 'server'
+    syncGatewayGroupName = 'syncgateway'
 
-    clusters = GetClusters(context)
+    cluster = GetCluster(context, clusterName, serverGroupName, syncGatewayGroupName)
 
     deployment = {
         'name': 'deployment',
@@ -29,73 +22,60 @@ def GenerateConfig(context):
             'syncGatewayVersion': context.properties['syncGatewayVersion'],
             'couchbaseUsername': couchbaseUsername,
             'couchbasePassword': couchbasePassword,
-            'license': license,
-            'clusters': clusters
+            'license': 'byol',
+            'clusters': [cluster]
         }
     }
     config['resources'].append(deployment)
 
-    for cluster in clusters:
-        clusterName = cluster['cluster']
-        for group in cluster['groups']:
-            outputName = naming.ExternalIpOutputName(clusterName, group['group'])
-            config['outputs'].append({
-                'name': outputName,
-                'value': '$(ref.deployment.%s)' % outputName
-            })
+    serverAdminUrl = 'http://$(ref.deployment.%s):8091/' \
+                     % naming.ExternalIpOutputName(clusterName, serverGroupName)
+    syncGatewayAdminUrl = 'http://$(ref.deployment.%s):4985/_admin/' \
+                          % naming.ExternalIpOutputName(clusterName, syncGatewayGroupName)
+
+    config['outputs'] = [
+        { 'name': 'couchbaseUsername', 'value': couchbaseUsername },
+        { 'name': 'couchbasePassword', 'value': couchbasePassword },
+        { 'name': 'serverAdminUrl', 'value': serverAdminUrl },
+        { 'name': 'syncGatewayAdminUrl', 'value': syncGatewayAdminUrl }
+    ]
 
     return config
 
-def GetClusters(context):
-    clusters = []
-    regions = GetRegionsList(context)
-    for region in regions:
-        cluster = {
-            'cluster': region,
-            'region': region,
-            'groups':
+def GetCluster(context, clusterName, serverGroupName, syncGatewayGroupName):
+    cluster = {
+        'cluster': clusterName,
+        'region': GetRandomRegion(),
+        'groups':
             [
                 {
-                    'group': 'server',
+                    'group': serverGroupName,
                     'diskSize': context.properties['serverDiskSize'],
                     'nodeCount': context.properties['serverNodeCount'],
                     'nodeType': context.properties['serverNodeType'],
                     'services': ['data','query','index','fts']
                 },
                 {
-                    'group': 'syncgateway',
+                    'group': syncGatewayGroupName,
                     'diskSize': context.properties['syncGatewayDiskSize'],
                     'nodeCount': context.properties['syncGatewayNodeCount'],
                     'nodeType': context.properties['syncGatewayNodeType'],
                     'services': ['syncGateway']
                 }
             ]
-        }
-        clusters.append(cluster)
-    return clusters
+    }
+    return cluster
 
-def GetRegionsList(context):
-    regions = []
+def GetRandomRegion():
     availableRegions = [
         'us-central1',
         'us-west1',
         'us-east1',
-        'us-east4',
-        'europe-west1',
-        'europe-west2',
-        'europe-west3',
-        'asia-southeast1',
-        'asia-east1',
-        'asia-northeast1',
-        'australia-southeast1'
+        'us-east4'
     ]
-    for region in availableRegions:
-        if context.properties[region]:
-            regions.append(region)
-    return regions
+    return random.choice(availableRegions)
 
 def GeneratePassword():
-    import random
     categories = ['ABCDEFGHJKLMNPQRSTUVWXYZ', 'abcdefghijkmnopqrstuvwxyz', '123456789', '*-+.']
     password=[]
     for category in categories:

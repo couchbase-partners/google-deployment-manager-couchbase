@@ -1,0 +1,32 @@
+imports:
+  - path: cluster.py
+  - path: naming.py
+
+required:
+  - license
+  - serverVersion
+  - syncGatewayVersion
+  - couchbaseUsername
+  - couchbasePassword
+  - clusters
+
+properties:
+  license:
+    enum:
+      - byol
+      - hourly-pricing
+    description: Type of Couchbase license to be supported by the deployment.
+  serverVersion:
+    type: string
+  syncGatewayVersion:
+    type: string
+
+  couchbaseUsername:
+    type: string
+    default: couchbase
+  couchbasePassword:
+    type: string
+
+  clusters:
+    type: array
+    description: The list of objects, each containing configuration for a single cluster resource.

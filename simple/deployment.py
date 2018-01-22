@@ -1,8 +1,11 @@
+import naming
+
 def GenerateConfig(context):
     config={}
     config['resources'] = []
+    config['outputs'] = []
 
-    runtimeconfigName = '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-runtimeconfig'
+    runtimeconfigName = naming.RuntimeConfigName(context)
     runtimeconfig = {
         'name': runtimeconfigName,
         'type': 'runtimeconfig.v1beta1.config',
@@ -13,10 +16,14 @@ def GenerateConfig(context):
     config['resources'].append(runtimeconfig)
 
     for cluster in context.properties['clusters']:
+        clusterName = cluster['cluster']
+        clusterResourceName = naming.ClusterName(context, clusterName)
+
         clusterJSON = {
-            'name': '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-' + cluster['cluster'],
+            'name': clusterResourceName,
             'type': 'cluster.py',
             'properties': {
+                'runtimeconfigName': runtimeconfigName,
                 'serverVersion': context.properties['serverVersion'],
                 'syncGatewayVersion': context.properties['syncGatewayVersion'],
                 'couchbaseUsername': context.properties['couchbaseUsername'],
@@ -29,8 +36,17 @@ def GenerateConfig(context):
         }
         config['resources'].append(clusterJSON)
 
+        for group in cluster['groups']:
+            groupName = group['group']
+            outputName = naming.ExternalIpOutputName(clusterName, groupName)
+            config['outputs'].append({
+                'name': outputName,
+                'value': '$(ref.%s.%s)' % (clusterResourceName, outputName)
+            })
+
+
     firewall = {
-        'name': '-'.join(context.env['deployment'].split("-")[-2:])[-20:] + '-firewall',
+        'name': naming.FirewallName(context),
         'type': 'compute.v1.firewall',
         'properties': {
             'sourceRanges': ['0.0.0.0/0'],
