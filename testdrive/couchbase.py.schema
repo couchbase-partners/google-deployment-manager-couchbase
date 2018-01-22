@@ -55,3 +55,7 @@ outputs:
     type: string
   couchbasePassword:
     type: string
+  serverAdminUrl:
+    type: string
+  syncGatewayAdminUrl:
+    type: string
