@@ -243,7 +243,7 @@ def _ServerImageUrl(license, useFamily):
     if (useFamily):
         return URL_BASE + 'couchbase-public/global/images/family/couchbase-server-ee-' + license
     else:
-        return URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-vv20180110'
+        return URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-v20180110'
 
 def _WaiterSuccessPath(clusterName, groupName):
     return 'status/clusters/%s/groups/%s/success' % (clusterName, groupName)

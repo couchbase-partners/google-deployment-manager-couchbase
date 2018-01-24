@@ -29,8 +29,4 @@ def GenerateConfig(context):
             'properties': groupProperties
         }
         config['resources'].append(groupJSON)
-        config['outputs'].append({
-            'name': naming.ExternalIpOutputName(clusterName, groupName),
-            'value': '$(ref.%s.externalIp)' % naming.GroupName(context, clusterName, groupName)
-        })
     return config
