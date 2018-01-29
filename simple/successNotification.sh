@@ -6,6 +6,8 @@ SUCCESS_PAYLOAD="$(printf '{"name": "%s", "text": "%s"}' \
   "projects/${PROJECT_ID}/configs/${CONFIG}/variables/${SUCCESS_STATUS_PATH}" \
   "success")"
 
+echo "Sending success notification for startup waiter"
+
 # Notify waiter
 curl -s -k -X POST \
   -d "${SUCCESS_PAYLOAD}" \

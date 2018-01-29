@@ -7,6 +7,11 @@ def GenerateConfig(context):
 
     clusterName = context.properties['cluster']
 
+    clusterNodesCount = 0
+    for group in context.properties['groups']:
+        groupNodeCount = group['nodeCount']
+        clusterNodesCount += groupNodeCount
+
     for group in context.properties['groups']:
         groupName = group['group']
 
@@ -22,6 +27,8 @@ def GenerateConfig(context):
         }
         for key in group:
             groupProperties[key] = group[key]
+
+        groupProperties['clusterNodesCount'] = clusterNodesCount
 
         groupJSON = {
             'name': naming.GroupName(context, clusterName, groupName),

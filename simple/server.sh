@@ -144,7 +144,7 @@ then
 else
   echo "Running couchbase-cli server-add"
   output=""
-  while [[ $output != "Server $NODE_PRIVATE_DNS:8091 added" && ! $output =~ "Node is already part of cluster." ]]
+  while [[ $output != "SUCCESS: Server added" && ! $output =~ "Node is already part of cluster." ]]
   do
     output=`./couchbase-cli server-add \
       --cluster=$rallyPrivateDNS \
@@ -192,13 +192,14 @@ echo "server is up."
 healthyNodes=0
 checksCount=0
 
-printf "Waiting for all healthy nodes..."
-until [[ $healthyNodes -eq $nodeCount  ]] || [[ $checkCount -ge 50 ]]; do
+echo "Waiting for all healthy nodes..."
+until [[ $healthyNodes -eq $nodeCount ]] || [[ $checkCount -ge 50 ]]; do
+  echo "Healthy nodes check - $healthyNodes/$nodeCount"
   healthyNodes=$(curl -s \
     -u "$couchbaseUsername:$couchbasePassword" \
     http://localhost:8091/pools/nodes \
     | grep -o "\"status\":\"healthy\"" | wc -l)
   (( checksCount += 1 ))
-  printf "." && sleep 3
+  sleep 3
 done
-echo "all nodes are healthy."
+echo "All nodes are healthy - $healthyNodes/$nodeCount."
