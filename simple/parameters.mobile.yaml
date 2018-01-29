@@ -38,7 +38,7 @@ resources:
               - syncGateway
 
 outputs:
-- name: serverAdminUrl
+- name: cluster1-server-AdminUrl
   value: http://$(ref.deployment.externalIp-cluster1-server):8091/
-- name: syncGatewayAdminUrl
+- name: cluster1-syncgateway-AdminUrl
   value: http://$(ref.deployment.externalIp-cluster1-syncgateway):4985/_admin/
