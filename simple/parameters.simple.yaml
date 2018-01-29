@@ -32,5 +32,5 @@ resources:
               - fts
 
 outputs:
-- name: cluster1-group1-AdminUrl
+- name: cluster1-server-AdminUrl
   value: http://$(ref.deployment.externalIp-cluster1-group1):8091/
