@@ -14,16 +14,13 @@ def GenerateConfig(context):
     instanceTemplate = GenerateInstanceTemplateConfig(context, runtimeconfigName)
     instanceTemplateName = instanceTemplate['name']
 
-    instanceGroupManager = GenerateInstanceGroupManagerConfig(
-        context, instanceTemplateName, instanceGroupTargetSize, externalIpCreateActionName)
+    instanceGroupManager = GenerateInstanceGroupManagerConfig(context, instanceTemplateName, instanceGroupTargetSize, externalIpCreateActionName)
     instanceGroupManagerName = instanceGroupManager['name']
 
-    groupWaiter = GenerateGroupWaiterConfig(context, runtimeconfigName,
-                                            instanceGroupManagerName, instanceGroupTargetSize)
+    groupWaiter = GenerateGroupWaiterConfig(context, runtimeconfigName, instanceGroupManagerName, instanceGroupTargetSize)
     groupWaiterName = groupWaiter['name']
 
-    externalIpReadAction = GenerateExternalIpReadActionConfig(
-        context, runtimeconfigName, externalIpCreateActionName, groupWaiterName)
+    externalIpReadAction = GenerateExternalIpReadActionConfig(context, runtimeconfigName, externalIpCreateActionName, groupWaiterName)
     externalIpReadActionName = externalIpReadAction['name']
 
     config={}
@@ -63,8 +60,7 @@ def GenerateExternalIpCreateActionConfig(context, runtimeconfigName):
     }
     return action
 
-def GenerateExternalIpReadActionConfig(context, runtimeconfigName,
-                                       externalIpCreateActionName, groupWaiterName):
+def GenerateExternalIpReadActionConfig(context, runtimeconfigName, externalIpCreateActionName, groupWaiterName):
     clusterName = context.properties['cluster']
     groupName = context.properties['group']
     project = context.env['project']
@@ -146,8 +142,7 @@ def GenerateInstanceTemplateConfig(context, runtimeconfigName):
     }
     return instanceTemplate
 
-def GenerateInstanceGroupManagerConfig(context, instanceTemplateName,
-                                       instanceGroupTargetSize, externalIpCreateActionName):
+def GenerateInstanceGroupManagerConfig(context, instanceTemplateName, instanceGroupTargetSize, externalIpCreateActionName):
     clusterName = context.properties['cluster']
     groupName = context.properties['group']
 
@@ -172,9 +167,7 @@ def GenerateInstanceGroupManagerConfig(context, instanceTemplateName,
     }
     return instanceGroupManager
 
-def GenerateGroupWaiterConfig(context, runtimeconfigName,
-                              instanceGroupManagerName,
-                              instanceGroupTargetSize):
+def GenerateGroupWaiterConfig(context, runtimeconfigName, instanceGroupManagerName, instanceGroupTargetSize):
     clusterName = context.properties['cluster']
     groupName = context.properties['group']
 
