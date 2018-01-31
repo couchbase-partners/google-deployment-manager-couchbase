@@ -29,7 +29,7 @@ resources:
               - data
           - group: group2
             diskSize: 10
-            nodeCount: 5
+            nodeCount: 3
             nodeType: n1-standard-4
             services:
               - query
@@ -40,7 +40,7 @@ resources:
         groups:
           - group: group1
             diskSize: 100
-            nodeCount: 5
+            nodeCount: 4
             nodeType: n1-standard-4
             services:
               - data
