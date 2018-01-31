@@ -49,9 +49,7 @@ resources:
               - fts
 
 outputs:
-- name: cluster1-dataGroupAdminUrl
+- name: cluster1-server-AdminUrl
   value: http://$(ref.deployment.externalIp-cluster1-group1):8091/
-- name: cluster1-queryGroupAdminUrl
-  value: http://$(ref.deployment.externalIp-cluster1-group2):8091/
-- name: cluster2-adminUrl
+- name: cluster2-server-AdminUrl
   value: http://$(ref.deployment.externalIp-cluster2-group1):8091/

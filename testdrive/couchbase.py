@@ -28,10 +28,13 @@ def GenerateConfig(context):
     }
     config['resources'].append(deployment)
 
-    serverAdminUrl = 'http://$(ref.deployment.%s):8091/' \
-                     % naming.ExternalIpOutputName(clusterName, serverGroupName)
-    syncGatewayAdminUrl = 'http://$(ref.deployment.%s):4985/_admin/' \
-                          % naming.ExternalIpOutputName(clusterName, syncGatewayGroupName)
+    serverAdminUrl = 'http://$(ref.deployment.' \
+        + naming.ExternalIpOutputName(clusterName, serverGroupName) \
+        + '):8091/'
+
+    syncGatewayAdminUrl = 'http://$(ref.deployment.' + \
+        + naming.ExternalIpOutputName(clusterName, syncGatewayGroupName) \
+        + '):4985/_admin/'
 
     config['outputs'] = [
         { 'name': 'couchbaseUsername', 'value': couchbaseUsername },
