@@ -9,8 +9,9 @@ def GenerateConfig(context):
 
     clusterNodesCount = 0
     for group in context.properties['groups']:
-        groupNodeCount = group['nodeCount']
-        clusterNodesCount += groupNodeCount
+        if not 'syncGateway' in group['services']:
+            groupNodeCount = group['nodeCount']
+            clusterNodesCount += groupNodeCount
 
     for group in context.properties['groups']:
         groupName = group['group']
