@@ -180,7 +180,7 @@ def GenerateGroupWaiterConfig(context, runtimeconfigName, instanceGroupManagerNa
         },
         'properties': {
             'parent': '$(ref.%s.name)' % runtimeconfigName,
-            'waiter': 'software',
+            'waiter': groupWaiterName,
             'timeout': WAITER_TIMEOUT,
             'success': {
                 'cardinality': {
