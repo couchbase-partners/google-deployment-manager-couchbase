@@ -32,7 +32,7 @@ def GenerateConfig(context):
         + naming.ExternalIpOutputName(clusterName, serverGroupName) \
         + '):8091/'
 
-    syncGatewayAdminUrl = 'http://$(ref.deployment.' + \
+    syncGatewayAdminUrl = 'http://$(ref.deployment.' \
         + naming.ExternalIpOutputName(clusterName, syncGatewayGroupName) \
         + '):4985/_admin/'
 
