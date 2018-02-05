@@ -2,7 +2,7 @@ import naming
 
 URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 
-WAITER_TIMEOUT = '300s'
+WAITER_TIMEOUT = '500s'
 
 def GenerateConfig(context):
     runtimeconfigName = context.properties['runtimeconfigName']
