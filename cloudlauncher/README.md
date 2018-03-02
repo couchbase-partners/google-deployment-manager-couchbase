@@ -129,7 +129,8 @@ Couchbase
 ### Company Description
 Couchbase provides the world’s most complete, scalable, and highest performing NoSQL database. We engineered the product to meet the most demanding enterprise and big data requirements for distributed database performance and scalability.
 
-## 4 - Test Drive (Optional)
+## 4 - Test Drive
+To update the Test Drive login to [Orbitera](https://www.orbitera.com/).  You'll then want to build the template under [testdrive](../testdrive).  The manual is [here](https://github.com/couchbase-partners/test-drive).
 
 ## 5 - Documentation & Support
 
