@@ -115,7 +115,7 @@ This template includes a license for Couchbase Enterprise Edition and <a href="h
 This template is for bring your own license (BYOL) users.  To purchase a license go <a href="https://www.couchbase.com/subscriptions-and-support">here</a>.
 
 ### Version
-Server and Sync Gateway
+Couchbase EE
 
 ### Category ID
 * Big Data
