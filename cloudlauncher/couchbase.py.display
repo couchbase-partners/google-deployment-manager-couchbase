@@ -21,8 +21,7 @@ description:
         - title: Ubuntu
           version: 14.04 LTS
     - software:
-        - title: Counchbase Enterprise Edition
-          version: Server and Sync Gateway
+        - title: Counchbase EE
   support:
     - title: Support
       descriptionHtml: 'With Couchbase customers all around the world, our support team provides global coverage. So wherever you’re located, we’ve got you covered. For customers requiring round-the-clock support, 24x7x365 service level agreements are available.'
