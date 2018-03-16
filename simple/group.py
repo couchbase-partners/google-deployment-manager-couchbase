@@ -116,10 +116,10 @@ def GenerateInstanceTemplateConfig(context, runtimeconfigName):
                     'boot': True,
                     'autoDelete': True,
                     'initializeParams': {
-                        'sourceImage': sourceImage
-                    },
-                    'diskType': 'pd-ssd',
-                    'diskSizeGb': context.properties['diskSize']
+                        'sourceImage': sourceImage,
+                        'diskType': 'pd-ssd',
+                        'diskSizeGb': context.properties['diskSize']
+                    }
                 }],
                 'metadata': {
                     'items': [
