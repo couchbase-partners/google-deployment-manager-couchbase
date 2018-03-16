@@ -82,7 +82,11 @@ def GenerateExternalIpReadActionConfig(context, runtimeconfigName, externalIpCre
 
 def GenerateInstanceTemplateConfig(context, runtimeconfigName):
     license = context.properties['license']
-    useImageFamily = context.properties['useImageFamily']
+
+    # As I dropped the schema files to fix the disk issue this broke.  Need to dig in more here to figure out what's going on.
+    # useImageFamily = context.properties['useImageFamily']
+    useImageFamily = False
+
     if 'syncGateway' in context.properties['services']:
         sourceImage = _SyncGatewayImageUrl(license, useImageFamily)
     else:
