@@ -61,16 +61,17 @@ def GetClusters(context):
                     'nodeCount': context.properties['serverNodeCount'],
                     'nodeType': context.properties['serverNodeType'],
                     'services': ['data','query','index','fts']
-                },
-                {
-                    'group': 'syncgateway',
-                    'diskSize': context.properties['syncGatewayDiskSize'],
-                    'nodeCount': context.properties['syncGatewayNodeCount'],
-                    'nodeType': context.properties['syncGatewayNodeType'],
-                    'services': ['syncGateway']
                 }
             ]
         }
+        if context.properties['syncGatewayNodeCount']>0:
+            cluster['groups'].append({
+                'group': 'syncgateway',
+                'diskSize': context.properties['syncGatewayDiskSize'],
+                'nodeCount': context.properties['syncGatewayNodeCount'],
+                'nodeType': context.properties['syncGatewayNodeType'],
+                'services': ['syncGateway']
+            })
         clusters.append(cluster)
     return clusters
 
