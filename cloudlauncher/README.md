@@ -114,6 +114,9 @@ This template includes a license for Couchbase Enterprise Edition and <a href="h
 
 This template is for bring your own license (BYOL) users.  To purchase a license go <a href="https://www.couchbase.com/subscriptions-and-support">here</a>.
 
+### More solution info
+https://www.couchbase.com/partners/google/
+
 ### Version
 Couchbase EE
 
@@ -134,6 +137,17 @@ To update the Test Drive login to [Orbitera](https://www.orbitera.com/).  You'll
 
 ## 5 - Documentation & Support
 
+### Tutorials and Documentation
+
+#### Type
+Documentation
+
+#### URL
+https://developer.couchbase.com/documentation/server/current/cloud/couchbase-gcp-cloud-launcher.html
+
+#### Description
+Deploying Couchbase on Google Cloud Launcher
+
 ### Support description
 With Couchbase customers all around the world, our support team provides global coverage. So wherever you’re located, we’ve got you covered. For customers requiring round-the-clock support, 24x7x365 service level agreements are available.
 
@@ -141,7 +155,7 @@ With Couchbase customers all around the world, our support team provides global 
 http://support.couchbase.com/
 
 ### EULA URL
-https://www.couchbase.com/docs/common/terms-of-service.html
+https://www.couchbase.com/ESLA02152018
 
 ## 6 - Deployment Package
 

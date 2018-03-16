@@ -2,7 +2,7 @@ metadata_version: v1
 
 description:
   title: Couchbase Enterprise Edition
-  version: Server and Sync Gateway
+  version: Couchbase EE
   author:
     title: Couchbase
   tagline: 'The system of engagement database for web, mobile and IoT'
