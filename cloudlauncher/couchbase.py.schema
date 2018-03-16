@@ -86,7 +86,7 @@ properties:
 
   syncGatewayNodeCount:
     type: integer
-    default: 2
+    default: 0
     minimum: 1
     maximum: 100
   syncGatewayNodeType:
