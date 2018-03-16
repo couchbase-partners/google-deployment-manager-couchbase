@@ -76,7 +76,7 @@ You'll upload archive-byol.zip and archive-hourly-pricing.zip in the portal at a
 
 # Create Solutions
 
-Couchbase has two solutions in Cloud Launcher.  Those can be edited in the Partner Portal [here](https://console.cloud.google.com/partner/solutions?project=couchbase-public&authuser=1).  The copy for the solutions is as follows:
+Couchbase has two solutions in Cloud Launcher.  Those can be edited in the Partner Portal [here](https://console.cloud.google.com/partner/solutions?project=couchbase-public).  The copy for the solutions is as follows:
 
 ## 1 - Solution Metadata
 
