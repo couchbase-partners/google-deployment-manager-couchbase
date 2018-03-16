@@ -72,6 +72,7 @@ properties:
       zoneProperty: defaultZone
   serverDiskSize:
     type: integer
+    minimum: 20
     default: 20
   serverVersion:
     type: string
@@ -96,6 +97,7 @@ properties:
       zoneProperty: defaultZone
   syncGatewayDiskSize:
     type: integer
+    minimum: 20
     default: 20
   syncGatewayVersion:
     type: string
