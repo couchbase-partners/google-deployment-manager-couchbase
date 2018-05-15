@@ -4,10 +4,12 @@ This folder contains artifacts for the Couchbase Cloud Launcher offer.  This sho
 
 # Build VM Image
 
-First off, we need to decide what OS image to use.  We're using the latest Ubuntu 14.04.  You can figure out what that is by running:
+You'll need to have gcloud installed.  You might need to run `gcloud init` to set the CLI to use the `couchbase-public` project.
+
+Now we need to decide what OS image to use.  We're using the latest Ubuntu 14.04.  You can figure out what that is by running:
 
     gcloud compute images list
-    IMAGE_VERSION=v20180110
+    IMAGE_VERSION=v20180509
     IMAGE_NAME=ubuntu-1404-trusty-${IMAGE_VERSION}
 
 Next, create an image for each license:
