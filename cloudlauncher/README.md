@@ -4,12 +4,12 @@ This folder contains artifacts for the Couchbase Cloud Launcher offer.  This sho
 
 # Build VM Image
 
-You'll need to have gcloud installed.  You might need to run `gcloud init` to set the CLI to use the `couchbase-public` project.
+First off, open up a cloud shell.  While you could do this on your local machine with gcloud, it's way easier to just use a cloud shell.
 
 Now we need to decide what OS image to use.  We're using the latest Ubuntu 14.04.  You can figure out what that is by running:
 
     gcloud compute images list
-    IMAGE_VERSION=v20180509
+    IMAGE_VERSION=v20180522
     IMAGE_NAME=ubuntu-1404-trusty-${IMAGE_VERSION}
 
 Next, create an image for each license:
@@ -50,9 +50,16 @@ Now we're going to delete all four VMs.  We'll be left with their boot disks.  T
 
 We were previously piping yes, but that doesn't seem to be working currently, so you'll have to type "y" a few times.
 
-Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).  Note that you do not need to mount the disks and delete files since none were created.  Running this command should be sufficient:
+Now you need to attach the license ID to each image.  That process is described [here](https://cloud.google.com/launcher/docs/partners/technical-components#create_the_base_solution_vm).  
+Note that you do not need to mount the disks and delete files since none were created.  To start, install the partner utilities:
 
-    cd ~/google
+    mkdir partner-utils
+    cd partner-utils
+    curl -O https://storage.googleapis.com/c2d-install-scripts/partner-utils.tar.gz
+    tar -xzvf partner-utils.tar.gz
+    sudo python setup.py install
+
+Now apply the license:
 
     for LICENSE in "${LICENSES[@]}"
     do
