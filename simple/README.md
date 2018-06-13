@@ -1,18 +1,12 @@
 # simple
 
-This is an Google Deployment Manager (DM) template that installs Couchbase Enterprise.  You can run it from the  CLI.
+This is an Google Deployment Manager (DM) template that installs Couchbase Enterprise.  You can run it from a cloud shell or the CLI on your local machine.
 
 The template provisions Instance Group Managers (IGM), pd-ssd, and a Service Account to create a Runtime Config.
 
 ## Environment Setup
 
-You will need a GCP account.
-
-We also need to install glcoud.  Instructions for installing the Google Cloud SDK that includes gcloud are [here](https://cloud.google.com/sdk/).
-
-To set up your Google environment, run the command:
-
-    gcloud init
+You will need a GCP account.  You can login to GCP [here](https://console.cloud.google.com/).  Once logged in, open up a cloud shell.
 
 Now, you'll need a copy of this repo.  To make a local copy, run the commands:
 
