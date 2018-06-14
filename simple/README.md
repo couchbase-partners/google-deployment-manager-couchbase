@@ -24,12 +24,6 @@ The script then passes the cluster configuration to GCP and builds your cluster 
 
 To access the cluster, open the [Google Cloud Console](http://cloud.google.com/console), navigate to Compute Engine and pick a node.  You can access Couchbase Server on port 8091 of the public IP of that node.  Couchbase Sync Gateway is accessible on port 4984.
 
-Some services like query and search will redirect over internal DNS records that aren't routable from the broader internet.  To work around this you can set up port forwarding for a particular machine with the command:
-
-    gcloud compute ssh --ssh-flag=-L8091:localhost:8091 --project=<your project> --zone <zone of the machine you want to connect to> <name of the machine>
-
-With that terminal running, you can open a web browser and connect on http://localhost:8091
-
 ## Deleting a Deployment
 
 To delete your deployment you can either run the command below or use the GUI in the [Google Cloud Console](http://cloud.google.com/console).
