@@ -213,7 +213,7 @@ def GenerateStartupScript(context):
     script += 'elif [ -d "/home/sync_gateway" ]; then\n'
     script += '  echo "Sync Gateway is already installed.  Exiting."\n'
     script += '  exit\n'
-    script += 'fi\n'
+    script += 'fi\n\n'
 
     services=context.properties['services']
     if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
