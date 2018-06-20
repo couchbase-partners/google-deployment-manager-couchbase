@@ -206,6 +206,15 @@ def GenerateStartupScript(context):
     script = '#!/usr/bin/env bash\n\n'
     script += context.imports['startupCommon.sh']
 
+    # GCP is now running the startup script on reboot.  This is a workaround.
+    script += 'if [ -d "/opt/couchbase" ]; then\n'
+    script += '  echo "Couchbase Server is already installed.  Exiting"\n'
+    script += '  exit\n'
+    script += 'elif [ -d "/home/sync_gateway" ]; then\n'
+    script += '  echo "Sync Gateway is already installed.  Exiting."\n'
+    script += '  exit\n'
+    script += 'fi\n'
+
     services=context.properties['services']
     if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
         script += 'CLUSTER="' + context.properties['cluster'] + '"\n'
