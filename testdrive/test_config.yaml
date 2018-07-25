@@ -5,7 +5,7 @@ resources:
 - name: couchbase
   type: couchbase.py
   properties:
-    serverVersion: '5.1.1'
+    serverVersion: '5.5.0'
     serverNodeCount: 3
     serverNodeType: 'n1-standard-1'
     serverDiskSize: 500
