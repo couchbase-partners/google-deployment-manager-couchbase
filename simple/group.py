@@ -2,7 +2,7 @@ import naming
 
 URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 
-WAITER_TIMEOUT = '900s'
+WAITER_TIMEOUT = '1100s'
 
 def GenerateConfig(context):
     runtimeconfigName = context.properties['runtimeconfigName']
@@ -243,13 +243,13 @@ def _SyncGatewayImageUrl(license, useFamily):
     if useFamily:
         return URL_BASE + 'couchbase-public/global/images/family/couchbase-sync-gateway-ee-' + license
     else:
-        return URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license + '-v20180522'
+        return URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license + '-v20180722'
 
 def _ServerImageUrl(license, useFamily):
     if (useFamily):
         return URL_BASE + 'couchbase-public/global/images/family/couchbase-server-ee-' + license
     else:
-        return URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-v20180522'
+        return URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-v20180722'
 
 def _WaiterSuccessPath(clusterName, groupName):
     return 'status/clusters/%s/groups/%s/success' % (clusterName, groupName)
