@@ -9,7 +9,7 @@ resources:
     serverNodeCount: 3
     serverNodeType: 'n1-standard-1'
     serverDiskSize: 500
-    syncGatewayVersion: '2.0.0'
+    syncGatewayVersion: '2.1.0'
     syncGatewayNodeCount: 1
     syncGatewayNodeType: 'n1-standard-1'
     syncGatewayDiskSize: 500
