@@ -43,3 +43,7 @@ properties:
   runtimeconfigName:
     type: string
     description: The runtime config resource name. Used for notifying DM about the deployment status.
+  
+  network:
+    type: string
+    description: GCP VPC network name.

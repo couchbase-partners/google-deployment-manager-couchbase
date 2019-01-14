@@ -104,7 +104,7 @@ def GenerateInstanceTemplateConfig(context, runtimeconfigName):
             'properties': {
                 'machineType': context.properties['nodeType'],
                 'networkInterfaces': [{
-                    'network': URL_BASE + context.env['project'] + '/global/networks/default',
+                    'network': 'global/networks/' + context.properties['network'],
                     'accessConfigs': [{
                         'name': 'External NAT',
                         'type': 'ONE_TO_ONE_NAT'
@@ -144,6 +144,8 @@ def GenerateInstanceTemplateConfig(context, runtimeconfigName):
             }
         }
     }
+    if context.properties['subnetwork']:
+        instanceTemplate['properties']['properties']['networkInterfaces'][0]['subnetwork'] = 'regions/' + context.properties['region'] + '/subnetworks/' + context.properties['subnetwork']
     return instanceTemplate
 
 def GenerateInstanceGroupManagerConfig(context, instanceTemplateName, instanceGroupTargetSize, externalIpCreateActionName):

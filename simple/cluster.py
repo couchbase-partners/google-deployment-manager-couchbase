@@ -25,6 +25,7 @@ def GenerateConfig(context):
             'license': context.properties['license'],
             'cluster': context.properties['cluster'],
             'region': context.properties['region'],
+            'network': context.properties['network'],
         }
         for key in group:
             groupProperties[key] = group[key]

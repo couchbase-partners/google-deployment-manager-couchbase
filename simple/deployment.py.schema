@@ -30,3 +30,8 @@ properties:
   clusters:
     type: array
     description: The list of objects, each containing configuration for a single cluster resource.
+  
+  network:
+    type: string
+    description: GCP VPC network name.
+    default: default

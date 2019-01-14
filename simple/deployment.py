@@ -32,6 +32,7 @@ def GenerateConfig(context):
                 'cluster': cluster['cluster'],
                 'region': cluster['region'],
                 'groups': cluster['groups'],
+                'network': context.properties['network'],
             }
         }
         config['resources'].append(clusterJSON)
@@ -52,6 +53,7 @@ def GenerateConfig(context):
         'name': naming.FirewallName(context),
         'type': 'compute.v1.firewall',
         'properties': {
+            'network': 'global/networks/' + context.properties['network'],
             'sourceRanges': ['0.0.0.0/0'],
             'allowed': [{
                 'IPProtocol': 'tcp',
