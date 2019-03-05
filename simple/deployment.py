@@ -29,11 +29,11 @@ def GenerateConfig(context):
                 'couchbaseUsername': context.properties['couchbaseUsername'],
                 'couchbasePassword': context.properties['couchbasePassword'],
                 'license': context.properties['license'],
-                'cluster': cluster['cluster'],
-                'region': cluster['region'],
-                'groups': cluster['groups'],
+                'network': context.properties['network'],
             }
         }
+        for key in cluster:
+            clusterJSON['properties'][key] = cluster[key]
         config['resources'].append(clusterJSON)
 
         for group in cluster['groups']:
@@ -47,18 +47,19 @@ def GenerateConfig(context):
                 'value': '$(ref.%s.text)' % readActionName
             })
 
-
-    firewall = {
-        'name': naming.FirewallName(context),
-        'type': 'compute.v1.firewall',
-        'properties': {
-            'sourceRanges': ['0.0.0.0/0'],
-            'allowed': [{
-                'IPProtocol': 'tcp',
-                'ports': ['8091', '4984', '4985']
-            }]
+    if context.properties['firewall']:
+        firewall = {
+            'name': naming.FirewallName(context),
+            'type': 'compute.v1.firewall',
+            'properties': {
+                'network': 'global/networks/' + context.properties['network'],
+                'sourceRanges': context.properties['firewallSourceRanges'],
+                'allowed': [{
+                    'IPProtocol': 'tcp',
+                    'ports': ['8091', '4984', '4985']
+                }]
+            }
         }
-    }
-    config['resources'].append(firewall)
+        config['resources'].append(firewall)
 
     return config

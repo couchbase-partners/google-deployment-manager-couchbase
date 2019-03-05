@@ -104,7 +104,7 @@ def GenerateInstanceTemplateConfig(context, runtimeconfigName):
             'properties': {
                 'machineType': context.properties['nodeType'],
                 'networkInterfaces': [{
-                    'network': URL_BASE + context.env['project'] + '/global/networks/default',
+                    'network': 'global/networks/' + context.properties['network'],
                     'accessConfigs': [{
                         'name': 'External NAT',
                         'type': 'ONE_TO_ONE_NAT'
@@ -144,6 +144,8 @@ def GenerateInstanceTemplateConfig(context, runtimeconfigName):
             }
         }
     }
+    if context.properties['subnetwork']:
+        instanceTemplate['properties']['properties']['networkInterfaces'][0]['subnetwork'] = 'regions/' + context.properties['region'] + '/subnetworks/' + context.properties['subnetwork']
     return instanceTemplate
 
 def GenerateInstanceGroupManagerConfig(context, instanceTemplateName, instanceGroupTargetSize, externalIpCreateActionName):
@@ -222,6 +224,8 @@ def GenerateStartupScript(context):
         script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
         script += 'couchbasePassword="' + context.properties['couchbasePassword'] + '"\n'
         script += 'nodeCount="' + str(context.properties['clusterNodesCount']) + '"\n'
+        script += 'dataRAMQuotaPercent="' + str(context.properties['dataRAMQuotaPercent']) + '"\n'
+        script += 'indexRAMQuotaPercent="' + str(context.properties['indexRAMQuotaPercent']) + '"\n'
 
         servicesParameter=''
         for service in services:

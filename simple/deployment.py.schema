@@ -30,3 +30,18 @@ properties:
   clusters:
     type: array
     description: The list of objects, each containing configuration for a single cluster resource.
+  
+  network:
+    type: string
+    description: GCP VPC network name.
+    default: default
+
+  firewall:
+    type: boolean
+    default: true
+
+  firewallSourceRanges:
+    type: array
+    description: Allowed source address ranges for cluster
+    default:
+      - "0.0.0.0/0"
