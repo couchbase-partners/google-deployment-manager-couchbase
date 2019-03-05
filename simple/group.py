@@ -224,6 +224,8 @@ def GenerateStartupScript(context):
         script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
         script += 'couchbasePassword="' + context.properties['couchbasePassword'] + '"\n'
         script += 'nodeCount="' + str(context.properties['clusterNodesCount']) + '"\n'
+        script += 'dataRAMQuotaPercent="' + str(context.properties['dataRAMQuotaPercent']) + '"\n'
+        script += 'indexRAMQuotaPercent="' + str(context.properties['indexRAMQuotaPercent']) + '"\n'
 
         servicesParameter=''
         for service in services:

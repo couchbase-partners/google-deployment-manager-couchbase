@@ -26,8 +26,9 @@ properties:
     description: Type of Couchbase license to be supported by the deployment.
   serverVersion:
     type: string
-    default: 5.5.0
+    default: 5.5.3
     enum:
+      - 6.0.1
       - 6.0.0
       - 5.5.3
       - 5.5.0
@@ -88,3 +89,10 @@ properties:
   subnetwork:
     type: string
     description: GCP VPN subnet name (mandatory if deploying on a network in custom subnet mode).
+
+  dataRAMQuotaPercent:
+    type: integer
+    description: Memory Quota for Data Service (percent of total memory)
+  indexRAMQuotaPercent:
+    type: integer
+    description: Memory Quota for Index Service (percent of total memory)

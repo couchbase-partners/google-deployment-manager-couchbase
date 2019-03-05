@@ -26,6 +26,8 @@ def GenerateConfig(context):
             'cluster': context.properties['cluster'],
             'region': context.properties['region'],
             'network': context.properties['network'],
+            'dataRAMQuotaPercent': context.properties['dataRAMQuotaPercent'],
+            'indexRAMQuotaPercent': context.properties['indexRAMQuotaPercent'],
         }
         for key in group:
             groupProperties[key] = group[key]
