@@ -19,9 +19,9 @@ description:
     - type: SOFTWARE_GROUP_OS
       software:
         - title: Ubuntu
-          version: 14.04 LTS
+          version: 16.04 LTS
     - software:
-        - title: Counchbase EE
+        - title: Couchbase EE
   support:
     - title: Support
       descriptionHtml: 'With Couchbase customers all around the world, our support team provides global coverage. So wherever you’re located, we’ve got you covered. For customers requiring round-the-clock support, 24x7x365 service level agreements are available.'

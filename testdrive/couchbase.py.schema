@@ -26,13 +26,9 @@ properties:
     default: 10
   serverVersion:
     type: string
-    default: 5.5.0
+    default: 6.0.1
     enum:
-      - 5.5.0
-      - 5.1.1
-      - 5.1.0
-      - 5.0.1
-      - 4.6.5
+      - 6.0.1
 
   syncGatewayNodeCount:
     type: integer
@@ -47,10 +43,9 @@ properties:
     default: 10
   syncGatewayVersion:
     type: string
-    default: 2.1.0
+    default: 2.5.0
     enum:
-      - 2.1.0
-      - 2.0.0
+      - 2.5.0
 
 outputs:
   couchbaseUsername:

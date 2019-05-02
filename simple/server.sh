@@ -47,8 +47,8 @@ apt-get -y install python-httplib2
 apt-get -y install jq
 
 echo "Installing Couchbase Server..."
-wget http://packages.couchbase.com/releases/${serverVersion}/couchbase-server-enterprise_${serverVersion}-ubuntu14.04_amd64.deb
-dpkg -i couchbase-server-enterprise_${serverVersion}-ubuntu14.04_amd64.deb
+wget http://packages.couchbase.com/releases/${serverVersion}/couchbase-server-enterprise_${serverVersion}-ubuntu16.04_amd64.deb
+dpkg -i couchbase-server-enterprise_${serverVersion}-ubuntu16.04_amd64.deb
 apt-get update
 apt-get -y install couchbase-server
 
@@ -105,13 +105,31 @@ else
   rallyPrivateDNS=null
   while [[ $rallyPrivateDNS == "null" ]]
   do
-    sleep 10
     rallyPrivateDNS=$(curl -s -H "Authorization":"Bearer ${ACCESS_TOKEN}" \
       https://runtimeconfig.googleapis.com/v1beta1/projects/${PROJECT_ID}/configs/${CONFIG}/variables/${CLUSTER}/rallyPrivateDNS \
       | jq ".text" \
       | sed 's/"//g')
     echo rallyPrivateDNS: ${rallyPrivateDNS}
   done
+fi
+
+#######################################################
+####### Wait until web interface is available #########
+####### Needed for the cli to work	          #########
+#######################################################
+
+checksCount=0
+
+printf "Waiting for server startup..."
+until curl -o /dev/null -s -f http://localhost:8091/ui/index.html || [[ $checksCount -ge 50 ]]; do
+   (( checksCount += 1 ))
+   printf "." && sleep 3
+done
+echo "server is up."
+
+if [[ "$checksCount" -ge 50 ]]
+then
+  echo "ERROR: Couchbase Webserver is not available after script Couchbase REST readiness retry limit"
 fi
 
 #######################################################
@@ -130,14 +148,18 @@ echo "Running couchbase-cli node-init"
 if [[ $rallyPrivateDNS == $NODE_PRIVATE_DNS ]]
 then
   totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
-  dataRAM=$((50 * $totalRAM / 100000))
-  indexRAM=$((15 * $totalRAM / 100000))
+  dataRAM=$((40 * $totalRAM / 100000))
+  indexRAM=$((8 * $totalRAM / 100000))
 
   echo "Running couchbase-cli cluster-init"
-  ./couchbase-cli cluster-init \
+    ./couchbase-cli cluster-init \
     --cluster=$NODE_PRIVATE_DNS \
     --cluster-ramsize=$dataRAM \
     --cluster-index-ramsize=$indexRAM \
+    --index-storage-setting=memopt \
+    --cluster-analytics-ramsize=$indexRAM \
+    --cluster-fts-ramsize=$indexRAM \
+    --cluster-eventing-ramsize=$indexRAM \
     --cluster-username=$couchbaseUsername \
     --cluster-password=$couchbasePassword \
     --services=${services}
@@ -171,19 +193,6 @@ else
   done
 
 fi
-
-#######################################################
-####### Wait until web interface is available #########
-#######################################################
-
-checksCount=0
-
-printf "Waiting for server startup..."
-until curl -o /dev/null -s -f http://localhost:8091/ui/index.html || [[ $checksCount -ge 50 ]]; do
-   (( checksCount += 1 ))
-   printf "." && sleep 3
-done
-echo "server is up."
 
 #######################################################
 ##### Wait until all nodes report healthy status ######

@@ -2,7 +2,7 @@ import naming
 
 URL_BASE = 'https://www.googleapis.com/compute/v1/projects/'
 
-WAITER_TIMEOUT = '1100s'
+WAITER_TIMEOUT = '900s'
 
 def GenerateConfig(context):
     runtimeconfigName = context.properties['runtimeconfigName']
@@ -160,10 +160,7 @@ def GenerateInstanceGroupManagerConfig(context, instanceTemplateName, instanceGr
             'region': context.properties['region'],
             'baseInstanceName': baseInstanceName,
             'instanceTemplate': '$(ref.' + instanceTemplateName + '.selfLink)',
-            'targetSize': instanceGroupTargetSize,
-            'autoHealingPolicies': [{
-                'initialDelaySec': 60
-            }]
+            'targetSize': instanceGroupTargetSize
         },
         'metadata': {
             'dependsOn': [externalIpCreateActionName]
@@ -216,7 +213,7 @@ def GenerateStartupScript(context):
     script += 'fi\n\n'
 
     services=context.properties['services']
-    if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
+    if 'data' in services or 'query' in services or 'index' in services or 'fts' in services or 'eventing' in services or 'analytics' in services:
         script += 'CLUSTER="' + context.properties['cluster'] + '"\n'
         script += 'serverVersion="' + context.properties['serverVersion'] + '"\n'
         script += 'couchbaseUsername="' + context.properties['couchbaseUsername'] + '"\n'
@@ -243,13 +240,13 @@ def _SyncGatewayImageUrl(license, useFamily):
     if useFamily:
         return URL_BASE + 'couchbase-public/global/images/family/couchbase-sync-gateway-ee-' + license
     else:
-        return URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license + '-v20180722'
+        return URL_BASE + 'couchbase-public/global/images/couchbase-sync-gateway-ee-' + license + '-v20190411'
 
 def _ServerImageUrl(license, useFamily):
     if (useFamily):
         return URL_BASE + 'couchbase-public/global/images/family/couchbase-server-ee-' + license
     else:
-        return URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-v20180722'
+        return URL_BASE + 'couchbase-public/global/images/couchbase-server-ee-' + license + '-v20190411'
 
 def _WaiterSuccessPath(clusterName, groupName):
     return 'status/clusters/%s/groups/%s/success' % (clusterName, groupName)

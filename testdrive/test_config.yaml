@@ -5,14 +5,14 @@ resources:
 - name: couchbase
   type: couchbase.py
   properties:
-    serverVersion: '5.5.0'
+    serverVersion: '6.0.1'
     serverNodeCount: 3
     serverNodeType: 'n1-standard-1'
-    serverDiskSize: 500
-    syncGatewayVersion: '2.1.0'
+    serverDiskSize: 50
+    syncGatewayVersion: '2.5.0'
     syncGatewayNodeCount: 1
     syncGatewayNodeType: 'n1-standard-1'
-    syncGatewayDiskSize: 500
+    syncGatewayDiskSize: 50
 
 outputs:
 - name: username
