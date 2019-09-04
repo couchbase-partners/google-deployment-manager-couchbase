@@ -43,9 +43,9 @@ properties:
     default: 10
   syncGatewayVersion:
     type: string
-    default: 2.5.0
+    default: 2.6.0
     enum:
-      - 2.5.0
+      - 2.6.0
 
 outputs:
   couchbaseUsername:
