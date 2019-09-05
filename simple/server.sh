@@ -142,8 +142,8 @@ echo "Running couchbase-cli node-init"
 ./couchbase-cli node-init \
   --cluster=$NODE_PRIVATE_DNS \
   --node-init-hostname=$NODE_PRIVATE_DNS \
-  --user=$couchbaseUsername \
-  --pass=$couchbasePassword
+  --u=$couchbaseUsername \
+  --p=$couchbasePassword
 
 if [[ $rallyPrivateDNS == $NODE_PRIVATE_DNS ]]
 then
@@ -170,8 +170,8 @@ else
   do
     output=`./couchbase-cli server-add \
       --cluster=$rallyPrivateDNS \
-      --user=$couchbaseUsername \
-      --pass=$couchbasePassword \
+      --u=$couchbaseUsername \
+      --p=$couchbasePassword \
       --server-add=$NODE_PRIVATE_DNS \
       --server-add-username=$couchbaseUsername \
       --server-add-password=$couchbasePassword \
@@ -186,8 +186,8 @@ else
   do
     output=`./couchbase-cli rebalance \
       --cluster=$rallyPrivateDNS \
-      --user=$couchbaseUsername \
-      --pass=$couchbasePassword`
+      -u=$couchbaseUsername \
+      -p=$couchbasePassword`
     echo rebalance output \'$output\'
     sleep 10
   done
