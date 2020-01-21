@@ -1,16 +1,16 @@
 metadata_version: v1
 
 description:
-  title: Couchbase Enterprise Edition
-  version: Couchbase EE
+  title: Couchbase Server and Sync Gateway (BYOL and Test Drive)
+  version: Multiple Versions available
   author:
     title: Couchbase
-  tagline: 'The system of engagement database for web, mobile and IoT'
-  descriptionHtml: 'Couchbase Server provides highly elastic, available, scalable & real-time big data management system with consistent high performance, flexible global deployment topologies and a set of native SDKs to ease development & deployment of modern applications.'
+  tagline: 'Enterprise-class, multi-cloud-to-edge NoSQL database'
+  descriptionHtml: 'Couchbase Server is a NoSQL database that delivers unparalleled performance at scale, on premises and in any cloud. It features memory-first architecture, built-in cache, geo-distributed deployment, and workload isolation. Couchbase excels at supporting business-critical applications at scale while maintaining sub-millisecond latencies and 99.999% availability. <p>&nbsp;</p> Couchbase Mobile extends the power of Couchbase Server, bringing distributed NoSQL database capabilities to the edge while securely managing and syncing data from any cloud to edge devices. The Couchbase Mobile stack includes Couchbase Lite and Sync Gateway. Couchbase Lite is an embedded NoSQL database for mobile and other embedded platforms. Sync Gateway is a secure web gateway for data access and synchronization across Couchbase Lite clients and Couchbase Server.'
   eulaUrl: 'https://www.couchbase.com/docs/common/terms-of-service.html'
   documentations:
-    - title: Getting Started on Cloud Launcher
-      url: https://github.com/couchbase-partners/google-deployment-manager-couchbase/blob/master/documentation/cloudLauncher.md
+    - title: Getting Started on the GCP Marketplace
+      url: https://github.com/couchbase-partners/google-deployment-manager-couchbase/README.md
       destinations:
         - DESTINATION_SOLUTION_DETAILS
         - DESTINATION_CONFIGURATION

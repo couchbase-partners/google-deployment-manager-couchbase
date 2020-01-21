@@ -55,7 +55,7 @@ def GenerateConfig(context):
             'sourceRanges': ['0.0.0.0/0'],
             'allowed': [{
                 'IPProtocol': 'tcp',
-                'ports': ['8091', '4984', '4985']
+                'ports': ['8091', '8092', '8093', '8094', '4984', '4985', '11210']
             }]
         }
     }

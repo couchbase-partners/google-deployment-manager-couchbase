@@ -1,6 +1,6 @@
-# Cloud Launcher
+# GCP Marketplace
 
-This folder contains artifacts for the Couchbase Cloud Launcher offer.  This should not be used directly, but through the Cloud Launcher instead.
+This folder contains artifacts for the Couchbase GCP Marketplace offer.  This should not be used directly, but instead through the GCP Marketplace.
 
 # Build VM Image
 
@@ -9,8 +9,8 @@ First off, open up a cloud shell.  While you could do this on your local machine
 Now we need to decide what OS image to use.  We're using the latest Ubuntu 14.04.  You can figure out what that is by running:
 
     gcloud compute images list
-    IMAGE_VERSION=v20180522
-    IMAGE_NAME=ubuntu-1404-trusty-${IMAGE_VERSION}
+    IMAGE_VERSION=v20100411
+    IMAGE_NAME=ubuntu-1604-trusty-${IMAGE_VERSION}
 
 Next, create an image for each license:
 
@@ -85,7 +85,7 @@ You'll upload archive-byol.zip and archive-hourly-pricing.zip in the portal at a
 
 # Create Solutions
 
-Couchbase has two solutions in Cloud Launcher.  Those can be edited in the Partner Portal [here](https://console.cloud.google.com/partner/solutions?project=couchbase-public).  The copy for the solutions is as follows:
+Couchbase has multiple solutions on the GCP Marketplace.  The offers can be edited in the Partner Portal [here](https://console.cloud.google.com/partner/solutions?project=couchbase-public).  The copy for the solutions is as follows:
 
 ## 1 - Solution Metadata
 
