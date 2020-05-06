@@ -76,8 +76,12 @@ properties:
     default: 20
   serverVersion:
     type: string
-    default: 6.0.1
+    default: 6.5.0
     enum:
+      - 6.5.0
+      - 6.0.4
+      - 6.0.3
+      - 6.0.2
       - 6.0.1
       - 6.0.0
       - 5.5.4
@@ -109,8 +113,10 @@ properties:
     default: 20
   syncGatewayVersion:
     type: string
-    default: 2.6.0
+    default: 2.7.1
     enum:
+      - 2.7.1
+      - 2.7.0
       - 2.6.0
       - 2.5.0
       - 2.1.3

@@ -56,7 +56,7 @@ def GetCluster(context, clusterName, serverGroupName, syncGatewayGroupName):
                     'diskSize': context.properties['serverDiskSize'],
                     'nodeCount': context.properties['serverNodeCount'],
                     'nodeType': context.properties['serverNodeType'],
-                    'services': ['data','query','index','fts']
+                    'services': ['data','query','index','fts', 'eventing', 'analytics']
                 },
                 {
                     'group': syncGatewayGroupName,

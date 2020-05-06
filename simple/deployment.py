@@ -1,7 +1,8 @@
 import naming
 
+
 def GenerateConfig(context):
-    config={}
+    config = {}
     config['resources'] = []
     config['outputs'] = []
 
@@ -46,7 +47,6 @@ def GenerateConfig(context):
                 'name': outputName,
                 'value': '$(ref.%s.text)' % readActionName
             })
-
 
     firewall = {
         'name': naming.FirewallName(context),

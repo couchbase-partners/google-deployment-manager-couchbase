@@ -5,11 +5,11 @@ resources:
 - name: couchbase
   type: couchbase.py
   properties:
-    serverVersion: '6.0.1'
+    serverVersion: '6.5.0'
     serverNodeCount: 3
     serverNodeType: 'n1-standard-1'
     serverDiskSize: 50
-    syncGatewayVersion: '2.6.0'
+    syncGatewayVersion: '2.7.1'
     syncGatewayNodeCount: 1
     syncGatewayNodeType: 'n1-standard-1'
     syncGatewayDiskSize: 50
