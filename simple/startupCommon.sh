@@ -3,7 +3,7 @@ echo "Running startupCommon.sh"
 function get_metadata_value() {
   curl --retry 5 -s -f \
       -H "Metadata-Flavor: Google" \
-      "http://metadata/computeMetadata/v1beta1/$1"
+      "http://metadata/computeMetadata/v1/$1"
 }
 
 function get_attribute_value() {
