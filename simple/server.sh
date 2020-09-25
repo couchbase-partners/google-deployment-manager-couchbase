@@ -1,5 +1,9 @@
 echo "Running server.sh"
 
+# Set constants
+readonly DATA_MEM_PERCENT = 40
+readonly OTHER_SVCS_MEM_PERCENT = 8
+
 #######################################################
 ############ Turn Off Transparent Hugepages ###########
 #######################################################
@@ -47,8 +51,8 @@ apt-get -y install python-httplib2
 apt-get -y install jq
 
 echo "Installing Couchbase Server..."
-wget http://packages.couchbase.com/releases/${serverVersion}/couchbase-server-enterprise_${serverVersion}-ubuntu16.04_amd64.deb
-dpkg -i couchbase-server-enterprise_${serverVersion}-ubuntu16.04_amd64.deb
+wget http://packages.couchbase.com/releases/${serverVersion}/couchbase-server-enterprise_${serverVersion}-ubuntu18.04_amd64.deb
+dpkg -i couchbase-server-enterprise_${serverVersion}-ubuntu18.04_amd64.deb
 apt-get update
 apt-get -y install couchbase-server
 
@@ -61,11 +65,12 @@ echo "Configuring Couchbase Server"
 echo "Using the settings:"
 echo serverVersion ${serverVersion}
 echo couchbaseUsername ${couchbaseUsername}
-echo couchbasePassword ${couchbasePassword}
+# Use the below line in dev environments if needed
+# echo couchbasePassword ${couchbasePassword}
 echo services ${services}
 echo CLUSTER ${CLUSTER}
 
-NODE_PRIVATE_DNS=`curl -s http://metadata/computeMetadata/v1beta1/instance/hostname`
+NODE_PRIVATE_DNS=`curl -s http://metadata/computeMetadata/v1/instance/hostname`
 echo NODE_PRIVATE_DNS: ${NODE_PRIVATE_DNS}
 
 #######################################################
@@ -148,8 +153,8 @@ echo "Running couchbase-cli node-init"
 if [[ $rallyPrivateDNS == $NODE_PRIVATE_DNS ]]
 then
   totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
-  dataRAM=$((40 * $totalRAM / 100000))
-  indexRAM=$((8 * $totalRAM / 100000))
+  dataRAM=$((DATA_MEM_PERCENT * totalRAM / 100000))
+  indexRAM=$((8 * totalRAM / 100000))
 
   echo "Running couchbase-cli cluster-init"
     ./couchbase-cli cluster-init \

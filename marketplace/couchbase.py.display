@@ -19,7 +19,7 @@ description:
     - type: SOFTWARE_GROUP_OS
       software:
         - title: Ubuntu
-          version: 16.04 LTS
+          version: 18.04 LTS
     - software:
         - title: Couchbase EE
   support:

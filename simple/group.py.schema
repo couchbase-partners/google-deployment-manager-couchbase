@@ -26,8 +26,10 @@ properties:
     description: Type of Couchbase license to be supported by the deployment.
   serverVersion:
     type: string
-    default: 6.5.0
+    default: 6.6.0
     enum:
+      - 6.6.0
+      - 6.5.1
       - 6.5.0
       - 6.0.4
       - 6.0.3
@@ -48,8 +50,9 @@ properties:
       - 5.0.0
   syncGatewayVersion:
     type: string
-    default: 2.7.1
+    default: 2.7.3
     enum:
+      - 2.7.3
       - 2.7.1
       - 2.7.0
       - 2.6.0

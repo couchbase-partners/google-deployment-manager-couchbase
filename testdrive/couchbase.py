@@ -1,11 +1,12 @@
 import naming
 import random
 
+
 def GenerateConfig(context):
-    config={}
+    config = {}
     config['resources'] = []
 
-    couchbaseUsername='couchbase'
+    couchbaseUsername = 'couchbase'
     couchbasePassword = GeneratePassword()
 
     clusterName = 'td'
@@ -37,10 +38,10 @@ def GenerateConfig(context):
         + '):4985/_admin/'
 
     config['outputs'] = [
-        { 'name': 'couchbaseUsername', 'value': couchbaseUsername },
-        { 'name': 'couchbasePassword', 'value': couchbasePassword },
-        { 'name': 'serverAdminUrl', 'value': serverAdminUrl },
-        { 'name': 'syncGatewayAdminUrl', 'value': syncGatewayAdminUrl }
+        {'name': 'couchbaseUsername', 'value': couchbaseUsername},
+        {'name': 'couchbasePassword', 'value': couchbasePassword},
+        {'name': 'serverAdminUrl', 'value': serverAdminUrl},
+        {'name': 'syncGatewayAdminUrl', 'value': syncGatewayAdminUrl}
     ]
 
     return config
