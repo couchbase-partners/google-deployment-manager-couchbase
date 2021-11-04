@@ -1,0 +1,6 @@
+imports:
+- path: couchbase.py
+
+resources:
+- name: couchbase
+  type: couchbase.py

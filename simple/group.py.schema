@@ -1,0 +1,109 @@
+imports:
+  - path: naming.py
+  - path: startupCommon.sh
+  - path: server.sh
+  - path: syncGateway.sh
+  - path: successNotification.sh
+
+required:
+  - license
+  - serverVersion
+  - syncGatewayVersion
+  - couchbaseUsername
+  - couchbasePassword
+  - region
+  - cluster
+  - group
+  - runtimeconfigName
+  - nodeType
+  - services
+
+properties:
+  license:
+    enum:
+      - byol
+      - hourly-pricing
+    description: Type of Couchbase license to be supported by the deployment.
+  serverVersion:
+    type: string
+    default: 6.6.0
+    enum:
+      - 6.6.0
+      - 6.5.1
+      - 6.5.0
+      - 6.0.4
+      - 6.0.3
+      - 6.0.2
+      - 6.0.1
+      - 5.5.6
+      - 5.5.5
+      - 5.5.4
+      - 5.5.3
+      - 5.5.2
+      - 5.5.1
+      - 5.5.0
+      - 5.1.3
+      - 5.1.2
+      - 5.1.1
+      - 5.1.0
+      - 5.0.1
+      - 5.0.0
+  syncGatewayVersion:
+    type: string
+    default: 2.7.3
+    enum:
+      - 2.7.3
+      - 2.7.2
+      - 2.7.1
+      - 2.7.0
+      - 2.6.0
+      - 2.5.0
+      - 2.1.3
+      - 2.1.2
+      - 2.1.1
+      - 2.1.0
+      - 2.0.3
+      - 2.0.2
+      - 2.0.0
+      - 1.5.2
+      - 1.5.1
+
+  couchbaseUsername:
+    type: string
+    default: couchbase
+  couchbasePassword:
+    type: string
+
+  region:
+    type: string
+    description: GCE region name - the instance group location.
+
+  cluster:
+    type: string
+    description: The containing cluster resource name.
+  group:
+    type: string
+    description: The group resource name.
+  runtimeconfigName:
+    type: string
+    description: The runtime config resource name. Used for notifying DM about the deployment status.
+
+  useImageFamily:
+    type: boolean
+    default: false
+  nodeCount:
+    type: integer
+    default: 3
+    minimum: 1
+    description: The target size for the instance group.
+  nodeType:
+    type: string
+    description: GCE instance type name.
+  diskSize:
+    type: integer
+    default: 500
+    minimum: 10
+  services:
+    type: array
+    description: A list of Couchbase services to be included in the instance group.
+

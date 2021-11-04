@@ -1,52 +1,40 @@
+import naming
 
 def GenerateConfig(context):
     config={}
     config['resources'] = []
+    config['outputs'] = []
 
-    runtimeconfigName = context.env['deployment'] + '-' + context.properties['cluster'] + '-runtimeconfig'
-    runtimeconfig = {
-        'name': runtimeconfigName,
-        'type': 'runtimeconfig.v1beta1.config',
-        'properties': {
-            'config': runtimeconfigName
-        }
-    }
-    config['resources'].append(runtimeconfig)
+    clusterName = context.properties['cluster']
 
-    nodeCount = {
-        'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-nodeCount',
-        'type': 'runtimeconfig.v1beta1.variable',
-        'properties': {
-            'parent': '$(ref.' + runtimeconfigName + '.name)',
-            'variable': 'nodeCount',
-            'text': str(getNodeCount(context))
-        }
-    }
-    config['resources'].append(nodeCount)
+    clusterNodesCount = 0
+    for group in context.properties['groups']:
+        if not 'syncGateway' in group['services']:
+            groupNodeCount = group['nodeCount']
+            clusterNodesCount += groupNodeCount
 
     for group in context.properties['groups']:
+        groupName = group['group']
+
+        groupProperties = {
+            'runtimeconfigName': context.properties['runtimeconfigName'],
+            'serverVersion': context.properties['serverVersion'],
+            'syncGatewayVersion': context.properties['syncGatewayVersion'],
+            'couchbaseUsername': context.properties['couchbaseUsername'],
+            'couchbasePassword': context.properties['couchbasePassword'],
+            'license': context.properties['license'],
+            'cluster': context.properties['cluster'],
+            'region': context.properties['region'],
+        }
+        for key in group:
+            groupProperties[key] = group[key]
+
+        groupProperties['clusterNodesCount'] = clusterNodesCount
+
         groupJSON = {
-            'name': context.env['deployment'] + '-' + context.properties['cluster'] + '-' + group['group'],
+            'name': naming.GroupName(context, clusterName, groupName),
             'type': 'group.py',
-            'properties': {
-                'couchbaseUsername': context.properties['couchbaseUsername'],
-                'couchbasePassword': context.properties['couchbasePassword'],
-                'cluster': context.properties['cluster'],
-                'region': context.properties['region'],
-                'group': group['group'],
-                'diskSize': group['diskSize'],
-                'nodeCount': group['nodeCount'],
-                'nodeType': group['nodeType'],
-                'services': group['services']
-            }
+            'properties': groupProperties
         }
         config['resources'].append(groupJSON)
     return config
-
-def getNodeCount(context):
-    nodeCount = 0
-    for group in context.properties['groups']:
-        services = group['services']
-        if 'data' in services or 'query' in services or 'index' in services or 'fts' in services:
-            nodeCount += group['nodeCount']
-    return nodeCount

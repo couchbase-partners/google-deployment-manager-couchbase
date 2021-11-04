@@ -1,0 +1,117 @@
+metadata_version: v1
+
+description:
+  title: Couchbase Server and Sync Gateway (BYOL and Test Drive)
+  version: Multiple Versions available
+  author:
+    title: Couchbase
+  tagline: 'Enterprise-class, multi-cloud-to-edge NoSQL database'
+  descriptionHtml: 'Couchbase Server is a NoSQL database that delivers unparalleled performance at scale, on premises and in any cloud. It features memory-first architecture, built-in cache, geo-distributed deployment, and workload isolation. Couchbase excels at supporting business-critical applications at scale while maintaining sub-millisecond latencies and 99.999% availability. <p>&nbsp;</p> Couchbase Mobile extends the power of Couchbase Server, bringing distributed NoSQL database capabilities to the edge while securely managing and syncing data from any cloud to edge devices. The Couchbase Mobile stack includes Couchbase Lite and Sync Gateway. Couchbase Lite is an embedded NoSQL database for mobile and other embedded platforms. Sync Gateway is a secure web gateway for data access and synchronization across Couchbase Lite clients and Couchbase Server.'
+  eulaUrl: 'https://www.couchbase.com/docs/common/terms-of-service.html'
+  documentations:
+    - title: Getting Started on the GCP Marketplace
+      url: https://github.com/couchbase-partners/google-deployment-manager-couchbase/README.md
+      destinations:
+        - DESTINATION_SOLUTION_DETAILS
+        - DESTINATION_CONFIGURATION
+        - DESTINATION_POST_DEPLOY
+  softwareGroups:
+    - type: SOFTWARE_GROUP_OS
+      software:
+        - title: Ubuntu
+          version: 18.04 LTS
+    - software:
+        - title: Couchbase EE
+  support:
+    - title: Support
+      descriptionHtml: 'With Couchbase customers all around the world, our support team provides global coverage. So wherever you’re located, we’ve got you covered. For customers requiring round-the-clock support, 24x7x365 service level agreements are available.'
+      url: 'http://support.couchbase.com/'
+
+input:
+  sections:
+    - name: server
+      title: Couchbase Server
+    - name: syncGateway
+      title: Couchbase Sync Gateway
+
+  booleanGroups:
+    - name: regions
+      title: Regions
+      subtext: "Select at least one region to deploy a Couchbase Enterprise cluster in."
+
+  properties:
+    - name: us-central1
+      title: us-central1
+      booleanGroup: regions
+    - name: us-west1
+      title: us-west1
+      booleanGroup: regions
+    - name: us-east1
+      title: us-east1
+      booleanGroup: regions
+    - name: us-east4
+      title: us-east4
+      booleanGroup: regions
+    - name: europe-west1
+      title: europe-west1
+      booleanGroup: regions
+    - name: europe-west2
+      title: europe-west2
+      booleanGroup: regions
+    - name: europe-west3
+      title: europe-west3
+      booleanGroup: regions
+    - name: asia-southeast1
+      title: asia-southeast1
+      booleanGroup: regions
+    - name: asia-east1
+      title: asia-east1
+      booleanGroup: regions
+    - name: asia-northeast1
+      title: asia-northeast1
+      booleanGroup: regions
+    - name: australia-southeast1
+      title: australia-southeast1
+      booleanGroup: regions
+
+    - name: serverNodeCount
+      title: Couchbase Server Node Count
+      section: server
+    - name: serverNodeType
+      title: Couchbase Server Node Type
+      section: server
+    - name: serverDiskSize
+      title: Couchbase Server pd-ssd disk size in GB
+      section: server
+    - name: serverVersion
+      title: Couchbase Server Version
+      section: server
+
+    - name: syncGatewayNodeCount
+      title: Couchbase Sync Gateway Node Count
+      section: syncGateway
+    - name: syncGatewayNodeType
+      title: Couchbase Sync Gateway Node Type
+      section: syncGateway
+    - name: syncGatewayDiskSize
+      title: Couchbase Sync Gateway pd-ssd disk size in GB
+      section: syncGateway
+    - name: syncGatewayVersion
+      title: Couchbase Sync Gateway Version
+      section: syncGateway
+
+runtime:
+  deployingMessage: Deployment can take several minutes to complete.
+  applicationTable:
+     rows:
+     - label: Couchbase Username
+       value: '{{ outputs().couchbaseUsername }}'
+     - label: Couchbase Password
+       value: '{{ outputs().couchbasePassword }}'
+  suggestedActions:
+    - heading: Couchbase Server
+      description: The admin interface will be available on port 8091 of any Couchbase Server node.  You can login with the username and password provided at deploy time.
+    - heading: Couchbase Sync Gateway
+      description: The Sync Gateway interface will be available on port 4984 of any Couchbase Sync Gateway node.  The admin interface will be available on :4985/_admin/ of any Couchbase Sync Gateway node.
+    - heading: Instance Groups
+      description: Nodes are deployed using Instance Groups.  You can view your instance groups <a href="https://console.cloud.google.com/compute/instanceGroups/list">here</a>.
